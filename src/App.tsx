@@ -4,7 +4,6 @@ import {
   BrowserRouter as Router,
   Routes as Switch,
   Route,
-  Redirect,
 } from 'react-router-dom'
 import { Container, CssBaseline } from '@mui/material'
 import Home from './screens/Home'
@@ -19,13 +18,15 @@ function App() {
     <Router>
       <CssBaseline />
       <Switch>
-        <Route exact path='/' element={Home} />
-        <Route path='/login' element={Login} />
-        <Route path='/hotels' element={HotelList} />
-        <Route path='/hotel/:hotelId' element={HotelDetails} />
-        <Route path='/hotel/:hotelId/rooms' element={HotelRoomList} />
-        <Route path='/hotel/:hotelId/room/:roomId' element={HotelRoomDetails} />
-        <Redirect to='/' />
+        <Route path='/' element={<Home />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/hotels' element={<HotelList />} />
+        <Route path='/hotel/:hotelId' element={<HotelDetails />} />
+        <Route path='/hotel/:hotelId/rooms' element={<HotelRoomList />} />
+        <Route
+          path='/hotel/:hotelId/room/:roomId'
+          element={<HotelRoomDetails />}
+        />
       </Switch>
     </Router>
   )
