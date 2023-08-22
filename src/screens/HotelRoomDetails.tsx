@@ -5,7 +5,6 @@ import {
   Checkbox,
   FormControl,
   FormControlLabel,
-  Link,
 } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -53,10 +52,6 @@ const HotelRoomDetails = () => {
 
   const handleStartCleaning = () => {
     setIsCleaningStarted(true)
-  }
-
-  const handleStopCleaning = () => {
-    setIsCleaningStarted(false)
   }
 
   const handleStop = () => {

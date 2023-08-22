@@ -5,7 +5,7 @@ import {
   Routes as Switch,
   Route,
 } from 'react-router-dom'
-import { Container, CssBaseline } from '@mui/material'
+import { CssBaseline } from '@mui/material'
 import Home from './screens/Home'
 import Login from './screens/Login'
 import HotelList from './screens/HotelList'
