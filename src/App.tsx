@@ -14,7 +14,7 @@ export const App = () => {
 		<Router>
 			<CssBaseline />
 			<Switch>
-				<Route path='/' element={<Home />} />
+				{/* <Route path='/' element={<Home />} /> */}
 				<Route path='/login' element={<Login />} />
 				<Route path='/hotels' element={<HotelList />} />
 				<Route path='/hotel/:hotelId' element={<HotelDetails />} />
