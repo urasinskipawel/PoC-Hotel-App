@@ -7,20 +7,23 @@ import { HotelsList } from './screens/HotelsList';
 import HotelDetails from './screens/HotelDetails';
 import HotelRoomList from './screens/HotelRoomList';
 import HotelRoomDetails from './screens/HotelRoomDetails';
-import { CssBaseline} from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { globalTheme as theme } from './themes/GlobalTheme';
 
 export const App = () => {
 	return (
-		<Router>
+		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			<Switch>
-				{/* <Route path='/' element={<Home />} /> */}
-				<Route path='/login' element={<Login />} />
-				<Route path='/hotels' element={<HotelsList />} />
-				<Route path='/hotel/:hotelId' element={<HotelDetails />} />
-				<Route path='/hotel/:hotelId/rooms' element={<HotelRoomList />} />
-				<Route path='/hotel/:hotelId/room/:roomId' element={<HotelRoomDetails />} />
-			</Switch>
-		</Router>
+			<Router>
+				<Switch>
+					{/* <Route path='/' element={<Home />} /> */}
+					<Route path='/login' element={<Login />} />
+					<Route path='/hotels' element={<HotelsList />} />
+					<Route path='/hotel/:hotelId' element={<HotelDetails />} />
+					<Route path='/hotel/:hotelId/rooms' element={<HotelRoomList />} />
+					<Route path='/hotel/:hotelId/room/:roomId' element={<HotelRoomDetails />} />
+				</Switch>
+			</Router>
+		</ThemeProvider>
 	);
 };
