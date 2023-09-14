@@ -1,11 +1,45 @@
-import React, { useState } from 'react';
-import { Container, TextField, Button, Avatar, useTheme, styled, Box } from '@mui/material';
-
+import React, { ChangeEvent, useState } from 'react';
+import { Container, TextField, Button, Avatar, useTheme, Box } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 
+const useStyles = makeStyles(theme => ({
+	root: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: '#EEF4F5',
+		padding: '0px',
+		height: '100vh',
+	},
+	input: {
+		'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+			borderColor: '#3F7A29',
+		},
+		'& .MuiOutlinedInput-root': {
+			'&.Mui-focused fieldset': {
+				borderColor: '#3F7A29',
+			},
+		},
+		'& .MuiOutlinedInput-input': {
+			color: '#3F7A29',
+		},
+		'& .MuiInputBase-input': {
+			height: '28px',
+		},
+		'& label.Mui-focused': {
+			color: '#3F7A29',
+		},
+		'& .MuiInputLabel-outlined': {
+			color: '#3F7A29',
+		},
+	},
+}));
+
 export const Login = () => {
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
+	const [username, setUsername] = useState<string>('');
+	const [password, setPassword] = useState<string>('');
 	const navigate = useNavigate();
 
 	const handleLogin = () => {
@@ -18,33 +52,24 @@ export const Login = () => {
 		}
 	};
 
+	const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setUsername(e.target.value);
+	};
+
+	const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setPassword(e.target.value);
+	};
+
 	const theme = useTheme();
 
+	const classes = useStyles();
+
 	return (
-		<Container
-			component='main'
-			sx={{
-				backgroundColor: '#EEF4F5',
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				justifyContent: 'center',
-				padding: '0px',
-				height: '100vh',
-			}}
-		>
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'column',
-					alignItems: 'center',
-					justifyContent: 'center',
-					height: '800px',
-				}}
-			>
+		<Container className={classes.root} component='main'>
+			<Box className={classes.root}>
 				<Avatar
 					alt='Hotel Service Logo'
-					src='./images/Hotelservice+GmbH+ 1.png'
+					src='./images/Hotelservice_logo.png'
 					variant='square'
 					sx={{
 						width: '150px',
@@ -52,79 +77,37 @@ export const Login = () => {
 						mb: '4rem',
 						mt: '-7.5rem',
 					}}
-				></Avatar>
+				/>
 
 				<TextField
+					className={classes.input}
 					label='E-mail'
 					type='email'
 					variant='outlined'
 					size='small'
 					value={username}
-					onChange={e => setUsername(e.target.value)}
-					sx={{
-						'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-							borderColor: theme.palette.background.default,
-						},
-						'& .MuiOutlinedInput-root': {
-							'&.Mui-focused fieldset': {
-								borderColor: theme.palette.background.default,
-							},
-						},
-						'& .MuiOutlinedInput-input': {
-							color: theme.palette.background.default,
-						},
-						'& .MuiInputBase-input': {
-							height: 28,
-						},
-						'& label.Mui-focused': {
-							color: theme.palette.background.default,
-						},
-						'& .MuiInputLabel-outlined': {
-							color: theme.palette.background.default,
-						},
-						width: 290,
-						mb: '25px',
-					}}
+					onChange={handleUsernameChange}
+					sx={{ mb: '25px', minWidth: 290 }}
 				/>
 				<TextField
+					className={classes.input}
 					label='Hasło'
 					type='password'
 					variant='outlined'
 					size='small'
 					value={password}
-					onChange={e => setPassword(e.target.value)}
-					sx={{
-						'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-							borderColor: theme.palette.background.default,
-						},
-						'& .MuiOutlinedInput-root': {
-							'&.Mui-focused fieldset': {
-								borderColor: theme.palette.background.default,
-							},
-						},
-						'& .MuiOutlinedInput-input': {
-							color: theme.palette.background.default,
-						},
-						'& .MuiInputBase-input': {
-							height: 28,
-						},
-						'& label.Mui-focused': {
-							color: theme.palette.background.default,
-						},
-						'& .MuiInputLabel-outlined': {
-							color: theme.palette.background.default,
-						},
-						width: 290,
-					}}
+					onChange={handlePasswordChange}
+					sx={{ minWidth: 290 }}
 				/>
 				<Button
 					onClick={handleLogin}
 					variant='contained'
 					sx={{
+						color: '#EEF4F5',
 						backgroundColor: theme.palette.background.default,
 						marginTop: '70px',
 						py: '10.25px',
-						width: 290,
+						minWidth: 290,
 						'& .MuiButton-root': {
 							height: 28,
 						},
