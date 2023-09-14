@@ -1,10 +1,10 @@
 // App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Routes as Switch, Route } from 'react-router-dom';
-import { Home } from './screens/Home';
+// import { Home } from './screens/Home';
 import { Login } from './screens/Login';
 import { HotelsList } from './screens/HotelsList';
-import HotelDetails from './screens/HotelDetails';
+import { HotelDetails } from './screens/HotelDetails';
 import HotelRoomList from './screens/HotelRoomList';
 import HotelRoomDetails from './screens/HotelRoomDetails';
 import { CssBaseline, ThemeProvider } from '@mui/material';
