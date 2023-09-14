@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Button, Container, SvgIcon, Typography, useTheme } from '@mui/material';
-import { ChevronLeft, ChevronRight } from '@mui/icons-material';
+import { Box, Button, Container, SvgIcon, Typography } from '@mui/material';
+// import { makeStyles } from '@mui/styles';
 
 interface Room {
 	roomId: string;
@@ -46,23 +46,22 @@ const hotels: Hotel[] = [
 ];
 
 export const HotelsList = () => {
-	const theme = useTheme();
+	// const theme = useTheme()
+	// const classes = useStyles();
 
 	return (
 		<Container
 			component='main'
 			sx={{
-				backgroundColor: '#EEF4F5',
 				display: 'flex',
 				flexDirection: 'column',
 				alignItems: 'center',
-				// justifyContent: 'center',
+				backgroundColor: '#EEF4F5',
 				padding: '0px',
 				height: '100vh',
 			}}
 		>
 			<Box sx={{ display: 'flex', alignItems: 'center', marginTop: '50px', marginBottom: '30px' }}>
-				{/* <ChevronLeft sx={{ width: 32, height: 32 }} /> */}
 				<SvgIcon
 					xmlns='http://www.w3.org/2000/svg'
 					width='32'
@@ -98,10 +97,10 @@ export const HotelsList = () => {
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'space-between',
-						width: '290px',
+						minWidth: '290px',
 						border: '1px solid #121212',
 						borderRadius: '5px',
-						py: '10px',
+						py: '9.25px',
 						mb: '15px',
 					}}
 				>
@@ -133,27 +132,8 @@ export const HotelsList = () => {
 							fill='#121212'
 						/>
 					</SvgIcon>
-					{/* <ChevronRight sx={{ width: '32px', height: '32px' }} /> */}
 				</Button>
 			))}
 		</Container>
 	);
 };
-
-// {hotels.map(hotel => (
-//   <div key={hotel.hotelId}>
-//     <h3>
-//       <Button component={Link} to={`/hotel/${hotel.hotelId}`} color='primary'>
-//         {hotel.hotelName}
-//       </Button>
-//     </h3>
-
-//   </div>
-//      <ul>
-//     {hotel.hotelRooms.map(room => (
-//       <li key={room.roomId}>
-//         Pokój {room.roomName} (ID: {room.roomId})
-//       </li>
-//     ))}
-//   </ul>
-// ))}
