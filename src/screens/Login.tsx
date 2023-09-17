@@ -123,6 +123,7 @@ export const Login = () => {
 					sx={{
 						backgroundColor: theme.palette.background.default,
 						marginTop: '70px',
+						color: '#EEF4F5',
 						py: '10.25px',
 						width: 290,
 						'& .MuiButton-root': {

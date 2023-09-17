@@ -29,6 +29,18 @@ export const RoomCleaningCard = () => {
 		}));
 	};
 
+	let counter = 0;
+
+	const countCheckedTasks = (): number => {
+		for (const task in taskStatus) {
+			if (taskStatus[task]) {
+				counter++;
+			}
+		}
+
+		return counter;
+	};
+
 	return (
 		<Container
 			component='main'
@@ -73,7 +85,7 @@ export const RoomCleaningCard = () => {
 					Sprzątanie
 				</Typography>
 				<Typography variant='body1' sx={{ color: '#121212', fontWeight: 600 }}>
-					0/{cleaningTasks.length}
+					{countCheckedTasks()}/{cleaningTasks.length}
 				</Typography>
 			</Box>
 
@@ -125,6 +137,7 @@ export const RoomCleaningCard = () => {
 				variant='contained'
 				sx={{
 					backgroundColor: '#0D3B66',
+					opacity: counter === 0 ? '75%' : '100%',
 					margin: '75px 0px 50px 0px',
 					color: '#EEF4F5',
 					py: '10.25px',
