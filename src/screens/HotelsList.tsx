@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Button, Container, SvgIcon, Typography } from '@mui/material';
-// import { makeStyles } from '@mui/styles';
 
 interface Room {
 	roomId: string;
@@ -12,7 +11,7 @@ interface Hotel {
 	hotelId: string;
 	hotelName: string;
 	hotelStreet: string;
-	hotelRooms?: Room[];
+	hotelRooms: Room[];
 }
 
 const hotels: Hotel[] = [
@@ -20,35 +19,32 @@ const hotels: Hotel[] = [
 		hotelId: 'hotel1',
 		hotelName: 'Hotel A',
 		hotelStreet: 'Street A',
-		// hotelRooms: [
-		// 	{ roomId: 'room1', roomName: 'Single Room' },
-		// 	{ roomId: 'room2', roomName: 'Double Room' },
-		// ],
+		hotelRooms: [
+			{ roomId: 'room1', roomName: 'Single Room' },
+			{ roomId: 'room2', roomName: 'Double Room' },
+		],
 	},
 	{
 		hotelId: 'hotel2',
 		hotelName: 'Hotel B',
 		hotelStreet: 'Street B',
-		// hotelRooms: [
-		// 	{ roomId: 'room3', roomName: 'Suite' },
-		// 	{ roomId: 'room4', roomName: 'Deluxe Room' },
-		// ],
+		hotelRooms: [
+			{ roomId: 'room3', roomName: 'Suite' },
+			{ roomId: 'room4', roomName: 'Deluxe Room' },
+		],
 	},
 	{
 		hotelId: 'hotel3',
 		hotelName: 'Hotel C',
 		hotelStreet: 'Street C',
-		// hotelRooms: [
-		// 	{ roomId: 'room3', roomName: 'Suite' },
-		// 	{ roomId: 'room4', roomName: 'Deluxe Room' },
-		// ],
+		hotelRooms: [
+			{ roomId: 'room3', roomName: 'Suite' },
+			{ roomId: 'room4', roomName: 'Deluxe Room' },
+		],
 	},
 ];
 
 export const HotelsList = () => {
-	// const theme = useTheme()
-	// const classes = useStyles();
-
 	return (
 		<Container
 			component='main'
@@ -81,7 +77,7 @@ export const HotelsList = () => {
 					variant='h5'
 					component={Link}
 					to={`/login`}
-					sx={{ fontWeight: 600, textDecoration: 'none', color: '#121212' }}
+					sx={{ fontWeight: 600, textDecoration: 'none', color: '#121212', marginLeft: '4px'}}
 				>
 					Lista hoteli do obsługi
 				</Typography>

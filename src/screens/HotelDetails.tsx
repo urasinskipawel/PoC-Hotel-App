@@ -18,6 +18,7 @@ const rooms: Room[] = [
 export const HotelDetails = () => {
 	const { hotelId } = useParams<{ hotelId: string }>();
 
+
 	return (
 		<Container
 			component='main'
@@ -30,7 +31,9 @@ export const HotelDetails = () => {
 				height: '100vh',
 			}}
 		>
-			<Box sx={{ display: 'flex', alignItems: 'center', marginTop: '50px', marginBottom: '30px' }}>
+			<Box
+				sx={{ display: 'flex', justifyContent: 'flex-start', minWidth: '290px', marginTop: '50px', marginBottom: '30px' }}
+			>
 				<SvgIcon
 					xmlns='http://www.w3.org/2000/svg'
 					width='32'
@@ -50,7 +53,7 @@ export const HotelDetails = () => {
 					variant='h5'
 					component={Link}
 					to={`/hotels`}
-					sx={{ fontWeight: 600, textDecoration: 'none', color: '#121212' }}
+					sx={{ fontWeight: 600, textDecoration: 'none', color: '#121212', marginLeft: '10px' }}
 				>
 					Szczegóły hotelu
 				</Typography>
