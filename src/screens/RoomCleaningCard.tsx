@@ -19,7 +19,6 @@ const cleaningTasks = [
 
 export const RoomCleaningCard = () => {
 	const [taskStatus, setTaskStatus] = useState<{ [key: string]: boolean }>({});
-	const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
 	const { hotelId, roomId } = useParams<string>();
 
