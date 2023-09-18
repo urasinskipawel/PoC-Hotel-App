@@ -19,6 +19,7 @@ const cleaningTasks = [
 
 export const RoomCleaningCard = () => {
 	const [taskStatus, setTaskStatus] = useState<{ [key: string]: boolean }>({});
+	const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
 	const { hotelId, roomId } = useParams<string>();
 
@@ -132,18 +133,22 @@ export const RoomCleaningCard = () => {
 				))}
 			</FormControl>
 			<Button
+				disabled={counter !== cleaningTasks.length}
 				component={Link}
 				to={`/hotel/${hotelId}`}
 				variant='contained'
 				sx={{
 					backgroundColor: '#0D3B66',
-					opacity: counter === 0 ? '75%' : '100%',
 					margin: '75px 0px 50px 0px',
 					color: '#EEF4F5',
 					py: '10.25px',
 					minWidth: '290px',
 					'& .MuiButton-root': {
 						height: 28,
+					},
+					'&.Mui-disabled': {
+						background: 'rgba(13, 59, 102, 0.75)',
+						color: '#EEF4F5',
 					},
 				}}
 			>
