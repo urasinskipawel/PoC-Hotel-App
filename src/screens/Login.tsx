@@ -106,6 +106,7 @@ export const Login = () => {
 						color: '#EEF4F5',
 						backgroundColor: theme.palette.background.default,
 						marginTop: '70px',
+						color: '#EEF4F5',
 						py: '10.25px',
 						minWidth: 290,
 						'& .MuiButton-root': {
