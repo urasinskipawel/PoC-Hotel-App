@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Box, Checkbox, FormControl, FormControlLabel, Container, SvgIcon, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
+import { RoomsContext } from '../contexts/roomsContext';
 
 const cleaningTasks = [
 	'Uporządkować pościel, poduszki i koce.',
@@ -17,14 +18,29 @@ const cleaningTasks = [
 	'Wypłukać i przetrzeć wewnętrzne powierzchnie czajnika/Cafetiera.',
 ];
 
+let roomIndex:number = -1
+let doneTasks:number[] = []
+
 const RoomCleaningCard = () => {
 	const [taskStatus, setTaskStatus] = useState<{ [key: string]: boolean }>({});
+	const { hotelId, roomId } = useParams<string>();
+
+	const [rooms, setRooms] = useContext(RoomsContext)
+
+	const currentRoomIndex:number = parseInt(roomId.slice(-1)-1)
+
+	useEffect(() => {
+		console.log(rooms[currentRoomIndex])
+	}, [])
 
 	const navigate = useNavigate()
 
-	const { hotelId, roomId } = useParams<string>();
-
-	const handleCheckboxChange = (task: string) => {
+	const handleCheckboxChange = (task: string, index:number) => {
+		if(!doneTasks.includes(index)){
+			doneTasks.push(index)
+		}else if(doneTasks.includes(index)){
+			doneTasks = doneTasks.filter(taskIndex => taskIndex !== index)
+		}
 		setTaskStatus(prevStatus => ({
 			...prevStatus,
 			[task]: !prevStatus[task],
@@ -44,11 +60,12 @@ const RoomCleaningCard = () => {
 	};
 
 	const handleNavigate = () => {
-		counter === cleaningTasks.length && navigate(`/hotel/${hotelId}`, {
+		navigate(`/hotel/${hotelId}`, {
 			state: {
 				roomStatus: [{ roomId, status: 'Do kontroli' }]
 			}
 		})
+		setRooms(prev => ({...prev, [currentRoomIndex]: {...prev[currentRoomIndex], status: 'Do kontroli'}}))
 	}
 
 	return (
@@ -125,7 +142,7 @@ const RoomCleaningCard = () => {
 							<Checkbox
 								color='primary'
 								checked={taskStatus[task] || false}
-								onChange={() => handleCheckboxChange(task)}
+								onChange={() => handleCheckboxChange(task, index)}
 								sx={{
 									'& .MuiSvgIcon-root': {
 										fill: '#0D3B66',

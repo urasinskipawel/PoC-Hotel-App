@@ -10,21 +10,25 @@ import HotelRoomDetails from './screens/HotelRoomDetails';
 import RoomCleaningCard from './screens/RoomCleaningCard';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { globalTheme as theme } from './themes/GlobalTheme';
+import RoomsProvider from './contexts/roomsContext';
 
 export const App = () => {
+
 	return (
-		<ThemeProvider theme={theme}>
-			<CssBaseline />
-			<Router>
-				<Switch>
-					{/* <Route path='/' element={<Home />} /> */}
-					<Route path='/login' element={<Login />} />
-					<Route path='/hotels' element={<HotelList />} />
-					<Route path='/hotel/:hotelId' element={<HotelDetails />} />
-					<Route path='/hotel/:hotelId/rooms' element={<HotelRoomList />} />
-					<Route path='/hotel/:hotelId/room/:roomId' element={<RoomCleaningCard />} />
-				</Switch>
-			</Router>
-		</ThemeProvider>
+		<RoomsProvider>
+			<ThemeProvider theme={theme}>
+				<CssBaseline />
+				<Router>
+					<Switch>
+						{/* <Route path='/' element={<Home />} /> */}
+						<Route path='/login' element={<Login />} />
+						<Route path='/hotels' element={<HotelList />} />
+						<Route path='/hotel/:hotelId' element={<HotelDetails />} />
+						<Route path='/hotel/:hotelId/rooms' element={<HotelRoomList />} />
+						<Route path='/hotel/:hotelId/room/:roomId' element={<RoomCleaningCard />} />
+					</Switch>
+				</Router>
+			</ThemeProvider>
+		</RoomsProvider>
 	);
 };

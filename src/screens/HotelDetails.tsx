@@ -1,48 +1,65 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { Button, Box, Container, SvgIcon, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { RoomsContext } from '../contexts/roomsContext';
 
 interface Room {
+	id: number,
 	roomId: string;
-	roomName?: string;
-	status?: string
+	roomName: string;
+	status: string
 }
 
-interface ButtonStyles {
+interface Styles {
 	status: string,
 	color: string
 }
 
-const rooms: Room[] = [
-	{ roomId: 'room1', roomName: 'Room 1' },
-	{ roomId: 'room2', roomName: 'Room 2' },
-	{ roomId: 'room3', roomName: 'Room 3' },
-	{ roomId: 'room4', roomName: 'Room 4' },
-];
-
-const buttonStyles :ButtonStyles[] = [
+const styles :Styles[] = [
 	{ status: 'Do kontroli', color: '#0c3c64' }
 ]
 
 const HotelDetails = () => {
 	const { hotelId } = useParams<{ hotelId: string }>();
 
+	const [rooms, setRooms] = useContext(RoomsContext)
+	const [roomsArray, setRoomsArray] = useState<Room[]>([])
+
+
+	useEffect(() => {
+		const newRooms:Room[] = []
+		for(const [key, value] of Object.entries(rooms)){
+			newRooms.push(value)
+		}
+		console.log(newRooms)
+		setRoomsArray(newRooms)
+	}, [rooms])
+
+	useEffect(() => {
+		console.log(roomsArray)
+	}, [roomsArray])
+
 	const location = useLocation()
 
 	const handleStyle = (roomId: string) => {
-		let foundStyle:string = '#9d071f'
-		let foundStatus:string = 'Do posprzątania'
-		if(!!location.state){
-			location.state.roomStatus.forEach((room:Room, index:number) => {
-				if(room.roomId === roomId){
-					buttonStyles.forEach(status => {
-						status.status === room.status ? (foundStyle = status.color, foundStatus = status.status) : foundStyle='3px solid #121212'
-					})
-				}
-			})
+		let found = {
+			style: '#9d071f',
+			status: 'Do posprzątania'
 		}
-		return { foundStyle, foundStatus }
+		
+		roomsArray.find(room => {
+			if(room.roomId === roomId){
+				found.status = room.status
+				styles.forEach(style => {
+					if(style.status === room.status){
+						found.style = style.color
+					}
+				})
+			}
+		})
+
+		return found
 	}
 
 	return (
@@ -84,7 +101,7 @@ const HotelDetails = () => {
 					Szczegóły hotelu
 				</Typography>
 			</Box>
-			{rooms.map(room => (
+			{roomsArray.map(room => (
 				<Box>
 					<Button
 						key={room.roomId}
@@ -99,7 +116,7 @@ const HotelDetails = () => {
 							position: 'relative',
 							minWidth: '290px',
 							height: '75px',
-							border: `3px solid ${handleStyle(room.roomId).foundStyle}`,
+							border: `3px solid ${handleStyle(room.roomId).style}`,
 							borderRadius: '5px',
 							py: '9.25px',
 						}}
@@ -126,10 +143,10 @@ const HotelDetails = () => {
 					</Button>
 					<Typography
 						variant='body1'
-						sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '-2px', fontSize: '16px', color: handleStyle(room.roomId).foundStyle }}
+						sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '-2px', fontSize: '16px', color: handleStyle(room.roomId).style }}
 					>
 						{
-							handleStyle(room.roomId).foundStatus
+							handleStyle(room.roomId).status
 						}
 					</Typography>
 				</Box>
