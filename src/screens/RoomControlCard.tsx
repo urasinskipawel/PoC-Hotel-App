@@ -1,14 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import {
-	Button,
-	Box,
-	FormControlLabel,
-	Container,
-	SvgIcon,
-	Typography,
-	Radio,
-	FormGroup,
-} from '@mui/material';
+import { Button, Box, FormControlLabel, Container, SvgIcon, Typography, Radio, FormGroup } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
@@ -100,7 +91,15 @@ export const RoomControlCard = () => {
 					{roomId}
 				</Typography>
 			</Box>
-			<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', minWidth: '290px' }}>
+			<Box
+				sx={{
+					display: 'flex',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+					minWidth: '290px',
+					marginBottom: '30px',
+				}}
+			>
 				<Typography variant='h6' sx={{ color: '#121212', fontWeight: 600 }}>
 					Kontrola
 				</Typography>
@@ -108,37 +107,48 @@ export const RoomControlCard = () => {
 					{countCheckedTasks()}/{randomControlTasks.length}
 				</Typography>
 			</Box>
-			<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-				<FormGroup sx={{ display: 'flex', flexDirection: 'row' }}>
+			<Box
+				sx={{
+					display: 'flex',
+					flexDirection: 'row',
+					alignItems: 'center',
+					width: '290px',
+					// justifyContent: 'space-between',
+				}}
+			>
+				<FormGroup
+					sx={{
+						display: 'flex',
+						flexDirection: 'row',
+						flexShrink: '0',
+
+						'& .MuiTypography-root': {
+							marginTop: '2px',
+							fontSize: '10px',
+						},
+					}}
+				>
 					<FormControlLabel
-						control={<Radio />}
+						control={<Radio sx={{ padding: '0px', width: '20px', height: '20px' }} />}
 						label='Tak'
 						value='tak'
 						labelPlacement='bottom'
 						checked={selectedOption === 'tak'}
 						onChange={handleRadioOption}
-						sx={{ margin: '0px' }}
+						sx={{ margin: '-3px 10px 0px 0px' }}
 					/>
 					<FormControlLabel
-						control={<Radio />}
+						control={<Radio sx={{ padding: '0px', width: '20px', height: '20px' }} />}
 						label='nie'
 						value='nie'
 						labelPlacement='bottom'
 						checked={selectedOption === 'nie'}
 						onChange={handleRadioOption}
-						sx={{
-							'& .MuiSvgIcon-root': {
-								// fontSize: '20px',
-								// marginBottom: '5px',
-							},
-							margin: '0px',
-							width: '20px',
-							height: '20px',
-						}}
+						sx={{ margin: '-3px 10px 0px 0px' }}
 					/>
 				</FormGroup>
-				<Typography variant='body1' sx={{ color: '#121212', fontWeight: 600 }}>
-					task 1
+				<Typography variant='body1' sx={{ color: '#121212', alignSelf: 'flex-start', marginTop: '-2px' }}>
+					Pościel, poduszki i koce są uporządkowane
 				</Typography>
 			</Box>
 
