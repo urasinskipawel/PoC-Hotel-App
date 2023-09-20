@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Box, FormControlLabel, Container, SvgIcon, Typography, Radio, FormGroup } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -31,13 +31,15 @@ function drawRandomTasks(arr: string[]): string[] {
 const randomControlTasks = drawRandomTasks(controlTasks);
 
 export const RoomControlCard = () => {
-	const [taskStatus, setTaskStatus] = useState<{ [key: string]: boolean }>({});
-	const [selectedOption, setSelectedOption] = useState<string>('');
+	const [taskStatus, setTaskStatus] = useState<{ [key: string]: string }>({});
 
 	const { hotelId, roomId } = useParams<string>();
 
-	const handleRadioOption = (event: any) => {
-		setSelectedOption(event.target.value);
+	const handleRadioOption = (taskId: number, option: string) => {
+		setTaskStatus(prevStatus => ({
+			...prevStatus,
+			[taskId]: option,
+		}));
 	};
 
 	let counter = 0;
@@ -107,50 +109,76 @@ export const RoomControlCard = () => {
 					{countCheckedTasks()}/{randomControlTasks.length}
 				</Typography>
 			</Box>
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					alignItems: 'center',
-					width: '290px',
-					// justifyContent: 'space-between',
-				}}
-			>
-				<FormGroup
+			{randomControlTasks.map((task, index) => (
+				<Box
+					key={index}
 					sx={{
 						display: 'flex',
 						flexDirection: 'row',
-						flexShrink: '0',
-
-						'& .MuiTypography-root': {
-							marginTop: '2px',
-							fontSize: '10px',
-						},
+						width: '290px',
+						marginBottom: '20px',
 					}}
 				>
-					<FormControlLabel
-						control={<Radio sx={{ padding: '0px', width: '20px', height: '20px' }} />}
-						label='Tak'
-						value='tak'
-						labelPlacement='bottom'
-						checked={selectedOption === 'tak'}
-						onChange={handleRadioOption}
-						sx={{ margin: '-3px 10px 0px 0px' }}
-					/>
-					<FormControlLabel
-						control={<Radio sx={{ padding: '0px', width: '20px', height: '20px' }} />}
-						label='nie'
-						value='nie'
-						labelPlacement='bottom'
-						checked={selectedOption === 'nie'}
-						onChange={handleRadioOption}
-						sx={{ margin: '-3px 10px 0px 0px' }}
-					/>
-				</FormGroup>
-				<Typography variant='body1' sx={{ color: '#121212', alignSelf: 'flex-start', marginTop: '-2px' }}>
-					Pościel, poduszki i koce są uporządkowane
-				</Typography>
-			</Box>
+					<FormGroup
+						sx={{
+							display: 'flex',
+							flexDirection: 'row',
+							flexShrink: '0',
+
+							'& .MuiTypography-root': {
+								marginTop: '2px',
+								fontSize: '10px',
+							},
+						}}
+					>
+						<FormControlLabel
+							control={
+								<Radio
+									sx={{
+										'& .MuiSvgIcon-root': {
+											fill: '#3F7A29',
+											fontSize: '20px',
+										},
+										padding: '0px',
+										width: '20px',
+										height: '20px',
+									}}
+								/>
+							}
+							label='Tak'
+							value='tak'
+							labelPlacement='bottom'
+							checked={taskStatus[index] === 'tak'}
+							onChange={() => handleRadioOption(index, 'tak')}
+							sx={{ margin: '0px 10px 0px 0px' }}
+						/>
+						<FormControlLabel
+							control={
+								<Radio
+									sx={{
+										'& .MuiSvgIcon-root': {
+											fill: '#3F7A29',
+											fontSize: '20px',
+										},
+										padding: '0px',
+										width: '20px',
+										height: '20px',
+									}}
+								/>
+							}
+							label='nie'
+							value='nie'
+							labelPlacement='bottom'
+							checked={taskStatus[index] === 'nie'}
+							onChange={() => handleRadioOption(index, 'nie')}
+							sx={{ margin: '0px 10px 0px 0px' }}
+						/>
+					</FormGroup>
+					<Typography variant='body1' sx={{ color: '#121212', alignSelf: 'flex-start', lineHeight: '1.25' }}>
+						{task}
+					</Typography>
+				</Box>
+			))}
 
 			<Button
 				disabled={counter !== randomControlTasks.length}
