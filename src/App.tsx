@@ -4,10 +4,10 @@ import { BrowserRouter as Router, Routes as Switch, Route } from 'react-router-d
 import { Home } from './screens/Home';
 import { Login } from './screens/Login';
 import HotelList from './screens/HotelList';
-import HotelDetails from './screens/HotelDetails';
+import { HotelDetails } from './screens/HotelDetails';
 import HotelRoomList from './screens/HotelRoomList';
 import HotelRoomDetails from './screens/HotelRoomDetails';
-import RoomCleaningCard from './screens/RoomCleaningCard';
+import { RoomCleaningCard } from './screens/RoomCleaningCard';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { globalTheme as theme } from './themes/GlobalTheme';
 import RoomsProvider from './contexts/roomsContext';

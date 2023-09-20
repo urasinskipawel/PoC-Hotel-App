@@ -1,53 +1,47 @@
 import React, { useState } from 'react'
 
 interface Room {
-    id: number,
-    roomId: string,
-    roomName: string,
-    status: string,
-    result: string
+    id?: string,
+    roomType?: string,
+    status?: string,
+    result?: string
 }
 
 const roomsArray:Room[] = [
     {
-        id: 0,
-        roomId: 'room1',
-        roomName: 'Single Room',
+        id: 'room1',
+        roomType: 'Single Room',
         status: 'Do posprzątania',
         result: ''
     },
     {
-        id: 1,
-        roomId: 'room2',
-        roomName: 'Double Room',
+        id: 'room2',
+        roomType: 'Double Room',
         status: 'Do posprzątania',
         result: ''
     },
     {
-        id: 2,
-        roomId: 'room3',
-        roomName: 'Suite room',
+        id: 'room3',
+        roomType: 'Suite room',
         status: 'Do posprzątania',
         result: ''
     },
     {
-        id: 3,
-        roomId: 'room4',
-        roomName: 'Deluxe room',
+        id: 'room4',
+        roomType: 'Deluxe room',
         status: 'Do posprzątania',
         result: ''
     }
 ]
 
-export const RoomsContext = React.createContext<Room[] | null>(null)
+export const RoomsContext = React.createContext<Room[] | any>([])
 
 type RoomsProviderProps = {
     children: React.ReactNode
 }
 
 export default function RoomsProvider({ children } : RoomsProviderProps){
-
-    const [rooms, setRooms] = useState({...roomsArray})
+    const [rooms, setRooms] = useState(roomsArray)
 
     return (
         <RoomsContext.Provider value={[rooms, setRooms]}>

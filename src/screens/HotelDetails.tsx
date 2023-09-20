@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 import { RoomsContext } from '../contexts/roomsContext';
 
 interface Room {
-	id: number,
-	roomId: string;
-	roomName: string;
-	status: string
+    id: string,
+    roomType: string,
+    status: string,
+    result: string
 }
 
 interface Styles {
@@ -16,31 +16,16 @@ interface Styles {
 	color: string
 }
 
-const styles :Styles[] = [
+
+const styles:Styles[] = [
 	{ status: 'Do kontroli', color: '#0c3c64' }
 ]
 
-const HotelDetails = () => {
+export const HotelDetails = () => {
 	const { hotelId } = useParams<{ hotelId: string }>();
-
-	const [rooms, setRooms] = useContext(RoomsContext)
-	const [roomsArray, setRoomsArray] = useState<Room[]>([])
-
-
-	useEffect(() => {
-		const newRooms:Room[] = []
-		for(const [key, value] of Object.entries(rooms)){
-			newRooms.push(value)
-		}
-		console.log(newRooms)
-		setRoomsArray(newRooms)
-	}, [rooms])
-
-	useEffect(() => {
-		console.log(roomsArray)
-	}, [roomsArray])
-
 	const location = useLocation()
+	const [rooms, setRooms] = useContext(RoomsContext)
+	const [roomsArray, setRoomsArray] = useState(rooms)
 
 	const handleStyle = (roomId: string) => {
 		let found = {
@@ -48,8 +33,8 @@ const HotelDetails = () => {
 			status: 'Do posprzątania'
 		}
 		
-		roomsArray.find(room => {
-			if(room.roomId === roomId){
+		roomsArray.find((room:Room) => {
+			if(room.id === roomId){
 				found.status = room.status
 				styles.forEach(style => {
 					if(style.status === room.status){
@@ -101,14 +86,14 @@ const HotelDetails = () => {
 					Szczegóły hotelu
 				</Typography>
 			</Box>
-			{roomsArray.map(room => (
+			{roomsArray.map((room:Room) => (
 				<Box>
 					<Button
-						key={room.roomId}
+						key={room.id}
 						variant='contained'
 						color='primary'
 						component={Link}
-						to={`/hotel/${hotelId}/room/${room.roomId}`}
+						to={`/hotel/${hotelId}/room/${room.id}`}
 						sx={{
 							display: 'flex',
 							justifContent: 'center',
@@ -116,15 +101,14 @@ const HotelDetails = () => {
 							position: 'relative',
 							minWidth: '290px',
 							height: '75px',
-							border: `3px solid ${handleStyle(room.roomId).style}`,
+							border: `3px solid ${handleStyle(room.id).style}`,
 							borderRadius: '5px',
 							py: '9.25px',
 						}}
 					>
 						<Typography variant='h6' sx={{ fontSize: '20px', fontWeight: 600, left: '20px', flex: '1', textAlign: 'center' }}>
-							{room.roomName}
+							{room.roomType}
 						</Typography>
-
 						<SvgIcon
 							xmlns='http://www.w3.org/2000/svg'
 							width='32'
@@ -143,10 +127,10 @@ const HotelDetails = () => {
 					</Button>
 					<Typography
 						variant='body1'
-						sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '-2px', fontSize: '16px', color: handleStyle(room.roomId).style }}
+						sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '-2px', fontSize: '16px', color: handleStyle(room.id).style }}
 					>
 						{
-							handleStyle(room.roomId).status
+							handleStyle(room.id).status
 						}
 					</Typography>
 				</Box>
@@ -154,5 +138,3 @@ const HotelDetails = () => {
 		</Container>
 	);
 };
-
-export default HotelDetails
