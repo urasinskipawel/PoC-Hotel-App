@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Button, Box, Checkbox, FormControl, FormControlLabel, Container, SvgIcon, Typography, Input, Avatar } from '@mui/material';
+import { Button, Box, Checkbox, FormControl, FormControlLabel, Container, SvgIcon, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { RoomsContext } from '../contexts/roomsContext';
@@ -76,9 +76,12 @@ export const RoomCleaningCard = () => {
 					{roomId}
 				</Typography>
 			</Box>
-			<Box sx={{ display: 'flex', justifyContent: 'space-between', minWidth: '290px', flexDirection: 'column' }}>
+			<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', minWidth: '290px' }}>
 				<Typography variant='h6' sx={{ color: '#121212', fontWeight: 600 }}>
 					Sprzątanie
+				</Typography>
+				<Typography variant='body1' sx={{ color: '#121212', fontWeight: 600 }}>
+					{done.length}/{cleaningTasks.length}
 				</Typography>
 			</Box>
 			<FormControl
