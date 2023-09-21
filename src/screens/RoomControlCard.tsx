@@ -3,33 +3,22 @@ import { Button, Box, FormControlLabel, Container, Typography, Radio, FormGroup 
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
+import { cleaningTasks } from '../utils/cleaningTasks';
 
-const controlTasks = [
-	'Pościel, poduszki i koce są uporządkowane.',
-	'Wszystkie odpadki zostały wyrzucone do kosza.',
-	'Dywan jest odkurzony lub wytrzepany, a podłoga pozamiatana.',
-	'Powierchnia mebli została przetarta.',
-	'Kurz z okien, luster i parapetów został wytarty.',
-	'Ekran i obudowa telewizora zostały przetarte.',
-	'Lustro jest wyczyszczone ze smug i plam.',
-	'Umywalka, kran, toaleta oraz wannę/prysznic zostały wyczyszczone.',
-	'Lustra w łazience są wyczyszczone.',
-	'Szklanki i kubki są umyte i wysuszone.',
-	'Powierzchnie czajnika/Cafetiera są wypłukane i przetarte.',
-];
-
-function drawRandomTasks(arr: string[]): string[] {
-	const randomTasks = [];
-	const newControlTasks = [...arr]; // Tworzymy kopię tablicy, aby nie modyfikować oryginalnej
-	for (let i = 0; i < 5; i++) {
+export const drawRandomTasks = (arr: string[], tasksNumber = 5): Set<string> => {
+	const randomTasks: string[] = [];
+	const newControlTasks: string[] = [...arr];
+	for (let i = 0; i < tasksNumber; i++) {
 		const randomIndex = Math.floor(Math.random() * newControlTasks.length);
-		const randomTask = newControlTasks.splice(randomIndex, 1)[0]; // Usuwamy i zapisujemy wylosowany element
+		const randomTask = newControlTasks.splice(randomIndex, 1)[0];
 		randomTasks.push(randomTask);
 	}
-	return randomTasks;
-}
+	const uniqueTasks: Set<string> = new Set(randomTasks);
+	return uniqueTasks;
+};
 
-const randomControlTasks = drawRandomTasks(controlTasks);
+const uniqueControlTasks: Set<string> = drawRandomTasks(cleaningTasks);
+const uniqueControlTasksArray: string[] = [...uniqueControlTasks];
 
 export const RoomControlCard = () => {
 	const [taskStatus, setTaskStatus] = useState<{ [key: string]: string }>({});
@@ -51,7 +40,6 @@ export const RoomControlCard = () => {
 				counter++;
 			}
 		}
-
 		return counter;
 	};
 
@@ -83,10 +71,10 @@ export const RoomControlCard = () => {
 					Kontrola
 				</Typography>
 				<Typography variant='body1' sx={{ color: '#121212', fontWeight: 600 }}>
-					{countCheckedTasks()}/{randomControlTasks.length}
+					{countCheckedTasks()}/{uniqueControlTasksArray.length}
 				</Typography>
 			</Box>
-			{randomControlTasks.map((task, index) => (
+			{uniqueControlTasksArray.map((task, index) => (
 				<Box
 					key={index}
 					sx={{
@@ -157,7 +145,7 @@ export const RoomControlCard = () => {
 				</Box>
 			))}
 			<Button
-				disabled={counter !== randomControlTasks.length}
+				disabled={counter !== uniqueControlTasksArray.length}
 				component={Link}
 				to={`/hotel/${hotelId}`}
 				variant='contained'
