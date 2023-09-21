@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Box, Checkbox, FormControl, FormControlLabel, Container, SvgIcon, Typography } from '@mui/material';
+import { Button, Box, Checkbox, FormControl, FormControlLabel, Container, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 
 const cleaningTasks = [
 	'Uporządkować pościel, poduszki i koce.',
@@ -56,21 +57,7 @@ export const RoomCleaningCard = () => {
 			<Box
 				sx={{ display: 'flex', justifyContent: 'flex-start', minWidth: '290px', marginTop: '50px', marginBottom: '5px' }}
 			>
-				<SvgIcon
-					xmlns='http://www.w3.org/2000/svg'
-					width='32'
-					height='32'
-					viewBox='0 0 32 32'
-					fill='none'
-					sx={{ fontSize: '32px' }}
-				>
-					<path
-						fill-rule='evenodd'
-						clip-rule='evenodd'
-						d='M22.7071 28.7071C22.3166 29.0976 21.6834 29.0976 21.2929 28.7071L9.29289 16.7071C8.90237 16.3166 8.90237 15.6834 9.29289 15.2929L21.2929 3.29289C21.6834 2.90237 22.3166 2.90237 22.7071 3.29289C23.0976 3.68342 23.0976 4.31658 22.7071 4.70711L11.4142 16L22.7071 27.2929C23.0976 27.6834 23.0976 28.3166 22.7071 28.7071Z'
-						fill='#121212'
-					/>
-				</SvgIcon>
+				<DirectionIcon direction={'left'} />
 				<Typography
 					variant='h5'
 					component={Link}
