@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Box, FormControlLabel, Container,Typography, Radio, FormGroup } from '@mui/material';
+import { Button, Box, FormControlLabel, Container, Typography, Radio, FormGroup } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
@@ -56,17 +56,7 @@ export const RoomControlCard = () => {
 	};
 
 	return (
-		<Container
-			component='main'
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				backgroundColor: '#EEF4F5',
-				padding: '0px',
-				minHeight: '100vh',
-			}}
-		>
+		<Container component='main'>
 			<Box
 				sx={{ display: 'flex', justifyContent: 'flex-start', minWidth: '290px', marginTop: '50px', marginBottom: '5px' }}
 			>
@@ -166,7 +156,6 @@ export const RoomControlCard = () => {
 					</Typography>
 				</Box>
 			))}
-
 			<Button
 				disabled={counter !== randomControlTasks.length}
 				component={Link}

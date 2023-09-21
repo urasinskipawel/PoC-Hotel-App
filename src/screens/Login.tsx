@@ -65,7 +65,7 @@ export const Login = () => {
 	const classes = useStyles();
 
 	return (
-		<Container className={classes.root} component='main'>
+		<Container component='main'>
 			<Box className={classes.root}>
 				<Avatar
 					alt='Hotel Service Logo'

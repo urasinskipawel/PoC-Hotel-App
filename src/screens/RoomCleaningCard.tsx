@@ -43,17 +43,7 @@ export const RoomCleaningCard = () => {
 	};
 
 	return (
-		<Container
-			component='main'
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				backgroundColor: '#EEF4F5',
-				padding: '0px',
-				minHeight: '100vh',
-			}}
-		>
+		<Container component='main'>
 			<Box
 				sx={{ display: 'flex', justifyContent: 'flex-start', minWidth: '290px', marginTop: '50px', marginBottom: '5px' }}
 			>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Button, Container,Typography } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 
 interface Room {
@@ -47,24 +47,14 @@ const hotels: Hotel[] = [
 
 export const HotelsList = () => {
 	return (
-		<Container
-			component='main'
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				backgroundColor: '#EEF4F5',
-				padding: '0px',
-				height: '100vh',
-			}}
-		>
+		<Container component='main'>
 			<Box sx={{ display: 'flex', alignItems: 'center', marginTop: '50px', marginBottom: '30px' }}>
-			<DirectionIcon direction={'left'} />
+				<DirectionIcon direction={'left'} />
 				<Typography
 					variant='h5'
 					component={Link}
 					to={`/login`}
-					sx={{ fontWeight: 600, textDecoration: 'none', color: '#121212', marginLeft: '4px'}}
+					sx={{ fontWeight: 600, textDecoration: 'none', color: '#121212', marginLeft: '4px' }}
 				>
 					Lista hoteli do obsługi
 				</Typography>

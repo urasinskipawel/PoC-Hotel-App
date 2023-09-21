@@ -20,17 +20,7 @@ export const HotelDetails = () => {
 	const { hotelId } = useParams<{ hotelId: string }>();
 
 	return (
-		<Container
-			component='main'
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				backgroundColor: '#EEF4F5',
-				padding: '0px',
-				height: '100vh',
-			}}
-		>
+		<Container component='main'>
 			<Box
 				sx={{ display: 'flex', justifyContent: 'flex-start', minWidth: '290px', marginTop: '50px', marginBottom: '30px' }}
 			>
