@@ -1,38 +1,52 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Box, Checkbox, FormControl, FormControlLabel, Container, Typography } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { cleaningTasks } from '../utils/cleaningTasks';
+import { Controller, useForm, SubmitHandler } from 'react-hook-form';
+import { makeStyles } from '@mui/styles';
+
+interface TaskStatus {
+	[key: string]: boolean;
+}
+interface FormData {
+	tasks: TaskStatus;
+}
+
+const useStyles = makeStyles(theme => ({
+	form: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+}));
 
 export const RoomCleaningCard = () => {
-	const [taskStatus, setTaskStatus] = useState<{ [key: string]: boolean }>({});
+	const navigate = useNavigate();
+	const { hotelId, roomId } = useParams<{ hotelId: string; roomId: string }>();
+	const { handleSubmit, control, watch } = useForm<FormData>();
+	const classes = useStyles();
 
-	const { hotelId, roomId } = useParams<string>();
-
-	const handleCheckboxChange = (task: string) => {
-		setTaskStatus(prevStatus => ({
-			...prevStatus,
-			[task]: !prevStatus[task],
-		}));
+	const handleForm: SubmitHandler<FormData> = data => {
+		console.log('Wysyłanie danych:', data);
+		navigate('/hotel/${hotelId}');
 	};
 
-	let counter = 0;
-
-	const countCheckedTasks = (): number => {
-		for (const task in taskStatus) {
-			if (taskStatus[task]) {
-				counter++;
-			}
-		}
-
-		return counter;
-	};
+	const changedTasksValue = watch('tasks', {});
+	const checkedTasks = Object.values(changedTasksValue).filter(Boolean).length;
 
 	return (
 		<Container component='main'>
 			<Box
-				sx={{ display: 'flex', justifyContent: 'flex-start', minWidth: '290px', marginTop: '50px', marginBottom: '5px' }}
+				sx={{
+					display: 'flex',
+					justifyContent: 'flex-start',
+					minWidth: '290px',
+					marginTop: '50px',
+					marginBottom: '5px',
+				}}
 			>
 				<DirectionIcon direction={'left'} />
 				<Typography
@@ -49,74 +63,78 @@ export const RoomCleaningCard = () => {
 					Sprzątanie
 				</Typography>
 				<Typography variant='body1' sx={{ color: '#121212', fontWeight: 600 }}>
-					{countCheckedTasks()}/{cleaningTasks.length}
+					{checkedTasks}/{cleaningTasks.length}
 				</Typography>
 			</Box>
-
-			<FormControl
-				sx={{
-					'& .MuiFormControlLabel-root .MuiFormControlLabelPlacementEnd-root': {
-						marginTop: '0px',
-					},
-					'& .MuiTypography-root': {
-						lineHeight: '1.25',
-						marginTop: '2px',
-						marginLeft: '10px',
-						fontWeight: 500,
-						letterSpacing: '0.6px',
-					},
-
-					marginTop: '30px',
-					width: '295px',
-				}}
-				component='fieldset'
-			>
-				{cleaningTasks.map((task, index) => (
-					<FormControlLabel
-						sx={{ margin: '0px 0px 15px 0px' }}
-						key={index}
-						control={
-							<Checkbox
-								color='primary'
-								checked={taskStatus[task] || false}
-								onChange={() => handleCheckboxChange(task)}
-								sx={{
-									'& .MuiSvgIcon-root': {
-										fill: '#0D3B66',
-									},
-									width: '20px',
-									height: '20px',
-									display: 'flex',
-									alignSelf: 'flex-start',
-								}}
-							/>
-						}
-						label={task}
-					/>
-				))}
-			</FormControl>
-			<Button
-				disabled={counter !== cleaningTasks.length}
-				component={Link}
-				to={`/hotel/${hotelId}`}
-				variant='contained'
-				sx={{
-					backgroundColor: '#0D3B66',
-					margin: '75px 0px 50px 0px',
-					color: '#EEF4F5',
-					py: '10.25px',
-					minWidth: '290px',
-					'& .MuiButton-root': {
-						height: 28,
-					},
-					'&.Mui-disabled': {
-						background: 'rgba(13, 59, 102, 0.75)',
+			<form className={classes.form} onSubmit={handleSubmit(handleForm)}>
+				<FormControl
+					sx={{
+						'& .MuiFormControlLabel-root .MuiFormControlLabelPlacementEnd-root': {
+							marginTop: '0px',
+						},
+						'& .MuiTypography-root': {
+							lineHeight: '1.25',
+							marginTop: '2px',
+							marginLeft: '10px',
+							fontWeight: 500,
+							letterSpacing: '0.6px',
+						},
+						marginTop: '30px',
+						width: '295px',
+					}}
+					component='fieldset'
+				>
+					{cleaningTasks.map((task, index) => (
+						<FormControlLabel
+							key={index}
+							sx={{ margin: '0px 0px 15px 0px' }}
+							control={
+								<Controller
+									name={`tasks.${index}`}
+									control={control}
+									defaultValue={false}
+									render={({ field }) => (
+										<Checkbox
+											{...field}
+											sx={{
+												'& .MuiSvgIcon-root': {
+													fill: '#0D3B66',
+												},
+												width: '20px',
+												height: '20px',
+												display: 'flex',
+												alignSelf: 'flex-start',
+											}}
+										/>
+									)}
+								/>
+							}
+							label={task}
+						/>
+					))}
+				</FormControl>
+				<Button
+					type='submit'
+					disabled={checkedTasks !== cleaningTasks.length}
+					variant='contained'
+					sx={{
+						backgroundColor: '#0D3B66',
+						margin: '75px 0px 50px 0px',
 						color: '#EEF4F5',
-					},
-				}}
-			>
-				Zakończ sprzątanie
-			</Button>
+						py: '10.25px',
+						minWidth: '290px',
+						'& .MuiButton-root': {
+							height: 28,
+						},
+						'&.Mui-disabled': {
+							background: 'rgba(13, 59, 102, 0.75)',
+							color: '#EEF4F5',
+						},
+					}}
+				>
+					Zakończ sprzątanie
+				</Button>
+			</form>
 		</Container>
 	);
 };
