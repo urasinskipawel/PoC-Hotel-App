@@ -1,47 +1,30 @@
-import React, { useState } from 'react';
-import { Button, Box, FormControlLabel, Container, Typography, Radio, FormGroup } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import React from 'react';
+import { Button, Box, FormControlLabel, Container, Typography, Radio, RadioGroup } from '@mui/material';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
-import { cleaningTasks } from '../utils/cleaningTasks';
-
-export const drawRandomTasks = (arr: string[], tasksNumber = 5): Set<string> => {
-	const randomTasks: string[] = [];
-	const newControlTasks: string[] = [...arr];
-	for (let i = 0; i < tasksNumber; i++) {
-		const randomIndex = Math.floor(Math.random() * newControlTasks.length);
-		const randomTask = newControlTasks.splice(randomIndex, 1)[0];
-		randomTasks.push(randomTask);
-	}
-	const uniqueTasks: Set<string> = new Set(randomTasks);
-	return uniqueTasks;
-};
-
-const uniqueControlTasks: Set<string> = drawRandomTasks(cleaningTasks);
-const uniqueControlTasksArray: string[] = [...uniqueControlTasks];
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { uniqueControlTasksArray } from '../helpers/drawRandomTasks';
+interface FormValues {
+	[key: string]: string;
+}
 
 export const RoomControlCard = () => {
-	const [taskStatus, setTaskStatus] = useState<{ [key: string]: string }>({});
-
+	const { handleSubmit, control, watch } = useForm<FormValues>();
 	const { hotelId, roomId } = useParams<string>();
+	const navigate = useNavigate();
 
-	const handleRadioOption = (taskId: number, option: string) => {
-		setTaskStatus(prevStatus => ({
-			...prevStatus,
-			[taskId]: option,
-		}));
+	const handleRadioForm: SubmitHandler<FormValues> = (data: any) => {
+		console.log('Wysyłanie danych:', data);
+		navigate(`/hotel/${hotelId}`);
 	};
 
-	let counter = 0;
-
-	const countCheckedTasks = (): number => {
-		for (const task in taskStatus) {
-			if (taskStatus[task]) {
-				counter++;
-			}
-		}
-		return counter;
-	};
+	const checkedTasks = Object.keys(uniqueControlTasksArray)
+		.map(index => {
+			const radioValue = watch(`task-${index}`, '');
+			return radioValue === 'tak' || radioValue === 'nie';
+		})
+		.filter(Boolean).length;
 
 	return (
 		<Container component='main'>
@@ -71,101 +54,106 @@ export const RoomControlCard = () => {
 					Kontrola
 				</Typography>
 				<Typography variant='body1' sx={{ color: '#121212', fontWeight: 600 }}>
-					{countCheckedTasks()}/{uniqueControlTasksArray.length}
+					{checkedTasks}/{uniqueControlTasksArray.length}
 				</Typography>
 			</Box>
-			{uniqueControlTasksArray.map((task, index) => (
-				<Box
-					key={index}
-					sx={{
-						display: 'flex',
-						flexDirection: 'row',
-						width: '290px',
-						marginBottom: '20px',
-					}}
-				>
-					<FormGroup
+			<form onSubmit={handleSubmit(handleRadioForm)}>
+				{uniqueControlTasksArray.map((task, index) => (
+					<Box
+						key={index}
 						sx={{
 							display: 'flex',
 							flexDirection: 'row',
-							flexShrink: '0',
-
-							'& .MuiTypography-root': {
-								marginTop: '2px',
-								fontSize: '10px',
-							},
+							width: '290px',
+							marginBottom: '20px',
 						}}
 					>
-						<FormControlLabel
-							control={
-								<Radio
+						<Controller
+							name={`task-${index}`}
+							control={control}
+							defaultValue=''
+							render={({ field }) => (
+								<RadioGroup
+									{...field}
 									sx={{
-										'& .MuiSvgIcon-root': {
-											fill: '#3F7A29',
-											fontSize: '20px',
+										display: 'flex',
+										flexDirection: 'row',
+										flexShrink: '0',
+
+										'& .MuiTypography-root': {
+											marginTop: '2px',
+											fontSize: '10px',
 										},
-										padding: '0px',
-										width: '20px',
-										height: '20px',
 									}}
-								/>
-							}
-							label='Tak'
-							value='tak'
-							labelPlacement='bottom'
-							checked={taskStatus[index] === 'tak'}
-							onChange={() => handleRadioOption(index, 'tak')}
-							sx={{ margin: '0px 10px 0px 0px' }}
+								>
+									<FormControlLabel
+										control={
+											<Radio
+												sx={{
+													'& .MuiSvgIcon-root': {
+														fill: '#3F7A29',
+														fontSize: '20px',
+													},
+													padding: '0px',
+													width: '20px',
+													height: '20px',
+												}}
+											/>
+										}
+										label='Tak'
+										value='tak'
+										labelPlacement='bottom'
+										sx={{ margin: '0px 10px 0px 0px' }}
+									/>
+									<FormControlLabel
+										control={
+											<Radio
+												sx={{
+													'& .MuiSvgIcon-root': {
+														fill: '#3F7A29',
+														fontSize: '20px',
+													},
+													padding: '0px',
+													width: '20px',
+													height: '20px',
+												}}
+											/>
+										}
+										label='nie'
+										value='nie'
+										labelPlacement='bottom'
+										sx={{ margin: '0px 10px 0px 0px' }}
+									/>
+								</RadioGroup>
+							)}
 						/>
-						<FormControlLabel
-							control={
-								<Radio
-									sx={{
-										'& .MuiSvgIcon-root': {
-											fill: '#3F7A29',
-											fontSize: '20px',
-										},
-										padding: '0px',
-										width: '20px',
-										height: '20px',
-									}}
-								/>
-							}
-							label='nie'
-							value='nie'
-							labelPlacement='bottom'
-							checked={taskStatus[index] === 'nie'}
-							onChange={() => handleRadioOption(index, 'nie')}
-							sx={{ margin: '0px 10px 0px 0px' }}
-						/>
-					</FormGroup>
-					<Typography variant='body1' sx={{ color: '#121212', alignSelf: 'flex-start', lineHeight: '1.25' }}>
-						{task}
-					</Typography>
-				</Box>
-			))}
-			<Button
-				disabled={counter !== uniqueControlTasksArray.length}
-				component={Link}
-				to={`/hotel/${hotelId}`}
-				variant='contained'
-				sx={{
-					backgroundColor: '#3F7A29',
-					margin: '75px 0px 50px 0px',
-					color: '#EEF4F5',
-					py: '10.25px',
-					minWidth: '290px',
-					'& .MuiButton-root': {
-						height: 28,
-					},
-					'&.Mui-disabled': {
-						background: 'rgba(63, 122, 41, 0.75)',
+						<Typography variant='body1' sx={{ color: '#121212' }}>
+							{task}
+						</Typography>
+					</Box>
+				))}
+				<Button
+					type='submit'
+					disabled={checkedTasks !== uniqueControlTasksArray.length}
+					variant='contained'
+					sx={{
+						backgroundColor: '#3F7A29',
+						margin: '75px 0px 50px 0px',
 						color: '#EEF4F5',
-					},
-				}}
-			>
-				Zakończ kontrolę
-			</Button>
+						py: '10.25px',
+						minWidth: '290px',
+						'& .MuiButton-root': {
+							height: 28,
+						},
+						'&.Mui-disabled': {
+							background: 'rgba(63, 122, 41, 0.75)',
+							color: '#EEF4F5',
+						},
+					}}
+				>
+					Zakończ kontrolę
+				</Button>
+			</form>
 		</Container>
 	);
 };

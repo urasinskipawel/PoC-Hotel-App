@@ -1,4 +1,3 @@
-// App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Routes as Switch, Route } from 'react-router-dom';
 // import { Home } from './screens/Home';
