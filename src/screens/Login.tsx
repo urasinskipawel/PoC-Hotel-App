@@ -55,24 +55,19 @@ export const Login = () => {
 	const classes = useStyles();
 	const { handleSubmit, control } = useForm<LoginData>();
 	const { setRole } = useRole();
-
-	const navigateToHotels = () => {
-		const navigate = useNavigate();
-		navigate('/hotels');
-	};
+	const navigate = useNavigate();
 
 	const handleLogin: SubmitHandler<LoginData> = (data: LoginData) => {
 		if (data.email === 'admin@test.com' && data.password === 'password') {
 			setRole('admin');
-			navigateToHotels();
+			navigate('/hotels');
 		} else if (data.email === 'controller@test.com' && data.password === 'password') {
 			setRole('controller');
-			navigateToHotels();
+			navigate('/hotels');
 		} else if (data.email === 'worker@test.com' && data.password === 'password') {
 			setRole('worker');
-			navigateToHotels();
+			navigate('/hotels');
 		} else {
-			
 		}
 	};
 

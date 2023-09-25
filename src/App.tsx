@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes as Switch, Route } from 'react-router-dom';
+import React, { ReactNode } from 'react';
+import { BrowserRouter as Router, Routes as Switch, Route, Navigate } from 'react-router-dom';
 // import { Home } from './screens/Home';
 import { Login } from './screens/Login';
 import { HotelsList } from './screens/HotelsList';
@@ -10,6 +10,7 @@ import { RoomControlCard } from './screens/RoomControlCard';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { globalTheme as theme } from './themes/GlobalTheme';
 import { RoleProvider } from './context/roleContext';
+import { PrivateRoute } from './routes/PrivateRoute';
 
 export const App = () => {
 	return (
@@ -23,8 +24,7 @@ export const App = () => {
 						<Route path='/hotels' element={<HotelsList />} />
 						<Route path='/hotel/:hotelId' element={<HotelDetails />} />
 						<Route path='/hotel/:hotelId/rooms' element={<HotelRoomList />} />
-						{/* <Route path='/hotel/:hotelId/room/:roomId' element={<RoomCleaningCard />} /> */}
-						<Route path='/hotel/:hotelId/room/:roomId' element={<RoomControlCard />} />
+						<Route path='/hotel/:hotelId/room/:roomId' element={<PrivateRoute />} />
 					</Switch>
 				</Router>
 			</RoleProvider>
