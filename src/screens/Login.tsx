@@ -3,6 +3,7 @@ import { Container, TextField, Button, Avatar, useTheme, Box } from '@mui/materi
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useRole } from '../context/roleContext';
 
 interface LoginData {
 	email: string;
@@ -50,13 +51,29 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const Login = () => {
-	const navigate = useNavigate();
 	const theme = useTheme();
 	const classes = useStyles();
 	const { handleSubmit, control } = useForm<LoginData>();
+	const { setRole } = useRole();
+
+	const navigateToHotels = () => {
+		const navigate = useNavigate();
+		navigate('/hotels');
+	};
 
 	const handleLogin: SubmitHandler<LoginData> = (data: LoginData) => {
-		data.email === 'admin@gmail.com' && data.password === 'password' ? navigate('/hotels') : null;
+		if (data.email === 'admin@test.com' && data.password === 'password') {
+			setRole('admin');
+			navigateToHotels();
+		} else if (data.email === 'controller@test.com' && data.password === 'password') {
+			setRole('controller');
+			navigateToHotels();
+		} else if (data.email === 'worker@test.com' && data.password === 'password') {
+			setRole('worker');
+			navigateToHotels();
+		} else {
+			
+		}
 	};
 
 	return (
