@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Box, Checkbox, FormControl, FormControlLabel, Container, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
-import { cleaningTasks } from '../utils/cleaningTasks';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { makeStyles } from '@mui/styles';
+import { RoomsContext } from '../contexts/roomsContext';
+import { cleaningTasks } from '../utils/cleaningTasks';
+import { DirectionIcon } from '../components/DirectionIcon';
+
+type Room = {
+	id: string;
+	result: string;
+	roomType: string;
+	status: string;
+};
 
 interface TaskStatus {
 	[key: string]: boolean;
@@ -28,10 +36,15 @@ export const RoomCleaningCard = () => {
 	const { hotelId, roomId } = useParams<{ hotelId: string; roomId: string }>();
 	const { handleSubmit, control, watch } = useForm<FormData>();
 	const classes = useStyles();
+	const [rooms, setRooms] = useContext(RoomsContext);
 
 	const handleForm: SubmitHandler<FormData> = data => {
 		console.log('Wysyłanie danych:', data);
-		navigate('/hotel/${hotelId}');
+		navigate(`/hotel/${hotelId}`);
+		const currentRoomIndex: number = rooms.findIndex((room: Room) => room.id === roomId);
+		const newRooms: Room[] = rooms;
+		newRooms[currentRoomIndex].status = 'Do kontroli';
+		setRooms(newRooms);
 	};
 
 	const changedTasksValue = watch('tasks', {});
@@ -46,15 +59,14 @@ export const RoomCleaningCard = () => {
 					minWidth: '290px',
 					marginTop: '50px',
 					marginBottom: '5px',
-				}}
-			>
+				}}>
 				<DirectionIcon direction={'left'} />
+
 				<Typography
 					variant='h5'
 					component={Link}
 					to={`/hotel/${hotelId}`}
-					sx={{ textDecoration: 'none', color: '#121212', fontWeight: 600, marginLeft: '10px' }}
-				>
+					sx={{ textDecoration: 'none', color: '#121212', fontWeight: 600, marginLeft: '10px' }}>
 					{roomId}
 				</Typography>
 			</Box>
@@ -82,8 +94,7 @@ export const RoomCleaningCard = () => {
 						marginTop: '30px',
 						width: '295px',
 					}}
-					component='fieldset'
-				>
+					component='fieldset'>
 					{cleaningTasks.map((task, index) => (
 						<FormControlLabel
 							key={index}
@@ -130,8 +141,7 @@ export const RoomCleaningCard = () => {
 							background: 'rgba(13, 59, 102, 0.75)',
 							color: '#EEF4F5',
 						},
-					}}
-				>
+					}}>
 					Zakończ sprzątanie
 				</Button>
 			</form>
