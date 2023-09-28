@@ -1,11 +1,12 @@
 import React from 'react';
-import { Button, Box, Checkbox, FormControl, FormControlLabel, Container, Typography } from '@mui/material';
+import { Box, Checkbox, FormControl, FormControlLabel, Container, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { cleaningTasks } from '../utils/cleaningTasks';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { makeStyles } from '@mui/styles';
+import { CustomButton } from '../components/CustomButton/CustomButtom';
 
 interface TaskStatus {
 	[key: string]: boolean;
@@ -113,27 +114,12 @@ export const RoomCleaningCard = () => {
 						/>
 					))}
 				</FormControl>
-				<Button
-					type='submit'
+				<CustomButton
 					disabled={checkedTasks !== cleaningTasks.length}
-					variant='contained'
-					sx={{
-						backgroundColor: '#0D3B66',
-						margin: '75px 0px 50px 0px',
-						color: '#EEF4F5',
-						py: '10.25px',
-						minWidth: '290px',
-						'& .MuiButton-root': {
-							height: 28,
-						},
-						'&.Mui-disabled': {
-							background: 'rgba(13, 59, 102, 0.75)',
-							color: '#EEF4F5',
-						},
-					}}
-				>
-					Zakończ sprzątanie
-				</Button>
+					btnBackground='#0D3B66'
+					disabledBackground='rgba(13, 59, 102, 0.75)'
+					btnName={'Zakończ sprzątanie'}
+				/>
 			</form>
 		</Container>
 	);

@@ -1,12 +1,10 @@
-import React, { ReactNode } from 'react';
-import { BrowserRouter as Router, Routes as Switch, Route, Navigate } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes as Switch, Route} from 'react-router-dom';
 // import { Home } from './screens/Home';
 import { Login } from './screens/Login';
 import { HotelsList } from './screens/HotelsList';
 import { HotelDetails } from './screens/HotelDetails';
 import HotelRoomList from './screens/HotelRoomList';
-import { RoomCleaningCard } from './screens/RoomCleaningCard';
-import { RoomControlCard } from './screens/RoomControlCard';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { globalTheme as theme } from './themes/GlobalTheme';
 import { RoleProvider } from './context/roleContext';

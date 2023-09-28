@@ -1,9 +1,10 @@
 import React from 'react';
-import { Container, TextField, Button, Avatar, useTheme, Box } from '@mui/material';
+import { Container, TextField,Avatar, useTheme, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useRole } from '../context/roleContext';
+import { CustomButton } from '../components/CustomButton/CustomButtom';
 
 interface LoginData {
 	email: string;
@@ -119,22 +120,7 @@ export const Login = () => {
 							/>
 						)}
 					/>
-					<Button
-						type='submit'
-						variant='contained'
-						sx={{
-							color: '#EEF4F5',
-							backgroundColor: theme.palette.background.default,
-							marginTop: '70px',
-							py: '10.25px',
-							minWidth: 290,
-							'& .MuiButton-root': {
-								height: 28,
-							},
-						}}
-					>
-						Zaloguj
-					</Button>
+					<CustomButton disabled={false} btnBackground={theme.palette.background.default} btnName={'Zaloguj'} />
 				</form>
 			</Box>
 		</Container>
