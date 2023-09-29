@@ -1,7 +1,13 @@
-import React, { ChangeEvent, useState } from 'react';
+import React from 'react';
 import { Container, TextField, Button, Avatar, useTheme, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+
+interface LoginData {
+	email: string;
+	password: string;
+}
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -12,6 +18,12 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: '#EEF4F5',
 		padding: '0px',
 		height: '100vh',
+	},
+	form: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	input: {
 		'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
@@ -38,34 +50,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const Login = () => {
-	const [username, setUsername] = useState<string>('');
-	const [password, setPassword] = useState<string>('');
 	const navigate = useNavigate();
-
-	const handleLogin = () => {
-		// Przykładowa logika autoryzacji
-		if (username === 'admin' && password === 'password') {
-			// Przekierowanie na ekran HotelList
-			navigate('/hotels');
-		} else {
-			// Obsługa błędnych danych logowania
-		}
-	};
-
-	const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setUsername(e.target.value);
-	};
-
-	const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setPassword(e.target.value);
-	};
-
 	const theme = useTheme();
-
 	const classes = useStyles();
+	const { handleSubmit, control } = useForm<LoginData>();
+
+	const handleLogin: SubmitHandler<LoginData> = (data: LoginData) => {
+		data.email === 'admin@gmail.com' && data.password === 'password' ? navigate('/hotels') : null;
+	};
 
 	return (
-		<Container className={classes.root} component='main'>
+		<Container component='main'>
 			<Box className={classes.root}>
 				<Avatar
 					alt='Hotel Service Logo'
@@ -78,43 +73,57 @@ export const Login = () => {
 						mt: '-7.5rem',
 					}}
 				/>
+				<form className={classes.form} onSubmit={handleSubmit(handleLogin)}>
+					<Controller
+						name='email'
+						control={control}
+						defaultValue=''
+						render={({ field }) => (
+							<TextField
+								{...field}
+								className={classes.input}
+								label='E-mail'
+								type='email'
+								variant='outlined'
+								size='small'
+								sx={{ mb: '25px', minWidth: 290 }}
+							/>
+						)}
+					/>
 
-				<TextField
-					className={classes.input}
-					label='E-mail'
-					type='email'
-					variant='outlined'
-					size='small'
-					value={username}
-					onChange={handleUsernameChange}
-					sx={{ mb: '25px', minWidth: 290 }}
-				/>
-				<TextField
-					className={classes.input}
-					label='Hasło'
-					type='password'
-					variant='outlined'
-					size='small'
-					value={password}
-					onChange={handlePasswordChange}
-					sx={{ minWidth: 290 }}
-				/>
-				<Button
-					onClick={handleLogin}
-					variant='contained'
-					sx={{
-						color: '#EEF4F5',
-						backgroundColor: theme.palette.background.default,
-						marginTop: '70px',
-						py: '10.25px',
-						minWidth: 290,
-						'& .MuiButton-root': {
-							height: 28,
-						},
-					}}
-				>
-					Zaloguj
-				</Button>
+					<Controller
+						name='password'
+						control={control}
+						defaultValue=''
+						render={({ field }) => (
+							<TextField
+								{...field}
+								className={classes.input}
+								label='Hasło'
+								type='password'
+								variant='outlined'
+								size='small'
+								sx={{ minWidth: 290 }}
+							/>
+						)}
+					/>
+					<Button
+						type='submit'
+						variant='contained'
+						sx={{
+							color: '#EEF4F5',
+							backgroundColor: theme.palette.background.default,
+							marginTop: '70px',
+							py: '10.25px',
+							minWidth: 290,
+							'& .MuiButton-root': {
+								height: 28,
+							},
+						}}
+					>
+						Zaloguj
+					</Button>
+				</form>
 			</Box>
 		</Container>
 	);
