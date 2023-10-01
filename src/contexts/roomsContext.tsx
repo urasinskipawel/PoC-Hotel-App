@@ -37,7 +37,12 @@ const roomsArray:Room[] = [
         roomType: 'Suite room',
         status: 'W trakcie kontroli',
         result: '',
-        controlCheckedTasks: [],
+        controlCheckedTasks: [
+            {
+                id: 'task-3',
+                label: 'tak'
+            }
+        ],
         cleaningCheckedTasks: []
     },
     {
