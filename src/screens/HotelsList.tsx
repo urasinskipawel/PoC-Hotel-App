@@ -46,8 +46,6 @@ const hotels: Hotel[] = [
 ];
 
 export const HotelsList = () => {
-	const location = useLocation()
-
 	return (
 		<Container component='main'>
 			<Box sx={{ display: 'flex', alignItems: 'center', marginTop: '50px', marginBottom: '30px' }}>

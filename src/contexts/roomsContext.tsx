@@ -11,7 +11,8 @@ interface Room {
     roomType?: string,
     status?: string,
     result?: string,
-    controlCheckedTasks?: tasks[]
+    controlCheckedTasks?: tasks[],
+    cleaningCheckedTasks?: tasks[]
 }
 
 const roomsArray:Room[] = [
@@ -20,21 +21,24 @@ const roomsArray:Room[] = [
         roomType: 'Single Room',
         status: 'Do posprzątania',
         result: '',
-        controlCheckedTasks: []
+        controlCheckedTasks: [],
+        cleaningCheckedTasks: []
     },
     {
         id: 'room2',
         roomType: 'Double Room',
         status: 'Do kontroli',
         result: '',
-        controlCheckedTasks: []
+        controlCheckedTasks: [],
+        cleaningCheckedTasks: []
     },
     {
         id: 'room3',
         roomType: 'Suite room',
         status: 'W trakcie kontroli',
         result: '',
-        controlCheckedTasks: []
+        controlCheckedTasks: [],
+        cleaningCheckedTasks: []
     },
     {
         id: 'room4',
@@ -67,7 +71,8 @@ const roomsArray:Room[] = [
                 label: 'nie',
                 description: 'Przetrzeć powierzchnie mebli wilgotną szmatką.'
             },
-        ]
+        ],
+        cleaningCheckedTasks: []
     }
 ]
 

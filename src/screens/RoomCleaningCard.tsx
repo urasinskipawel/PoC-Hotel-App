@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Button, Box, Checkbox, FormControl, FormControlLabel, Container, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -39,7 +39,6 @@ export const RoomCleaningCard = () => {
 	const [rooms, setRooms] = useContext(RoomsContext);
 
 	const handleForm: SubmitHandler<FormData> = data => {
-		console.log('Wysyłanie danych:', data);
 		navigate(`/hotel/${hotelId}`);
 		const currentRoomIndex: number = rooms.findIndex((room: Room) => room.id === roomId);
 		const newRooms: Room[] = rooms;
@@ -49,6 +48,24 @@ export const RoomCleaningCard = () => {
 
 	const changedTasksValue = watch('tasks', {});
 	const checkedTasks = Object.values(changedTasksValue).filter(Boolean).length;
+
+	const currentRoomIndex: number = rooms.findIndex((room: Room) => room.id === roomId);
+	const handleCleaningTask = (task: any) => {
+		if(!rooms[currentRoomIndex].cleaningCheckedTasks.includes(task)){
+			rooms[currentRoomIndex].cleaningCheckedTasks.push(task)
+		}else{
+			rooms[currentRoomIndex].cleaningCheckedTasks = rooms[currentRoomIndex].cleaningCheckedTasks.filter((t:any) => t !== task)
+		}
+	}
+
+	const handleNavigate = () => {
+		if(rooms[currentRoomIndex].cleaningCheckedTasks.length >= 1){
+			rooms[currentRoomIndex].status = 'W trakcie sprzątania'
+		}else{
+			rooms[currentRoomIndex].status = 'Do posprzątania'
+		}
+		navigate(`/hotel/${hotelId}`)
+	}
 
 	return (
 		<Container component='main'>
@@ -64,9 +81,10 @@ export const RoomCleaningCard = () => {
 
 				<Typography
 					variant='h5'
-					component={Link}
-					to={`/hotel/${hotelId}`}
-					sx={{ textDecoration: 'none', color: '#121212', fontWeight: 600, marginLeft: '10px' }}>
+					onClick={handleNavigate}
+					sx={{ textDecoration: 'none', color: '#121212', fontWeight: 600, marginLeft: '10px', '&:hover': {
+						cursor: 'pointer'
+					}}}>
 					{roomId}
 				</Typography>
 			</Box>
@@ -75,7 +93,7 @@ export const RoomCleaningCard = () => {
 					Sprzątanie
 				</Typography>
 				<Typography variant='body1' sx={{ color: '#121212', fontWeight: 600 }}>
-					{checkedTasks}/{cleaningTasks.length}
+					{rooms[currentRoomIndex].cleaningCheckedTasks.length}/{cleaningTasks.length}
 				</Typography>
 			</Box>
 			<form className={classes.form} onSubmit={handleSubmit(handleForm)}>
@@ -107,6 +125,8 @@ export const RoomCleaningCard = () => {
 									render={({ field }) => (
 										<Checkbox
 											{...field}
+											onClick={() => handleCleaningTask(task)}
+											checked={rooms[currentRoomIndex].cleaningCheckedTasks.includes(task) ? true : false}
 											sx={{
 												'& .MuiSvgIcon-root': {
 													fill: '#0D3B66',
@@ -126,7 +146,7 @@ export const RoomCleaningCard = () => {
 				</FormControl>
 				<Button
 					type='submit'
-					disabled={checkedTasks !== cleaningTasks.length}
+					disabled={rooms[currentRoomIndex].cleaningCheckedTasks.length !== cleaningTasks.length}
 					variant='contained'
 					sx={{
 						backgroundColor: '#0D3B66',

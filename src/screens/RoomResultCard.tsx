@@ -1,12 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { RoleContext } from '../contexts/roleContext';
+import React, { useContext } from 'react';
 import { RoomsContext } from '../contexts/roomsContext';
 import { Button, Box, FormControlLabel, Container, Typography, Radio, RadioGroup } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { uniqueControlTasksArray } from '../helpers/drawRandomTasks';
 interface FormValues {
 	[key: string]: string;
 }
@@ -23,7 +20,6 @@ export const RoomResultCard = () => {
 	const { hotelId, roomId } = useParams<string>();
 	const navigate = useNavigate();
 	const [rooms, setRooms] = useContext(RoomsContext)
-	const [checkedTasks, setCheckedTasks] = useState(rooms[rooms.findIndex((room:Room) => room.id === roomId)].controlCheckedTasks.length)
 
     const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
 
@@ -37,7 +33,7 @@ export const RoomResultCard = () => {
 
     const doneTasks = () => {
         let counter = 0
-        rooms[currentRoom].controlCheckedTasks.forEach(task => task.label === 'tak' && counter++)
+        rooms[currentRoom].controlCheckedTasks.forEach((task:any) => task.label === 'tak' && counter++)
         return counter
     }
 
@@ -50,7 +46,9 @@ export const RoomResultCard = () => {
 				<Typography
 					variant='h5'
 					onClick={handleNavigate}
-					sx={{ textDecoration: 'none', color: '#121212', fontWeight: 600, marginLeft: '10px' }}
+					sx={{ textDecoration: 'none', color: '#121212', fontWeight: 600, marginLeft: '10px', '&:hover': {
+						cursor: 'pointer'
+					}}}
 				>
 					{roomId}
 				</Typography>
@@ -69,7 +67,7 @@ export const RoomResultCard = () => {
 				</Typography>
 			</Box>
 			<form onSubmit={handleSubmit(handleCloseForm)}>
-				{rooms[currentRoom].controlCheckedTasks.map((task, index) => (
+				{rooms[currentRoom].controlCheckedTasks.map((task:any, index:number) => (
 					<Box
 						key={index}
 						sx={{

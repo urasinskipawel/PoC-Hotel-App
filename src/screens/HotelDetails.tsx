@@ -1,6 +1,6 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { Button, Box, Container, SvgIcon, Typography } from '@mui/material';
+import { Button, Box, Container, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { RoomsContext } from '../contexts/roomsContext';
@@ -19,6 +19,7 @@ interface Styles {
 }
 
 const styles:Styles[] = [
+	{ status: 'W trakcie sprzątania', color: '#AA5766' },
 	{ status: 'Do kontroli', color: '#0c3c64' },
 	{ status: 'W trakcie kontroli', color: '#46A145' },
 	{ status: 'Skontrolowany', color: '#3F7A29' }
@@ -26,11 +27,9 @@ const styles:Styles[] = [
 
 export const HotelDetails = () => {
 	const { hotelId } = useParams<{ hotelId: string }>();
-	const location = useLocation()
 	const navigate = useNavigate()
 	const [rooms, setRooms] = useContext(RoomsContext)
 	const [roomsArray, setRoomsArray] = useState(rooms)
-	const { role } = useContext(RoleContext)
 
 	const handleStyle = (roomId: string) => {
 		let found = {
@@ -53,19 +52,10 @@ export const HotelDetails = () => {
 	}
 
 	const handleNavigate = (room: Room) => {
-		if(role === 'worker' && room.status === 'Do posprzątania' || role === 'worker' && room.status === 'W trakcie sprzątania'){
-			navigate(`/hotel/${hotelId}/room/${room.id}`, { state: {
-				status: room.status
-			} })
-		}else if(role === 'supervisor' && room.status === 'Do kontroli' || role === 'supervisor' && room.status === 'W trakcie kontroli'){
-			navigate(`/hotel/${hotelId}/room/${room.id}`, { state: {
-				status: room.status
-			} })
-		}else if(role === 'boss' && room.status === 'Skontrolowany'){
-			navigate(`/hotel/${hotelId}/room/${room.id}`, { state: {
-				status: room.status
-			} })
-		}
+		navigate(`/hotel/${hotelId}/room/${room.id}`, { state: {
+			status: room.status,
+			hotelId
+		} })
 	}
 
 	return (
@@ -89,8 +79,6 @@ export const HotelDetails = () => {
 						key={room.id}
 						variant='contained'
 						color='primary'
-						// component={Link}
-						// to={`/hotel/${hotelId}/room/${room.id}`}
 						onClick={() => handleNavigate(room)}
 						sx={{
 							display: 'flex',

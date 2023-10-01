@@ -23,5 +23,11 @@ export const users:User[] = [
         login: 'boss@gmail.com',
         password: 'boss',
         role: 'boss'
+    },
+    {
+        id: 'user4',
+        login: 'admin@gmail.com',
+        password: 'admin',
+        role: 'admin'
     }
 ]

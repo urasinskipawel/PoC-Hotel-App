@@ -9,7 +9,7 @@ interface RoleProviderProps {
 }
 
 const currentRole = {
-  role: 'boss'
+  role: ''
 }
 
 export const RoleContext = React.createContext<currentUserRole | any>(currentRole)

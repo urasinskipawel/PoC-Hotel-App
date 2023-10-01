@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { RoleContext } from '../contexts/roleContext';
 import { RoomsContext } from '../contexts/roomsContext';
 import { Button, Box, FormControlLabel, Container, Typography, Radio, RadioGroup } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { uniqueControlTasksArray } from '../helpers/drawRandomTasks';
@@ -22,12 +20,10 @@ export const RoomControlCard = () => {
 	const { handleSubmit, control, watch } = useForm<FormValues>();
 	const { hotelId, roomId } = useParams<string>();
 	const navigate = useNavigate();
-	const { role } = useContext(RoleContext)
 	const [rooms, setRooms] = useContext(RoomsContext)
 	const [checkedTasks, setCheckedTasks] = useState(rooms[rooms.findIndex((room:Room) => room.id === roomId)].controlCheckedTasks.length)
 
 	const handleRadioForm: SubmitHandler<FormValues> = (data: any) => {
-		console.log('Wysyłanie danych:', data);
 		const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
 		rooms[currentRoom].status = 'Skontrolowany'
 		navigate(`/hotel/${hotelId}`);
@@ -87,7 +83,9 @@ export const RoomControlCard = () => {
 				<Typography
 					variant='h5'
 					onClick={handleNavigate}
-					sx={{ textDecoration: 'none', color: '#121212', fontWeight: 600, marginLeft: '10px' }}
+					sx={{ textDecoration: 'none', color: '#121212', fontWeight: 600, marginLeft: '10px', '&:hover': {
+						cursor: 'pointer'
+					}}}
 				>
 					{roomId}
 				</Typography>

@@ -59,7 +59,6 @@ export const Login = () => {
 	const value = useContext(RoleContext)
 
 	const handleLogin: SubmitHandler<LoginData> = (data: LoginData) => {
-		// data.email === 'admin@gmail.com' && data.password === 'password' ? navigate('/hotels') : null;
 		const found = users.find(user => user.login === data.email)
 		if(!!found && data.password === found.password){
 			value.role = found.role
