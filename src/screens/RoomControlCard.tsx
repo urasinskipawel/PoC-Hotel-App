@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { RoleContext } from '../contexts/roleContext';
+import { RoomsContext } from '../contexts/roomsContext';
 import { Button, Box, FormControlLabel, Container, Typography, Radio, RadioGroup } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -9,22 +11,70 @@ interface FormValues {
 	[key: string]: string;
 }
 
+type Room = {
+	id: string;
+	result: string;
+	roomType: string;
+	status: string;
+};
+
 export const RoomControlCard = () => {
 	const { handleSubmit, control, watch } = useForm<FormValues>();
 	const { hotelId, roomId } = useParams<string>();
 	const navigate = useNavigate();
+	const { role } = useContext(RoleContext)
+	const [rooms, setRooms] = useContext(RoomsContext)
+	const [checkedTasks, setCheckedTasks] = useState(rooms[rooms.findIndex((room:Room) => room.id === roomId)].controlCheckedTasks.length)
 
 	const handleRadioForm: SubmitHandler<FormValues> = (data: any) => {
 		console.log('Wysyłanie danych:', data);
+		const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
+		rooms[currentRoom].status = 'Skontrolowany'
 		navigate(`/hotel/${hotelId}`);
 	};
 
-	const checkedTasks = Object.keys(uniqueControlTasksArray)
-		.map(index => {
-			const radioValue = watch(`task-${index}`, '');
-			return radioValue === 'tak' || radioValue === 'nie';
-		})
-		.filter(Boolean).length;
+	const handleCheckTask = (task:any) => {
+		const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
+		if(!!rooms && !!task.name){
+			const taskIndex = rooms[currentRoom].controlCheckedTasks.findIndex((t:any) => t.id === task.name)
+			if(taskIndex !== -1){
+				rooms[currentRoom].controlCheckedTasks[taskIndex].label = task.value
+			}else{
+				rooms[currentRoom].controlCheckedTasks.push({
+					id: task.name,
+					label: task.value
+				})
+			}
+		}
+		setCheckedTasks(rooms[rooms.findIndex((room:Room) => room.id === roomId)].controlCheckedTasks.length)
+	}
+
+	const handleNavigate = () => {
+		if(checkedTasks >= 1){
+			const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
+			rooms[currentRoom].status = 'W trakcie kontroli'
+		}
+		navigate(`/hotel/${hotelId}`)
+	}
+
+	const isDisabled = () => {
+		const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
+		let disabled
+		if(rooms[currentRoom].controlCheckedTasks.length === uniqueControlTasksArray.length){
+			disabled = false
+		}else{
+			disabled = true
+		}
+		return disabled
+	}
+
+	const isChecked = (taskInfo:any) => {
+		let checked
+		const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
+		const found = rooms[currentRoom].controlCheckedTasks.find((t:any) => t.id === taskInfo.id)
+		!!found ? found.label === taskInfo.label ? checked = true : checked = false : checked = false
+		return checked
+	}
 
 	return (
 		<Container component='main'>
@@ -34,8 +84,7 @@ export const RoomControlCard = () => {
 				<DirectionIcon direction={'left'} />
 				<Typography
 					variant='h5'
-					component={Link}
-					to={`/hotel/${hotelId}`}
+					onClick={handleNavigate}
 					sx={{ textDecoration: 'none', color: '#121212', fontWeight: 600, marginLeft: '10px' }}
 				>
 					{roomId}
@@ -74,6 +123,7 @@ export const RoomControlCard = () => {
 							defaultValue=''
 							render={({ field }) => (
 								<RadioGroup
+									onClick={(e) => handleCheckTask(e.target)}
 									{...field}
 									sx={{
 										display: 'flex',
@@ -85,10 +135,12 @@ export const RoomControlCard = () => {
 											fontSize: '10px',
 										},
 									}}
+
 								>
 									<FormControlLabel
 										control={
 											<Radio
+												checked={isChecked({id: field.name, label: 'tak'})}
 												sx={{
 													'& .MuiSvgIcon-root': {
 														fill: '#3F7A29',
@@ -108,6 +160,7 @@ export const RoomControlCard = () => {
 									<FormControlLabel
 										control={
 											<Radio
+											checked={isChecked({id: field.name, label: 'nie'})}
 												sx={{
 													'& .MuiSvgIcon-root': {
 														fill: '#3F7A29',
@@ -119,7 +172,7 @@ export const RoomControlCard = () => {
 												}}
 											/>
 										}
-										label='nie'
+										label='Nie'
 										value='nie'
 										labelPlacement='bottom'
 										sx={{ margin: '0px 10px 0px 0px' }}
@@ -134,7 +187,7 @@ export const RoomControlCard = () => {
 				))}
 				<Button
 					type='submit'
-					disabled={checkedTasks !== uniqueControlTasksArray.length}
+					disabled={isDisabled()}
 					variant='contained'
 					sx={{
 						backgroundColor: '#3F7A29',

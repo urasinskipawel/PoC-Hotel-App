@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 
+interface tasks {
+    id: string,
+    label: string
+}
+
 interface Room {
     id?: string,
     roomType?: string,
     status?: string,
-    result?: string
+    result?: string,
+    controlCheckedTasks?: tasks[]
 }
 
 const roomsArray:Room[] = [
@@ -12,25 +18,29 @@ const roomsArray:Room[] = [
         id: 'room1',
         roomType: 'Single Room',
         status: 'Do posprzątania',
-        result: ''
+        result: '',
+        controlCheckedTasks: []
     },
     {
         id: 'room2',
         roomType: 'Double Room',
         status: 'Do posprzątania',
-        result: ''
+        result: '',
+        controlCheckedTasks: []
     },
     {
         id: 'room3',
         roomType: 'Suite room',
-        status: 'Do posprzątania',
-        result: ''
+        status: 'Do kontroli',
+        result: '',
+        controlCheckedTasks: []
     },
     {
         id: 'room4',
         roomType: 'Deluxe room',
         status: 'Do posprzątania',
-        result: ''
+        result: '',
+        controlCheckedTasks: []
     }
 ]
 
