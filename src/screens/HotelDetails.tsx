@@ -53,11 +53,15 @@ export const HotelDetails = () => {
 	}
 
 	const handleNavigate = (room: Room) => {
-		if(role === 'worker' && room.status === 'Do posprzątania' || room.status === 'W trakcie sprzątania'){
+		if(role === 'worker' && room.status === 'Do posprzątania' || role === 'worker' && room.status === 'W trakcie sprzątania'){
 			navigate(`/hotel/${hotelId}/room/${room.id}`, { state: {
 				status: room.status
 			} })
-		}else if(role === 'supervisor' && room.status === 'Do kontroli' || room.status === 'W trakcie kontroli'){
+		}else if(role === 'supervisor' && room.status === 'Do kontroli' || role === 'supervisor' && room.status === 'W trakcie kontroli'){
+			navigate(`/hotel/${hotelId}/room/${room.id}`, { state: {
+				status: room.status
+			} })
+		}else if(role === 'boss' && room.status === 'Skontrolowany'){
 			navigate(`/hotel/${hotelId}/room/${room.id}`, { state: {
 				status: room.status
 			} })

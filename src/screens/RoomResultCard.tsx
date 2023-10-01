@@ -18,65 +18,28 @@ type Room = {
 	status: string;
 };
 
-export const RoomControlCard = () => {
+export const RoomResultCard = () => {
 	const { handleSubmit, control, watch } = useForm<FormValues>();
 	const { hotelId, roomId } = useParams<string>();
 	const navigate = useNavigate();
-	const { role } = useContext(RoleContext)
 	const [rooms, setRooms] = useContext(RoomsContext)
 	const [checkedTasks, setCheckedTasks] = useState(rooms[rooms.findIndex((room:Room) => room.id === roomId)].controlCheckedTasks.length)
 
-	const handleRadioForm: SubmitHandler<FormValues> = (data: any) => {
-		console.log('Wysyłanie danych:', data);
-		const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
-		rooms[currentRoom].status = 'Skontrolowany'
+    const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
+
+	const handleCloseForm: SubmitHandler<FormValues> = (data: any) => {
 		navigate(`/hotel/${hotelId}`);
 	};
 
-	const handleCheckTask = (currentTask:any) => {
-		const task = currentTask.taskInfo
-		const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
-		if(!!rooms && !!task.name){
-			const taskIndex = rooms[currentRoom].controlCheckedTasks.findIndex((t:any) => t.id === task.name)
-			if(taskIndex !== -1){
-				rooms[currentRoom].controlCheckedTasks[taskIndex].label = task.value
-			}else{
-				rooms[currentRoom].controlCheckedTasks.push({
-					id: task.name,
-					label: task.value,
-					description: currentTask.description
-				})
-			}
-		}
-		setCheckedTasks(rooms[rooms.findIndex((room:Room) => room.id === roomId)].controlCheckedTasks.length)
-	}
-
 	const handleNavigate = () => {
-		if(checkedTasks >= 1){
-			const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
-			rooms[currentRoom].status = 'W trakcie kontroli'
-		}
 		navigate(`/hotel/${hotelId}`)
 	}
 
-	const isDisabled = () => {
-		const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
-		let disabled
-		if(rooms[currentRoom].controlCheckedTasks.length === uniqueControlTasksArray.length){
-			disabled = false
-		}else{
-			disabled = true
-		}
-		return disabled
-	}
-
-	const isChecked = (taskInfo:any) => {
-		let checked
-		const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
-		const found = rooms[currentRoom].controlCheckedTasks.find((t:any) => t.id === taskInfo.id)
-		!!found ? found.label === taskInfo.label ? checked = true : checked = false : checked = false
-		return checked
-	}
+    const doneTasks = () => {
+        let counter = 0
+        rooms[currentRoom].controlCheckedTasks.forEach(task => task.label === 'tak' && counter++)
+        return counter
+    }
 
 	return (
 		<Container component='main'>
@@ -102,14 +65,11 @@ export const RoomControlCard = () => {
 				}}
 			>
 				<Typography variant='h6' sx={{ color: '#121212', fontWeight: 600 }}>
-					Kontrola
-				</Typography>
-				<Typography variant='body1' sx={{ color: '#121212', fontWeight: 600 }}>
-					{checkedTasks}/{uniqueControlTasksArray.length}
+					Wynik kontroli: {doneTasks()}/{rooms[currentRoom].controlCheckedTasks.length}
 				</Typography>
 			</Box>
-			<form onSubmit={handleSubmit(handleRadioForm)}>
-				{uniqueControlTasksArray.map((task, index) => (
+			<form onSubmit={handleSubmit(handleCloseForm)}>
+				{rooms[currentRoom].controlCheckedTasks.map((task, index) => (
 					<Box
 						key={index}
 						sx={{
@@ -125,7 +85,6 @@ export const RoomControlCard = () => {
 							defaultValue=''
 							render={({ field }) => (
 								<RadioGroup
-									onClick={(e) => handleCheckTask({taskInfo: e.target, description: task})}
 									{...field}
 									sx={{
 										display: 'flex',
@@ -140,9 +99,10 @@ export const RoomControlCard = () => {
 
 								>
 									<FormControlLabel
+                                        disabled={true}
 										control={
 											<Radio
-												checked={isChecked({id: field.name, label: 'tak'})}
+                                                checked={task.label === 'tak' ? true : false}
 												sx={{
 													'& .MuiSvgIcon-root': {
 														fill: '#3F7A29',
@@ -160,9 +120,10 @@ export const RoomControlCard = () => {
 										sx={{ margin: '0px 10px 0px 0px' }}
 									/>
 									<FormControlLabel
+                                        disabled={true}
 										control={
 											<Radio
-											checked={isChecked({id: field.name, label: 'nie'})}
+                                                checked={task.label === 'nie' ? true : false}
 												sx={{
 													'& .MuiSvgIcon-root': {
 														fill: '#3F7A29',
@@ -183,13 +144,12 @@ export const RoomControlCard = () => {
 							)}
 						/>
 						<Typography variant='body1' sx={{ color: '#121212' }}>
-							{task}
+							{task.description}
 						</Typography>
 					</Box>
 				))}
 				<Button
 					type='submit'
-					disabled={isDisabled()}
 					variant='contained'
 					sx={{
 						backgroundColor: '#3F7A29',
@@ -199,14 +159,10 @@ export const RoomControlCard = () => {
 						minWidth: '290px',
 						'& .MuiButton-root': {
 							height: 28,
-						},
-						'&.Mui-disabled': {
-							background: 'rgba(63, 122, 41, 0.75)',
-							color: '#EEF4F5',
-						},
+						}
 					}}
 				>
-					Zakończ kontrolę
+					Zamknij
 				</Button>
 			</form>
 		</Container>
