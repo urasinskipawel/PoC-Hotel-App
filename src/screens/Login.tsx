@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Container, TextField, Button, Avatar, useTheme, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { users } from '../utils/users'
+import { RoleContext } from '../contexts/roleContext'
 
 interface LoginData {
 	email: string;
@@ -54,9 +56,19 @@ export const Login = () => {
 	const theme = useTheme();
 	const classes = useStyles();
 	const { handleSubmit, control } = useForm<LoginData>();
+	const value = useContext(RoleContext)
 
 	const handleLogin: SubmitHandler<LoginData> = (data: LoginData) => {
-		data.email === 'admin@gmail.com' && data.password === 'password' ? navigate('/hotels') : null;
+		// data.email === 'admin@gmail.com' && data.password === 'password' ? navigate('/hotels') : null;
+		const found = users.find(user => user.login === data.email)
+		if(!!found && data.password === found.password){
+			value.role = found.role
+			navigate('/hotels')
+		}else if(!!found && data.password !== found.password){
+			alert('Błędne hasło')
+		}else{
+			alert('Nie ma takiego użytkownika')
+		}
 	};
 
 	return (

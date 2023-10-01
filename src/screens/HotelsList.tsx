@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 
@@ -46,6 +46,8 @@ const hotels: Hotel[] = [
 ];
 
 export const HotelsList = () => {
+	const location = useLocation()
+
 	return (
 		<Container component='main'>
 			<Box sx={{ display: 'flex', alignItems: 'center', marginTop: '50px', marginBottom: '30px' }}>
