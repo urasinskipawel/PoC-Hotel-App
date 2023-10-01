@@ -63,7 +63,7 @@ export const RoomResultCard = () => {
 				}}
 			>
 				<Typography variant='h6' sx={{ color: '#121212', fontWeight: 600 }}>
-					Wynik kontroli: {doneTasks()}/{rooms[currentRoom].controlCheckedTasks.length}
+					Wynik kontroli: {doneTasks() !== 0 ? `${doneTasks()*2}0%` : '0%'}
 				</Typography>
 			</Box>
 			<form onSubmit={handleSubmit(handleCloseForm)}>
