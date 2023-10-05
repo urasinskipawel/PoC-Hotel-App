@@ -6,7 +6,8 @@ import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { makeStyles } from '@mui/styles';
 import { RoomsContext } from '../contexts/roomsContext';
 import { cleaningTasks } from '../utils/cleaningTasks';
-import { DirectionIcon } from '../components/DirectionIcon';
+import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
+
 
 type Room = {
 	id: string;
