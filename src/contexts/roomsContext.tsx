@@ -7,36 +7,40 @@ interface tasks {
 }
 
 interface Room {
-    id?: string,
-    roomType?: string,
-    status?: string,
-    result?: string,
-    controlCheckedTasks?: tasks[],
-    cleaningCheckedTasks?: tasks[]
+    id: string,
+    roomType: string,
+    status: string,
+    controlCheckedTasks: tasks[],
+    cleaningCheckedTasks: tasks[]
+}
+
+const status = {
+    toClean: 'Do posprzątania',
+    toControl: 'Do kontroli',
+    duringControl: 'W trakcie kontroli',
+    duringClean: 'W trakcie sprzątania',
+    controlled: 'Skontrolowany'
 }
 
 const roomsArray:Room[] = [
     {
         id: 'room1',
         roomType: 'Single Room',
-        status: 'Do posprzątania',
-        result: '',
+        status: status.toClean,
         controlCheckedTasks: [],
         cleaningCheckedTasks: []
     },
     {
         id: 'room2',
         roomType: 'Double Room',
-        status: 'Do kontroli',
-        result: '',
+        status: status.toControl,
         controlCheckedTasks: [],
         cleaningCheckedTasks: []
     },
     {
         id: 'room3',
         roomType: 'Suite room',
-        status: 'W trakcie kontroli',
-        result: '',
+        status: status.duringControl,
         controlCheckedTasks: [
             {
                 id: 'task-3',
@@ -48,8 +52,7 @@ const roomsArray:Room[] = [
     {
         id: 'room4',
         roomType: 'Deluxe room',
-        status: 'Skontrolowany',
-        result: '',
+        status: status.controlled,
         controlCheckedTasks: [
             {
                 id: 'task-0',

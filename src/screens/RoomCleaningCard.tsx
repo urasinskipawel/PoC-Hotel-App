@@ -1,14 +1,13 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Button, Box, Checkbox, FormControl, FormControlLabel, Container, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { makeStyles } from '@mui/styles';
 import { RoomsContext } from '../contexts/roomsContext';
 import { cleaningTasks } from '../utils/cleaningTasks';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 
-type Room = {
+interface Room {
 	id: string;
 	result: string;
 	roomType: string;

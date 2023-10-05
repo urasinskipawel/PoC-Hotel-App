@@ -4,7 +4,6 @@ import { Button, Box, Container, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { RoomsContext } from '../contexts/roomsContext';
-import { RoleContext } from '../contexts/roleContext';
 
 interface Room {
     id: string,
@@ -18,11 +17,19 @@ interface Styles {
 	color: string
 }
 
+const colors = {
+	red: '#9d071f',
+	pink: '#AA5766',
+	blue: '#0c3c64',
+	lightGreen: '#46A145',
+	darkGreen: '#3F7A29'
+}
+
 const styles:Styles[] = [
-	{ status: 'W trakcie sprzątania', color: '#AA5766' },
-	{ status: 'Do kontroli', color: '#0c3c64' },
-	{ status: 'W trakcie kontroli', color: '#46A145' },
-	{ status: 'Skontrolowany', color: '#3F7A29' }
+	{ status: 'W trakcie sprzątania', color: colors.pink },
+	{ status: 'Do kontroli', color: colors.blue },
+	{ status: 'W trakcie kontroli', color: colors.lightGreen },
+	{ status: 'Skontrolowany', color: colors.darkGreen }
 ]
 
 export const HotelDetails = () => {
@@ -33,7 +40,7 @@ export const HotelDetails = () => {
 
 	const handleStyle = (roomId: string) => {
 		let found = {
-			style: '#9d071f',
+			style: colors.red,
 			status: 'Do posprzątania'
 		}
 		

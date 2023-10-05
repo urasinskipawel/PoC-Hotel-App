@@ -1,7 +1,7 @@
 import React, { SetStateAction, useState } from 'react';
 
 interface currentUserRole {
-    role?: string
+    role: string
 }
 
 interface RoleProviderProps {

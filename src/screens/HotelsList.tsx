@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 
