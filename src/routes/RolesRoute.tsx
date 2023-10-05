@@ -4,7 +4,7 @@ import { useRole } from '../context/roleContext';
 import { RoomCleaningCard } from '../screens/RoomCleaningCard';
 import { RoomControlCard } from '../screens/RoomControlCard';
 
-export const PrivateRoute = () => {
+export const RolesRoute = () => {
 	const { userRole } = useRole();
 
 	if (userRole === 'worker') {

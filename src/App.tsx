@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes as Switch, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Routes as Switch, Route } from 'react-router-dom';
 // import { Home } from './screens/Home';
 import { Login } from './screens/Login';
 import { HotelsList } from './screens/HotelsList';
@@ -8,7 +8,7 @@ import HotelRoomList from './screens/HotelRoomList';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { globalTheme as theme } from './themes/GlobalTheme';
 import { RoleProvider } from './context/roleContext';
-import { PrivateRoute } from './routes/PrivateRoute';
+import { RolesRoute } from './routes/RolesRoute';
 
 export const App = () => {
 	return (
@@ -22,7 +22,7 @@ export const App = () => {
 						<Route path='/hotels' element={<HotelsList />} />
 						<Route path='/hotel/:hotelId' element={<HotelDetails />} />
 						<Route path='/hotel/:hotelId/rooms' element={<HotelRoomList />} />
-						<Route path='/hotel/:hotelId/room/:roomId' element={<PrivateRoute />} />
+						<Route path='/hotel/:hotelId/room/:roomId' element={<RolesRoute />} />
 					</Switch>
 				</Router>
 			</RoleProvider>
