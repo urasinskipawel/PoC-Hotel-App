@@ -6,13 +6,7 @@ import { makeStyles } from '@mui/styles';
 import { RoomsContext } from '../contexts/roomsContext';
 import { cleaningTasks } from '../utils/cleaningTasks';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
-
-interface Room {
-	id: string;
-	result: string;
-	roomType: string;
-	status: string;
-};
+import { Room } from '../utils/interfaces'
 
 interface TaskStatus {
 	[key: string]: boolean;
@@ -49,7 +43,7 @@ export const RoomCleaningCard = () => {
 	const checkedTasks = Object.values(changedTasksValue).filter(Boolean).length;
 
 	const currentRoomIndex: number = rooms.findIndex((room: Room) => room.id === roomId);
-	const handleCleaningTask = (task: any) => {
+	const handleCleaningTask = (task: string) => {
 		if(!rooms[currentRoomIndex].cleaningCheckedTasks.includes(task)){
 			rooms[currentRoomIndex].cleaningCheckedTasks.push(task)
 		}else{

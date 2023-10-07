@@ -1,20 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { RoomsContext } from '../contexts/roomsContext';
 import { Button, Box, FormControlLabel, Container, Typography, Radio, RadioGroup } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { uniqueControlTasksArray } from '../helpers/drawRandomTasks';
+import { Room } from '../utils/interfaces'
+
 interface FormValues {
 	[key: string]: string;
 }
-
-type Room = {
-	id: string;
-	result: string;
-	roomType: string;
-	status: string;
-};
 
 export const RoomControlCard = () => {
 	const { handleSubmit, control, watch } = useForm<FormValues>();
@@ -22,16 +17,21 @@ export const RoomControlCard = () => {
 	const navigate = useNavigate();
 	const [rooms, setRooms] = useContext(RoomsContext)
 	const [checkedTasks, setCheckedTasks] = useState(rooms[rooms.findIndex((room:Room) => room.id === roomId)].controlCheckedTasks.length)
+	const [isDisabled, setIsDisabled] = useState(false)
+
+	useEffect(() => {
+		rooms[currentRoom].controlCheckedTasks.length !== uniqueControlTasksArray.length ? setIsDisabled(true) : setIsDisabled(false)
+	}, [])
+
+	const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
 
 	const handleRadioForm: SubmitHandler<FormValues> = (data: any) => {
-		const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
 		rooms[currentRoom].status = 'Skontrolowany'
 		navigate(`/hotel/${hotelId}`);
 	};
 
 	const handleCheckTask = (currentTask:any) => {
 		const task = currentTask.taskInfo
-		const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
 		if(!!rooms && !!task.name){
 			const taskIndex = rooms[currentRoom].controlCheckedTasks.findIndex((t:any) => t.id === task.name)
 			if(taskIndex !== -1){
@@ -44,31 +44,19 @@ export const RoomControlCard = () => {
 				})
 			}
 		}
-		setCheckedTasks(rooms[rooms.findIndex((room:Room) => room.id === roomId)].controlCheckedTasks.length)
+		setCheckedTasks(rooms[currentRoom].controlCheckedTasks.length)
+		rooms[currentRoom].controlCheckedTasks.length === uniqueControlTasksArray.length ? setIsDisabled(false) : setIsDisabled(true)
 	}
 
 	const handleNavigate = () => {
 		if(checkedTasks >= 1){
-			const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
 			rooms[currentRoom].status = 'W trakcie kontroli'
 		}
 		navigate(`/hotel/${hotelId}`)
 	}
 
-	const isDisabled = () => {
-		const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
-		let disabled
-		if(rooms[currentRoom].controlCheckedTasks.length === uniqueControlTasksArray.length){
-			disabled = false
-		}else{
-			disabled = true
-		}
-		return disabled
-	}
-
 	const isChecked = (taskInfo:any) => {
 		let checked
-		const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
 		const found = rooms[currentRoom].controlCheckedTasks.find((t:any) => t.id === taskInfo.id)
 		!!found ? found.label === taskInfo.label ? checked = true : checked = false : checked = false
 		return checked
@@ -187,7 +175,7 @@ export const RoomControlCard = () => {
 				))}
 				<Button
 					type='submit'
-					disabled={isDisabled()}
+					disabled={isDisabled}
 					variant='contained'
 					sx={{
 						backgroundColor: '#3F7A29',

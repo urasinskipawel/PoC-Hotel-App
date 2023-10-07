@@ -1,7 +1,8 @@
-import React, { SetStateAction, useState } from 'react';
+import React from 'react';
 
 interface currentUserRole {
-    role: string
+    role: string,
+    access: string[]
 }
 
 interface RoleProviderProps {
@@ -9,7 +10,8 @@ interface RoleProviderProps {
 }
 
 const currentRole = {
-  role: ''
+  role: '',
+  access: []
 }
 
 export const RoleContext = React.createContext<currentUserRole | any>(currentRole)

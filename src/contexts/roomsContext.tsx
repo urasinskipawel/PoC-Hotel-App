@@ -1,20 +1,7 @@
 import React, { useState } from 'react'
+import { Room } from '../utils/interfaces'
 
-interface tasks {
-    id: string,
-    label: string,
-    description?: string
-}
-
-interface Room {
-    id: string,
-    roomType: string,
-    status: string,
-    controlCheckedTasks: tasks[],
-    cleaningCheckedTasks: tasks[]
-}
-
-const status = {
+export const status = {
     toClean: 'Do posprzątania',
     toControl: 'Do kontroli',
     duringControl: 'W trakcie kontroli',
@@ -22,36 +9,38 @@ const status = {
     controlled: 'Skontrolowany'
 }
 
+const rooms = {
+    SINGLE: 'Single Room',
+    DOUBLE: 'Double Room',
+    SUITE: 'Suite Room',
+    DELUXE: 'Deluxe Room'
+}
+
 const roomsArray:Room[] = [
     {
         id: 'room1',
-        roomType: 'Single Room',
+        roomType: rooms.SINGLE,
         status: status.toClean,
         controlCheckedTasks: [],
         cleaningCheckedTasks: []
     },
     {
         id: 'room2',
-        roomType: 'Double Room',
+        roomType: rooms.DOUBLE,
         status: status.toControl,
         controlCheckedTasks: [],
         cleaningCheckedTasks: []
     },
     {
         id: 'room3',
-        roomType: 'Suite room',
-        status: status.duringControl,
-        controlCheckedTasks: [
-            {
-                id: 'task-3',
-                label: 'tak'
-            }
-        ],
+        roomType: rooms.SUITE,
+        status: status.toControl,
+        controlCheckedTasks: [],
         cleaningCheckedTasks: []
     },
     {
         id: 'room4',
-        roomType: 'Deluxe room',
+        roomType: rooms.DELUXE,
         status: status.controlled,
         controlCheckedTasks: [
             {

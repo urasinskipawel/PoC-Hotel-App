@@ -1,16 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Box, Container, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { RoomsContext } from '../contexts/roomsContext';
-
-interface Room {
-    id: string,
-    roomType: string,
-    status: string,
-    result: string
-}
+import { Room } from '../utils/interfaces'
 
 interface Styles {
 	status: string,
@@ -44,11 +38,12 @@ export const HotelDetails = () => {
 			status: 'Do posprzątania'
 		}
 		
-		roomsArray.find((room:Room) => {
-			if(room.id === roomId){
+		roomsArray.find((room: Room) => {
+			if(room.id === roomId) {
 				found.status = room.status
-				styles.forEach(style => {
-					if(style.status === room.status){
+
+				styles.forEach(style => { 
+					if(style.status === room.status) {
 						found.style = style.color
 					}
 				})

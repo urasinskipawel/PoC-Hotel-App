@@ -4,16 +4,11 @@ import { Button, Box, FormControlLabel, Container, Typography, Radio, RadioGroup
 import { useParams, useNavigate } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Room } from '../utils/interfaces'
+
 interface FormValues {
 	[key: string]: string;
 }
-
-type Room = {
-	id: string;
-	result: string;
-	roomType: string;
-	status: string;
-};
 
 export const RoomResultCard = () => {
 	const { handleSubmit, control, watch } = useForm<FormValues>();
@@ -31,11 +26,10 @@ export const RoomResultCard = () => {
 		navigate(`/hotel/${hotelId}`)
 	}
 
-    const doneTasks = () => {
-        let counter = 0
-        rooms[currentRoom].controlCheckedTasks.forEach((task:any) => task.label === 'tak' && counter++)
-        return counter
-    }
+	const done = rooms[currentRoom].controlCheckedTasks.reduce((total: number, task: any) => {
+		if(task.label === 'tak') total++
+		return total
+	}, 0)
 
 	return (
 		<Container component='main'>
@@ -63,7 +57,7 @@ export const RoomResultCard = () => {
 				}}
 			>
 				<Typography variant='h6' sx={{ color: '#121212', fontWeight: 600 }}>
-					Wynik kontroli: {doneTasks() !== 0 ? `${doneTasks()*2}0%` : '0%'}
+					Wynik kontroli: {done !== 0 ? `${done*2}0%` : '0%'}
 				</Typography>
 			</Box>
 			<form onSubmit={handleSubmit(handleCloseForm)}>

@@ -5,18 +5,34 @@ import { RoomCleaningCard } from '../../screens/RoomCleaningCard'
 import { RoomControlCard } from '../../screens/RoomControlCard'
 import { RoomResultCard } from '../../screens/RoomResultCard'
 import { Navigate } from 'react-router-dom'
+import { roles } from '../../utils/users'
 
 export function RoomCard() {
-    const { role } = useContext(RoleContext)
+    const { access } = useContext(RoleContext)
     const { state } = useLocation()
 
+    const components = [
+        {
+            access: roles.WORKER.ACCESS,
+            component: <RoomCleaningCard />
+        },
+        {
+            access: roles.SUPERVISOR.ACCESS,
+            component: <RoomControlCard />
+        },
+        {
+            access: roles.BOSS.ACCESS,
+            component: <RoomResultCard />
+        }
+    ]
+
     const handleComponent = () => {
-        if((role === 'worker' || role === 'admin') && (state.status === 'Do posprzątania' || state.status === 'W trakcie sprzątania')){
-            return <RoomCleaningCard />
-        }else if((role ==='supervisor' || role === 'admin') && (state.status === 'Do kontroli' || state.status === 'W trakcie kontroli')){
-            return <RoomControlCard />
-        }else if((role ==='boss' || role === 'admin') && state.status === 'Skontrolowany'){
-            return <RoomResultCard />
+        const found = components.find(component => component.access.includes(state.status))
+
+        if(!!found 
+            && found.access.includes(state.status) 
+            && access.includes(state.status)){
+            return found.component
         }else{
             return <Navigate to={`/hotel/${state.hotelId}`} />
         }

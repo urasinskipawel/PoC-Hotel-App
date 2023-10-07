@@ -61,12 +61,11 @@ export const Login = () => {
 	const handleLogin: SubmitHandler<LoginData> = (data: LoginData) => {
 		const found = users.find(user => user.login === data.email)
 		if(!!found && data.password === found.password){
-			value.role = found.role
+			value.role = found.role.NAME
+			value.access = found.role.ACCESS
 			navigate('/hotels')
-		}else if(!!found && data.password !== found.password){
-			alert('Błędne hasło')
 		}else{
-			alert('Nie ma takiego użytkownika')
+			alert('Niepoprawne dane')
 		}
 	};
 
