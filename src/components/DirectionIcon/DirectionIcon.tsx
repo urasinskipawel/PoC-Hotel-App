@@ -1,13 +1,12 @@
 import React from 'react';
 import { SvgIcon } from '@mui/material';
 
-interface Props {
+interface DirectionIconProps {
 	direction: string;
 }
 
-export const DirectionIcon = (props: Props) => {
-	const { direction } = props;
-
+export const DirectionIcon = ({ direction }: DirectionIconProps) => {
+	
 	const leftIcon = (
 		<SvgIcon
 			xmlns='http://www.w3.org/2000/svg'
