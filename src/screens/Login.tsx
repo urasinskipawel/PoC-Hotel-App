@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { users } from '../utils/users';
 import { RoleContext } from '../contexts/roleContext';
-
+import { CustomButton } from '../components/CustomButton/CustomButtom';
 interface LoginData {
 	email: string;
 	password: string;
@@ -117,22 +117,7 @@ export const Login = () => {
 							/>
 						)}
 					/>
-					<Button
-						type='submit'
-						variant='contained'
-						sx={{
-							color: '#EEF4F5',
-							backgroundColor: theme.palette.background.default,
-							marginTop: '70px',
-							py: '10.25px',
-							minWidth: 290,
-							'& .MuiButton-root': {
-								height: 28,
-							},
-						}}
-					>
-						Zaloguj
-					</Button>
+					<CustomButton disabled={false} btnBackground={theme.palette.background.default} btnName={'Zaloguj'} />
 				</form>
 			</Box>
 		</Container>

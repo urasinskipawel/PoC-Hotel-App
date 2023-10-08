@@ -7,6 +7,7 @@ import { RoomsContext } from '../contexts/roomsContext';
 import { cleaningTasks } from '../utils/cleaningTasks';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { Room } from '../utils/interfaces';
+import { CustomButton } from '../components/CustomButton/CustomButtom';
 
 interface TaskStatus {
 	[key: string]: boolean;
@@ -148,27 +149,12 @@ export const RoomCleaningCard = () => {
 						/>
 					))}
 				</FormControl>
-				<Button
-					type='submit'
-					disabled={rooms[currentRoomIndex].cleaningCheckedTasks.length !== cleaningTasks.length}
-					variant='contained'
-					sx={{
-						backgroundColor: '#0D3B66',
-						margin: '75px 0px 50px 0px',
-						color: '#EEF4F5',
-						py: '10.25px',
-						minWidth: '290px',
-						'& .MuiButton-root': {
-							height: 28,
-						},
-						'&.Mui-disabled': {
-							background: 'rgba(13, 59, 102, 0.75)',
-							color: '#EEF4F5',
-						},
-					}}
-				>
-					Zakończ sprzątanie
-				</Button>
+				<CustomButton
+					disabled={checkedTasks !== cleaningTasks.length}
+					btnBackground='#0D3B66'
+					disabledBackground='rgba(13, 59, 102, 0.75)'
+					btnName={'Zakończ sprzątanie'}
+				/>
 			</form>
 		</Container>
 	);

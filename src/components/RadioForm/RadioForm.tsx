@@ -2,14 +2,14 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { uniqueControlTasksArray } from '../../helpers/drawRandomTasks';
-import { Box, Button, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
+import { Box, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
 import { RoomsContext } from '../../contexts/roomsContext';
 import { Room } from '../../utils/interfaces';
+import { CustomButton } from '../CustomButton/CustomButtom';
 
 interface FormValues {
 	[key: string]: string;
 }
-
 interface RadioFormProps {
 	countCheckedTasks: number;
 	setCountCheckedTasks: React.Dispatch<React.SetStateAction<number>>;
@@ -148,27 +148,12 @@ export const RadioForm = ({ countCheckedTasks, setCountCheckedTasks }: RadioForm
 					</Typography>
 				</Box>
 			))}
-			<Button
-				type='submit'
+			<CustomButton
 				disabled={isDisabled}
-				variant='contained'
-				sx={{
-					backgroundColor: '#3F7A29',
-					margin: '75px 0px 50px 0px',
-					color: '#EEF4F5',
-					py: '10.25px',
-					minWidth: '290px',
-					'& .MuiButton-root': {
-						height: 28,
-					},
-					'&.Mui-disabled': {
-						background: 'rgba(63, 122, 41, 0.75)',
-						color: '#EEF4F5',
-					},
-				}}
-			>
-				Zakończ kontrolę
-			</Button>
+				btnBackground='#3F7A29'
+				disabledBackground='rgba(63, 122, 41, 0.75)'
+				btnName={'Zakończ kontrolę'}
+			/>
 		</form>
 	);
 };
