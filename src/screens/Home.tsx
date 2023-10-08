@@ -4,18 +4,7 @@ import { Typography, Button, Box, Container } from '@mui/material';
 
 export const Home = () => {
 	return (
-		<Container
-			component='main'
-			sx={{
-				backgroundColor: '#EEF4F5',
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				justifyContent: 'center',
-				padding: '0px',
-				height: '100vh',
-			}}
-		>
+		<Container component='main'>
 			<Box
 				sx={{
 					display: 'flex',
