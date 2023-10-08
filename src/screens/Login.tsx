@@ -3,8 +3,8 @@ import { Container, TextField, Button, Avatar, useTheme, Box } from '@mui/materi
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { users } from '../utils/users'
-import { RoleContext } from '../contexts/roleContext'
+import { users } from '../utils/users';
+import { RoleContext } from '../contexts/roleContext';
 
 interface LoginData {
 	email: string;
@@ -56,16 +56,16 @@ export const Login = () => {
 	const theme = useTheme();
 	const classes = useStyles();
 	const { handleSubmit, control } = useForm<LoginData>();
-	const value = useContext(RoleContext)
+	const value = useContext(RoleContext);
 
 	const handleLogin: SubmitHandler<LoginData> = (data: LoginData) => {
-		const found = users.find(user => user.login === data.email)
-		if(!!found && data.password === found.password){
-			value.role = found.role.NAME
-			value.access = found.role.ACCESS
-			navigate('/hotels')
-		}else{
-			alert('Niepoprawne dane')
+		const found = users.find(user => user.login === data.email);
+		if (!!found && data.password === found.password) {
+			value.role = found.role.NAME;
+			value.access = found.role.ACCESS;
+			navigate('/hotels');
+		} else {
+			alert('Niepoprawne dane');
 		}
 	};
 

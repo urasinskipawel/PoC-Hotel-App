@@ -16,7 +16,7 @@ export const globalTheme = createTheme({
 				},
 			},
 		},
-  },
+	},
 	palette: {
 		primary: {
 			main: '#EEF4F5',

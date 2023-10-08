@@ -6,7 +6,7 @@ import { makeStyles } from '@mui/styles';
 import { RoomsContext } from '../contexts/roomsContext';
 import { cleaningTasks } from '../utils/cleaningTasks';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
-import { Room } from '../utils/interfaces'
+import { Room } from '../utils/interfaces';
 
 interface TaskStatus {
 	[key: string]: boolean;
@@ -44,21 +44,23 @@ export const RoomCleaningCard = () => {
 
 	const currentRoomIndex: number = rooms.findIndex((room: Room) => room.id === roomId);
 	const handleCleaningTask = (task: string) => {
-		if(!rooms[currentRoomIndex].cleaningCheckedTasks.includes(task)){
-			rooms[currentRoomIndex].cleaningCheckedTasks.push(task)
-		}else{
-			rooms[currentRoomIndex].cleaningCheckedTasks = rooms[currentRoomIndex].cleaningCheckedTasks.filter((t:any) => t !== task)
+		if (!rooms[currentRoomIndex].cleaningCheckedTasks.includes(task)) {
+			rooms[currentRoomIndex].cleaningCheckedTasks.push(task);
+		} else {
+			rooms[currentRoomIndex].cleaningCheckedTasks = rooms[currentRoomIndex].cleaningCheckedTasks.filter(
+				(t: any) => t !== task
+			);
 		}
-	}
+	};
 
 	const handleNavigate = () => {
-		if(rooms[currentRoomIndex].cleaningCheckedTasks.length >= 1){
-			rooms[currentRoomIndex].status = 'W trakcie sprzątania'
-		}else{
-			rooms[currentRoomIndex].status = 'Do posprzątania'
+		if (rooms[currentRoomIndex].cleaningCheckedTasks.length >= 1) {
+			rooms[currentRoomIndex].status = 'W trakcie sprzątania';
+		} else {
+			rooms[currentRoomIndex].status = 'Do posprzątania';
 		}
-		navigate(`/hotel/${hotelId}`)
-	}
+		navigate(`/hotel/${hotelId}`);
+	};
 
 	return (
 		<Container component='main'>
@@ -69,15 +71,23 @@ export const RoomCleaningCard = () => {
 					minWidth: '290px',
 					marginTop: '50px',
 					marginBottom: '5px',
-				}}>
+				}}
+			>
 				<DirectionIcon direction={'left'} />
 
 				<Typography
 					variant='h5'
 					onClick={handleNavigate}
-					sx={{ textDecoration: 'none', color: '#121212', fontWeight: 600, marginLeft: '10px', '&:hover': {
-						cursor: 'pointer'
-					}}}>
+					sx={{
+						textDecoration: 'none',
+						color: '#121212',
+						fontWeight: 600,
+						marginLeft: '10px',
+						'&:hover': {
+							cursor: 'pointer',
+						},
+					}}
+				>
 					{roomId}
 				</Typography>
 			</Box>
@@ -105,7 +115,8 @@ export const RoomCleaningCard = () => {
 						marginTop: '30px',
 						width: '295px',
 					}}
-					component='fieldset'>
+					component='fieldset'
+				>
 					{cleaningTasks.map((task, index) => (
 						<FormControlLabel
 							key={index}
@@ -154,7 +165,8 @@ export const RoomCleaningCard = () => {
 							background: 'rgba(13, 59, 102, 0.75)',
 							color: '#EEF4F5',
 						},
-					}}>
+					}}
+				>
 					Zakończ sprzątanie
 				</Button>
 			</form>

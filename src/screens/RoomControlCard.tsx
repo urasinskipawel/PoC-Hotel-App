@@ -1,4 +1,3 @@
-
 import { Box, Container, Typography } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import React, { useContext, useState } from 'react';
@@ -11,17 +10,17 @@ import { RoomsContext } from '../contexts/roomsContext';
 export const RoomControlCard = () => {
 	const { hotelId, roomId } = useParams<string>();
 	const navigate = useNavigate();
-	const [rooms, setRooms] = useContext(RoomsContext)
+	const [rooms, setRooms] = useContext(RoomsContext);
 	const [countCheckedTasks, setCountCheckedTasks] = useState<number>(0);
 
-	const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
+	const currentRoom = rooms.findIndex((room: Room) => room.id === roomId);
 
 	const handleNavigate = () => {
-		if(countCheckedTasks >= 1){
-			rooms[currentRoom].status = 'W trakcie kontroli'
+		if (countCheckedTasks >= 1) {
+			rooms[currentRoom].status = 'W trakcie kontroli';
 		}
-		navigate(`/hotel/${hotelId}`)
-	}
+		navigate(`/hotel/${hotelId}`);
+	};
 
 	return (
 		<Container component='main'>
@@ -32,9 +31,15 @@ export const RoomControlCard = () => {
 				<Typography
 					variant='h5'
 					onClick={handleNavigate}
-					sx={{ textDecoration: 'none', color: '#121212', fontWeight: 600, marginLeft: '10px', '&:hover': {
-						cursor: 'pointer'
-					}}}
+					sx={{
+						textDecoration: 'none',
+						color: '#121212',
+						fontWeight: 600,
+						marginLeft: '10px',
+						'&:hover': {
+							cursor: 'pointer',
+						},
+					}}
 				>
 					{roomId}
 				</Typography>

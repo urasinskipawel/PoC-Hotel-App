@@ -4,7 +4,7 @@ import { Button, Box, FormControlLabel, Container, Typography, Radio, RadioGroup
 import { useParams, useNavigate } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Room } from '../utils/interfaces'
+import { Room } from '../utils/interfaces';
 
 interface FormValues {
 	[key: string]: string;
@@ -14,22 +14,22 @@ export const RoomResultCard = () => {
 	const { handleSubmit, control, watch } = useForm<FormValues>();
 	const { hotelId, roomId } = useParams<string>();
 	const navigate = useNavigate();
-	const [rooms, setRooms] = useContext(RoomsContext)
+	const [rooms, setRooms] = useContext(RoomsContext);
 
-    const currentRoom = rooms.findIndex((room:Room) => room.id === roomId)
+	const currentRoom = rooms.findIndex((room: Room) => room.id === roomId);
 
 	const handleCloseForm: SubmitHandler<FormValues> = (data: any) => {
 		navigate(`/hotel/${hotelId}`);
 	};
 
 	const handleNavigate = () => {
-		navigate(`/hotel/${hotelId}`)
-	}
+		navigate(`/hotel/${hotelId}`);
+	};
 
 	const done = rooms[currentRoom].controlCheckedTasks.reduce((total: number, task: any) => {
-		if(task.label === 'tak') total++
-		return total
-	}, 0)
+		if (task.label === 'tak') total++;
+		return total;
+	}, 0);
 
 	return (
 		<Container component='main'>
@@ -40,9 +40,15 @@ export const RoomResultCard = () => {
 				<Typography
 					variant='h5'
 					onClick={handleNavigate}
-					sx={{ textDecoration: 'none', color: '#121212', fontWeight: 600, marginLeft: '10px', '&:hover': {
-						cursor: 'pointer'
-					}}}
+					sx={{
+						textDecoration: 'none',
+						color: '#121212',
+						fontWeight: 600,
+						marginLeft: '10px',
+						'&:hover': {
+							cursor: 'pointer',
+						},
+					}}
 				>
 					{roomId}
 				</Typography>
@@ -57,11 +63,11 @@ export const RoomResultCard = () => {
 				}}
 			>
 				<Typography variant='h6' sx={{ color: '#121212', fontWeight: 600 }}>
-					Wynik kontroli: {done !== 0 ? `${done*2}0%` : '0%'}
+					Wynik kontroli: {done !== 0 ? `${done * 2}0%` : '0%'}
 				</Typography>
 			</Box>
 			<form onSubmit={handleSubmit(handleCloseForm)}>
-				{rooms[currentRoom].controlCheckedTasks.map((task:any, index:number) => (
+				{rooms[currentRoom].controlCheckedTasks.map((task: any, index: number) => (
 					<Box
 						key={index}
 						sx={{
@@ -88,13 +94,12 @@ export const RoomResultCard = () => {
 											fontSize: '10px',
 										},
 									}}
-
 								>
 									<FormControlLabel
-                                        disabled={true}
+										disabled={true}
 										control={
 											<Radio
-                                                checked={task.label === 'tak' ? true : false}
+												checked={task.label === 'tak' ? true : false}
 												sx={{
 													'& .MuiSvgIcon-root': {
 														fill: '#3F7A29',
@@ -112,10 +117,10 @@ export const RoomResultCard = () => {
 										sx={{ margin: '0px 10px 0px 0px' }}
 									/>
 									<FormControlLabel
-                                        disabled={true}
+										disabled={true}
 										control={
 											<Radio
-                                                checked={task.label === 'nie' ? true : false}
+												checked={task.label === 'nie' ? true : false}
 												sx={{
 													'& .MuiSvgIcon-root': {
 														fill: '#3F7A29',
@@ -151,7 +156,7 @@ export const RoomResultCard = () => {
 						minWidth: '290px',
 						'& .MuiButton-root': {
 							height: 28,
-						}
+						},
 					}}
 				>
 					Zamknij

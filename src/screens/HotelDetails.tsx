@@ -4,11 +4,11 @@ import { Button, Box, Container, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { RoomsContext } from '../contexts/roomsContext';
-import { Room } from '../utils/interfaces'
+import { Room } from '../utils/interfaces';
 
 interface Styles {
-	status: string,
-	color: string
+	status: string;
+	color: string;
 }
 
 const colors = {
@@ -16,49 +16,51 @@ const colors = {
 	pink: '#AA5766',
 	blue: '#0c3c64',
 	lightGreen: '#46A145',
-	darkGreen: '#3F7A29'
-}
+	darkGreen: '#3F7A29',
+};
 
-const styles:Styles[] = [
+const styles: Styles[] = [
 	{ status: 'W trakcie sprzątania', color: colors.pink },
 	{ status: 'Do kontroli', color: colors.blue },
 	{ status: 'W trakcie kontroli', color: colors.lightGreen },
-	{ status: 'Skontrolowany', color: colors.darkGreen }
-]
+	{ status: 'Skontrolowany', color: colors.darkGreen },
+];
 
 export const HotelDetails = () => {
 	const { hotelId } = useParams<{ hotelId: string }>();
-	const navigate = useNavigate()
-	const [rooms, setRooms] = useContext(RoomsContext)
-	const [roomsArray, setRoomsArray] = useState(rooms)
+	const navigate = useNavigate();
+	const [rooms, setRooms] = useContext(RoomsContext);
+	const [roomsArray, setRoomsArray] = useState(rooms);
 
 	const handleStyle = (roomId: string) => {
 		let found = {
 			style: colors.red,
-			status: 'Do posprzątania'
-		}
-		
+			status: 'Do posprzątania',
+		};
+
 		roomsArray.find((room: Room) => {
-			if(room.id === roomId) {
-				found.status = room.status
+			if (room.id === roomId) {
+				found.status = room.status;
 
-				styles.forEach(style => { 
-					if(style.status === room.status) {
-						found.style = style.color
+				styles.forEach(style => {
+					if (style.status === room.status) {
+						found.style = style.color;
 					}
-				})
+				});
 			}
-		})
+		});
 
-		return found
-	}
+		return found;
+	};
 
 	const handleNavigate = (room: Room) => {
-		navigate(`/hotel/${hotelId}/room/${room.id}`, { state: {
-			status: room.status,
-			hotelId
-		} })
-	}
+		navigate(`/hotel/${hotelId}/room/${room.id}`, {
+			state: {
+				status: room.status,
+				hotelId,
+			},
+		});
+	};
 
 	return (
 		<Container component='main'>
@@ -75,7 +77,7 @@ export const HotelDetails = () => {
 					Szczegóły hotelu
 				</Typography>
 			</Box>
-			{roomsArray.map((room:Room) => (
+			{roomsArray.map((room: Room) => (
 				<Box>
 					<Button
 						key={room.id}
@@ -101,11 +103,15 @@ export const HotelDetails = () => {
 					</Button>
 					<Typography
 						variant='body1'
-						sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '-2px', fontSize: '16px', color: handleStyle(room.id).style }}
+						sx={{
+							display: 'flex',
+							justifyContent: 'flex-end',
+							marginTop: '-2px',
+							fontSize: '16px',
+							color: handleStyle(room.id).style,
+						}}
 					>
-						{
-							handleStyle(room.id).status
-						}
+						{handleStyle(room.id).status}
 					</Typography>
 				</Box>
 			))}
