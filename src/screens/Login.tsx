@@ -117,7 +117,7 @@ export const Login = () => {
 							/>
 						)}
 					/>
-					<CustomButton disabled={false} btnBackground={theme.palette.background.default} btnName={'Zaloguj'} />
+					<CustomButton btnBackground={theme.palette.background.default} btnName={'Zaloguj'} />
 				</form>
 			</Box>
 		</Container>

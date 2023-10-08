@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@mui/material';
 
 interface ButtonProps {
-	disabled: boolean;
+	disabled?: boolean;
 	btnBackground: string;
 	disabledBackground?: string;
 	btnName: string;

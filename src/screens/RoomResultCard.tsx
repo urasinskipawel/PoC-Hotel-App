@@ -5,6 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Room } from '../utils/interfaces';
+import { CustomButton } from '../components/CustomButton/CustomButtom';
 
 interface FormValues {
 	[key: string]: string;
@@ -145,22 +146,7 @@ export const RoomResultCard = () => {
 						</Typography>
 					</Box>
 				))}
-				<Button
-					type='submit'
-					variant='contained'
-					sx={{
-						backgroundColor: '#3F7A29',
-						margin: '75px 0px 50px 0px',
-						color: '#EEF4F5',
-						py: '10.25px',
-						minWidth: '290px',
-						'& .MuiButton-root': {
-							height: 28,
-						},
-					}}
-				>
-					Zamknij
-				</Button>
+				<CustomButton btnBackground='#3F7A29' btnName={'Zamknij'} />
 			</form>
 		</Container>
 	);
