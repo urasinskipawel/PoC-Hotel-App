@@ -16,6 +16,6 @@ const currentRole = {
 
 export const RoleContext = React.createContext<currentUserRole | any>(currentRole);
 
-export function RoleProvider({ children }: RoleProviderProps) {
+export const RoleProvider = ({ children }: RoleProviderProps) => {
 	return <RoleContext.Provider value={currentRole}>{children}</RoleContext.Provider>;
-}
+};

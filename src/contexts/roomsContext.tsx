@@ -79,8 +79,8 @@ type RoomsProviderProps = {
 	children: React.ReactNode;
 };
 
-export default function RoomsProvider({ children }: RoomsProviderProps) {
+export const RoomsProvider = ({ children }: RoomsProviderProps) => {
 	const [rooms, setRooms] = useState(roomsArray);
 
 	return <RoomsContext.Provider value={[rooms, setRooms]}>{children}</RoomsContext.Provider>;
-}
+};

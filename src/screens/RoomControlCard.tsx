@@ -1,6 +1,6 @@
+import React, { useContext, useState } from 'react';
 import { Box, Container, Typography } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
-import React, { useContext, useState } from 'react';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { uniqueControlTasksArray } from '../helpers/drawRandomTasks';
 import { RadioForm } from '../components/RadioForm/RadioForm';

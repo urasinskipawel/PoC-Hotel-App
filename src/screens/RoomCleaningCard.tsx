@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
-import { Button, Box, Checkbox, FormControl, FormControlLabel, Container, Typography } from '@mui/material';
+import { Box, Checkbox, FormControl, FormControlLabel, Container, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { makeStyles } from '@mui/styles';
 import { RoomsContext } from '../contexts/roomsContext';
-import { cleaningTasks } from '../utils/cleaningTasks';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { Room } from '../utils/interfaces';
 import { CustomButton } from '../components/CustomButton/CustomButtom';
+import { cleaningTasks } from '../utils/cleaningTasks';
 
 interface TaskStatus {
 	[key: string]: boolean;

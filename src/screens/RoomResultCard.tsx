@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { RoomsContext } from '../contexts/roomsContext';
-import { Button, Box, FormControlLabel, Container, Typography, Radio, RadioGroup } from '@mui/material';
+import { Box, FormControlLabel, Container, Typography, Radio, RadioGroup } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
