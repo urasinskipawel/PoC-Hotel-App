@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { RoomsContext } from '../contexts/roomsContext';
 import { Room } from '../utils/interfaces';
+import { RoleContext } from '../contexts/roleContext';
 
 interface Styles {
 	status: string;
@@ -31,6 +32,13 @@ export const HotelDetails = () => {
 	const navigate = useNavigate();
 	const [rooms, setRooms] = useContext(RoomsContext);
 	const [roomsArray, setRoomsArray] = useState(rooms);
+	const { role, access } = useContext(RoleContext);
+
+	const handleDisabled = (room: Room) => {
+		if (room.status !== 'Do posprzątania' && role === 'worker') return true;
+		if (room.status !== 'Do kontroli' && role === 'supervisor') return true;
+		if (room.status !== 'Skontrolowany' && role === 'boss') return true;
+	};
 
 	const handleStyle = (roomId: string) => {
 		let found = {
@@ -83,6 +91,7 @@ export const HotelDetails = () => {
 			{roomsArray.map((room: Room) => (
 				<Box>
 					<Button
+						disabled={handleDisabled(room)}
 						key={room.id}
 						variant='contained'
 						color='primary'
