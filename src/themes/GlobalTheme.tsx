@@ -12,7 +12,7 @@ export const globalTheme = createTheme({
 					alignItems: 'center',
 					backgroundColor: '#EEF4F5',
 					padding: 0,
-					height: '100vh',
+					minHeight: '100vh',
 				},
 			},
 		},
