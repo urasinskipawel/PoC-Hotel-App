@@ -65,15 +65,18 @@ export const HotelDetails = () => {
 	return (
 		<Container component='main'>
 			<Box
-				sx={{ display: 'flex', justifyContent: 'flex-start', minWidth: '290px', marginTop: '50px', marginBottom: '30px' }}
-			>
+				component={Link}
+				to={`/hotels`}
+				sx={{
+					display: 'flex',
+					justifyContent: 'flex-start',
+					minWidth: '290px',
+					marginTop: '50px',
+					marginBottom: '30px',
+					textDecoration: 'none',
+				}}>
 				<DirectionIcon direction={'left'} />
-				<Typography
-					variant='h5'
-					component={Link}
-					to={`/hotels`}
-					sx={{ fontWeight: 600, textDecoration: 'none', color: '#121212', marginLeft: '10px' }}
-				>
+				<Typography variant='h5' sx={{ fontWeight: 600, color: '#121212', marginLeft: '10px' }}>
 					Szczegóły hotelu
 				</Typography>
 			</Box>
@@ -94,8 +97,7 @@ export const HotelDetails = () => {
 							border: `3px solid ${handleStyle(room.id).style}`,
 							borderRadius: '5px',
 							py: '9.25px',
-						}}
-					>
+						}}>
 						<Typography variant='h6' sx={{ fontSize: '20px', fontWeight: 600, left: '20px', flex: '1', textAlign: 'center' }}>
 							{room.roomType}
 						</Typography>
@@ -109,8 +111,7 @@ export const HotelDetails = () => {
 							marginTop: '-2px',
 							fontSize: '16px',
 							color: handleStyle(room.id).style,
-						}}
-					>
+						}}>
 						{handleStyle(room.id).status}
 					</Typography>
 				</Box>

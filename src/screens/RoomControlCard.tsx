@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Box, Container, Typography } from '@mui/material';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { uniqueControlTasksArray } from '../helpers/drawRandomTasks';
 import { RadioForm } from '../components/RadioForm/RadioForm';
@@ -25,22 +25,28 @@ export const RoomControlCard = () => {
 	return (
 		<Container component='main'>
 			<Box
-				sx={{ display: 'flex', justifyContent: 'flex-start', minWidth: '290px', marginTop: '50px', marginBottom: '5px' }}
-			>
+				component={Link}
+				to={`/hotel/${hotelId}`}
+				sx={{
+					display: 'flex',
+					justifyContent: 'flex-start',
+					minWidth: '290px',
+					marginTop: '50px',
+					marginBottom: '5px',
+					textDecoration: 'none',
+				}}>
 				<DirectionIcon direction={'left'} />
 				<Typography
 					variant='h5'
 					onClick={handleNavigate}
 					sx={{
-						textDecoration: 'none',
 						color: '#121212',
 						fontWeight: 600,
 						marginLeft: '10px',
 						'&:hover': {
 							cursor: 'pointer',
 						},
-					}}
-				>
+					}}>
 					{roomId}
 				</Typography>
 			</Box>
@@ -51,8 +57,7 @@ export const RoomControlCard = () => {
 					alignItems: 'center',
 					minWidth: '290px',
 					marginBottom: '30px',
-				}}
-			>
+				}}>
 				<Typography variant='h6' sx={{ color: '#121212', fontWeight: 600 }}>
 					Kontrola
 				</Typography>

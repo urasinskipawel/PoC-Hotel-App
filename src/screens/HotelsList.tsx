@@ -48,14 +48,12 @@ const hotels: Hotel[] = [
 export const HotelsList = () => {
 	return (
 		<Container component='main'>
-			<Box sx={{ display: 'flex', alignItems: 'center', marginTop: '50px', marginBottom: '30px' }}>
+			<Box
+				component={Link}
+				to={`/`}
+				sx={{ display: 'flex', alignItems: 'center', marginTop: '50px', marginBottom: '30px', textDecoration: 'none' }}>
 				<DirectionIcon direction={'left'} />
-				<Typography
-					variant='h5'
-					component={Link}
-					to={`/login`}
-					sx={{ fontWeight: 600, textDecoration: 'none', color: '#121212', marginLeft: '4px' }}
-				>
+				<Typography variant='h5' sx={{ fontWeight: 600, color: '#121212', marginLeft: '4px' }}>
 					Lista hoteli do obsługi
 				</Typography>
 			</Box>
@@ -75,14 +73,12 @@ export const HotelsList = () => {
 						borderRadius: '5px',
 						py: '9.25px',
 						mb: '15px',
-					}}
-				>
+					}}>
 					<Box
 						sx={{
 							display: 'flex',
 							flexDirection: 'column',
-						}}
-					>
+						}}>
 						<Typography variant='h6' sx={{ fontSize: '20px', fontWeight: 600 }}>
 							{hotel.hotelName}
 						</Typography>

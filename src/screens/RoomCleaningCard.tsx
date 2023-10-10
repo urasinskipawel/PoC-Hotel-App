@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Box, Checkbox, FormControl, FormControlLabel, Container, Typography } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { makeStyles } from '@mui/styles';
 import { RoomsContext } from '../contexts/roomsContext';
@@ -66,29 +66,29 @@ export const RoomCleaningCard = () => {
 	return (
 		<Container component='main'>
 			<Box
+				component={Link}
+				to={`/hotel/${hotelId}`}
 				sx={{
 					display: 'flex',
 					justifyContent: 'flex-start',
 					minWidth: '290px',
 					marginTop: '50px',
 					marginBottom: '5px',
-				}}
-			>
+					textDecoration: 'none',
+				}}>
 				<DirectionIcon direction={'left'} />
 
 				<Typography
 					variant='h5'
 					onClick={handleNavigate}
 					sx={{
-						textDecoration: 'none',
 						color: '#121212',
 						fontWeight: 600,
 						marginLeft: '10px',
 						'&:hover': {
 							cursor: 'pointer',
 						},
-					}}
-				>
+					}}>
 					{roomId}
 				</Typography>
 			</Box>
@@ -116,8 +116,7 @@ export const RoomCleaningCard = () => {
 						marginTop: '30px',
 						width: '295px',
 					}}
-					component='fieldset'
-				>
+					component='fieldset'>
 					{cleaningTasks.map((task, index) => (
 						<FormControlLabel
 							key={index}

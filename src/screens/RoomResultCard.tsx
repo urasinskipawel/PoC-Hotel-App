@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { RoomsContext } from '../contexts/roomsContext';
 import { Box, FormControlLabel, Container, Typography, Radio, RadioGroup } from '@mui/material';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Room } from '../utils/interfaces';
@@ -35,22 +35,28 @@ export const RoomResultCard = () => {
 	return (
 		<Container component='main'>
 			<Box
-				sx={{ display: 'flex', justifyContent: 'flex-start', minWidth: '290px', marginTop: '50px', marginBottom: '5px' }}
-			>
+				component={Link}
+				to={`/hotel/${hotelId}`}
+				sx={{
+					display: 'flex',
+					justifyContent: 'flex-start',
+					minWidth: '290px',
+					marginTop: '50px',
+					marginBottom: '5px',
+					textDecoration: 'none',
+				}}>
 				<DirectionIcon direction={'left'} />
 				<Typography
 					variant='h5'
 					onClick={handleNavigate}
 					sx={{
-						textDecoration: 'none',
 						color: '#121212',
 						fontWeight: 600,
 						marginLeft: '10px',
 						'&:hover': {
 							cursor: 'pointer',
 						},
-					}}
-				>
+					}}>
 					{roomId}
 				</Typography>
 			</Box>
@@ -61,8 +67,7 @@ export const RoomResultCard = () => {
 					alignItems: 'center',
 					minWidth: '290px',
 					marginBottom: '30px',
-				}}
-			>
+				}}>
 				<Typography variant='h6' sx={{ color: '#121212', fontWeight: 600 }}>
 					Wynik kontroli: {done !== 0 ? `${done * 2}0%` : '0%'}
 				</Typography>
@@ -76,8 +81,7 @@ export const RoomResultCard = () => {
 							flexDirection: 'row',
 							width: '290px',
 							marginBottom: '20px',
-						}}
-					>
+						}}>
 						<Controller
 							name={`task-${index}`}
 							control={control}
@@ -94,8 +98,7 @@ export const RoomResultCard = () => {
 											marginTop: '2px',
 											fontSize: '10px',
 										},
-									}}
-								>
+									}}>
 									<FormControlLabel
 										disabled={true}
 										control={
