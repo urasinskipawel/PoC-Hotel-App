@@ -1,14 +1,14 @@
 import React from 'react';
 import { Button } from '@mui/material';
 
-interface ButtonProps {
+interface CustomButtonProps {
 	disabled?: boolean;
 	btnBackground: string;
 	disabledBackground?: string;
 	btnName: string;
 }
 
-export const CustomButton = ({ disabled, btnBackground, disabledBackground, btnName }: ButtonProps) => {
+export const CustomButton = ({ disabled, btnBackground, disabledBackground, btnName }: CustomButtonProps) => {
 	return (
 		<Button
 			type='submit'
@@ -27,8 +27,7 @@ export const CustomButton = ({ disabled, btnBackground, disabledBackground, btnN
 					background: disabledBackground,
 					color: '#EEF4F5',
 				},
-			}}
-		>
+			}}>
 			{btnName}
 		</Button>
 	);

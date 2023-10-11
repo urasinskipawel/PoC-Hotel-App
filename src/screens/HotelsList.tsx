@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import { Box, Container, Typography } from '@mui/material';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
+import { DetailsButton } from '../components/DetailsButton/DetailsButton';
 
 interface Room {
 	roomId: string;
@@ -46,6 +47,12 @@ const hotels: Hotel[] = [
 ];
 
 export const HotelsList = () => {
+	const navigate = useNavigate();
+
+	const handleNavigate = (hotel: Hotel) => {
+		navigate(`/hotel/${hotel.hotelId}`);
+	};
+
 	return (
 		<Container component='main'>
 			<Box
@@ -58,26 +65,16 @@ export const HotelsList = () => {
 				</Typography>
 			</Box>
 			{hotels.map(hotel => (
-				<Button
+				<DetailsButton
 					key={hotel.hotelId}
-					variant='contained'
-					component={Link}
-					to={`/hotel/${hotel.hotelId}`}
-					color='primary'
-					sx={{
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'space-between',
-						minWidth: '290px',
-						border: '1px solid #121212',
-						borderRadius: '5px',
-						py: '9.25px',
-						mb: '15px',
-					}}>
+					border={'1px solid #121212'}
+					marginBottom={'15px'}
+					handleNavigate={() => handleNavigate(hotel)}>
 					<Box
 						sx={{
 							display: 'flex',
 							flexDirection: 'column',
+							alignItems: 'flex-start',
 						}}>
 						<Typography variant='h6' sx={{ fontSize: '20px', fontWeight: 600 }}>
 							{hotel.hotelName}
@@ -87,7 +84,7 @@ export const HotelsList = () => {
 						</Typography>
 					</Box>
 					<DirectionIcon direction={'right'} />
-				</Button>
+				</DetailsButton>
 			))}
 		</Container>
 	);

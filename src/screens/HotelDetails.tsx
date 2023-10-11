@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, Box, Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
+import { DetailsButton } from '../components/DetailsButton/DetailsButton';
 import { RoomsContext } from '../contexts/roomsContext';
 import { Room } from '../utils/interfaces';
 import { RoleContext } from '../contexts/roleContext';
@@ -57,7 +58,6 @@ export const HotelDetails = () => {
 				});
 			}
 		});
-
 		return found;
 	};
 
@@ -90,28 +90,16 @@ export const HotelDetails = () => {
 			</Box>
 			{roomsArray.map((room: Room) => (
 				<Box>
-					<Button
-						disabled={handleDisabled(room)}
+					<DetailsButton
 						key={room.id}
-						variant='contained'
-						color='primary'
-						onClick={() => handleNavigate(room)}
-						sx={{
-							display: 'flex',
-							justifContent: 'center',
-							alighItems: 'center',
-							position: 'relative',
-							minWidth: '290px',
-							height: '75px',
-							border: `3px solid ${handleStyle(room.id).style}`,
-							borderRadius: '5px',
-							py: '9.25px',
-						}}>
+						border={`3px solid ${handleStyle(room.id).style}`}
+						handleNavigate={() => handleNavigate(room)}
+						disabled={handleDisabled(room)}>
 						<Typography variant='h6' sx={{ fontSize: '20px', fontWeight: 600, left: '20px', flex: '1', textAlign: 'center' }}>
 							{room.roomType}
 						</Typography>
 						<DirectionIcon direction={'right'} />
-					</Button>
+					</DetailsButton>
 					<Typography
 						variant='body1'
 						sx={{
