@@ -1,17 +1,15 @@
 interface tasks {
-    id: string,
-    label: string,
-    description?: string
+	id: string;
+	label: string;
+	description?: string;
 }
 
-interface Room {
-    id: string,
-    roomType: string,
-    status: string,
-    controlCheckedTasks?: tasks[],
-    cleaningCheckedTasks?: tasks[]
+export interface Room {
+	id: string;
+	hotelId: string;
+	roomType: string;
+	status: string;
+	controlCheckedTasks?: tasks[];
+	cleaningCheckedTasks?: tasks[];
 }
 
-export {
-    Room
-}

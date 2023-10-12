@@ -33,7 +33,7 @@ export const HotelDetails = () => {
 	const navigate = useNavigate();
 	const [rooms, setRooms] = useContext(RoomsContext);
 	const [roomsArray, setRoomsArray] = useState(rooms);
-	const { role, access } = useContext(RoleContext);
+	const { role } = useContext(RoleContext);
 
 	const handleDisabled = (room: Room) => {
 		if (room.status !== 'Do posprzątania' && role === 'worker') return true;
@@ -88,31 +88,36 @@ export const HotelDetails = () => {
 					Szczegóły hotelu
 				</Typography>
 			</Box>
-			{roomsArray.map((room: Room) => (
-				<Box>
-					<DetailsButton
-						key={room.id}
-						border={`3px solid ${handleStyle(room.id).style}`}
-						handleNavigate={() => handleNavigate(room)}
-						disabled={handleDisabled(room)}>
-						<Typography variant='h6' sx={{ fontSize: '20px', fontWeight: 600, left: '20px', flex: '1', textAlign: 'center' }}>
-							{room.roomType}
-						</Typography>
-						<DirectionIcon direction={'right'} />
-					</DetailsButton>
-					<Typography
-						variant='body1'
-						sx={{
-							display: 'flex',
-							justifyContent: 'flex-end',
-							marginTop: '-2px',
-							fontSize: '16px',
-							color: handleStyle(room.id).style,
-						}}>
-						{handleStyle(room.id).status}
-					</Typography>
-				</Box>
-			))}
+			{roomsArray.map(
+				(room: Room) =>
+					room.hotelId === hotelId && (
+						<Box>
+							<DetailsButton
+								key={room.id}
+								border={`3px solid ${handleStyle(room.id).style}`}
+								handleNavigate={() => handleNavigate(room)}
+								disabled={handleDisabled(room)}>
+								<Typography
+									variant='h6'
+									sx={{ fontSize: '20px', fontWeight: 600, left: '20px', flex: '1', textAlign: 'center' }}>
+									{room.roomType}
+								</Typography>
+								<DirectionIcon direction={'right'} />
+							</DetailsButton>
+							<Typography
+								variant='body1'
+								sx={{
+									display: 'flex',
+									justifyContent: 'flex-end',
+									marginTop: '-2px',
+									fontSize: '16px',
+									color: handleStyle(room.id).style,
+								}}>
+								{handleStyle(room.id).status}
+							</Typography>
+						</Box>
+					)
+			)}
 		</Container>
 	);
 };
