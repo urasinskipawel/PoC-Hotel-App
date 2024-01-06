@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { Box, Container, Typography } from '@mui/material';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { uniqueControlTasksArray } from '../helpers/drawRandomTasks';
 import { RadioForm } from '../components/RadioForm/RadioForm';
 import { Room } from '../utils/interfaces';
 import { RoomsContext } from '../contexts/roomsContext';
+import { LeftDirectionIcon } from '../assets/icons/LeftDirectionIcon';
 
 export const RoomControlCard = () => {
 	const { hotelId, roomId } = useParams<string>();
@@ -35,7 +35,7 @@ export const RoomControlCard = () => {
 					marginBottom: '5px',
 					textDecoration: 'none',
 				}}>
-				<DirectionIcon direction={'left'} />
+				<LeftDirectionIcon />
 				<Typography
 					variant='h5'
 					onClick={handleNavigate}

@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Box, Container, Typography } from '@mui/material';
-import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { DetailsButton } from '../components/DetailsButton/DetailsButton';
+import { LeftDirectionIcon } from '../assets/icons/LeftDirectionIcon';
+import { RightDirectionIcon } from '../assets/icons/RightDirectionIcon';
 
 interface Room {
 	roomId: string;
 	roomName: string;
 }
-
 interface Hotel {
 	hotelId: string;
 	hotelName: string;
@@ -59,7 +59,7 @@ export const HotelsList = () => {
 				component={Link}
 				to={`/`}
 				sx={{ display: 'flex', alignItems: 'center', marginTop: '50px', marginBottom: '30px', textDecoration: 'none' }}>
-				<DirectionIcon direction={'left'} />
+				<LeftDirectionIcon />
 				<Typography variant='h5' sx={{ fontWeight: 600, color: '#121212', marginLeft: '4px' }}>
 					Lista hoteli do obsługi
 				</Typography>
@@ -83,7 +83,7 @@ export const HotelsList = () => {
 							{hotel.hotelStreet}
 						</Typography>
 					</Box>
-					<DirectionIcon direction={'right'} />
+					<RightDirectionIcon />
 				</DetailsButton>
 			))}
 		</Container>

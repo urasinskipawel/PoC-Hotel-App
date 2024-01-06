@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import { RoomsContext } from '../contexts/roomsContext';
 import { Box, FormControlLabel, Container, Typography, Radio, RadioGroup } from '@mui/material';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Room } from '../utils/interfaces';
 import { CustomButton } from '../components/CustomButton/CustomButtom';
+import { LeftDirectionIcon } from '../assets/icons/LeftDirectionIcon';
 
 interface FormValues {
 	[key: string]: string;
@@ -45,7 +45,7 @@ export const RoomResultCard = () => {
 					marginBottom: '5px',
 					textDecoration: 'none',
 				}}>
-				<DirectionIcon direction={'left'} />
+				<LeftDirectionIcon />
 				<Typography
 					variant='h5'
 					onClick={handleNavigate}

@@ -4,10 +4,10 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { makeStyles } from '@mui/styles';
 import { RoomsContext } from '../contexts/roomsContext';
-import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { Room } from '../utils/interfaces';
 import { CustomButton } from '../components/CustomButton/CustomButtom';
 import { cleaningTasks } from '../utils/cleaningTasks';
+import { LeftDirectionIcon } from '../assets/icons/LeftDirectionIcon';
 
 interface TaskStatus {
 	[key: string]: boolean;
@@ -76,7 +76,7 @@ export const RoomCleaningCard = () => {
 					marginBottom: '5px',
 					textDecoration: 'none',
 				}}>
-				<DirectionIcon direction={'left'} />
+				<LeftDirectionIcon />
 
 				<Typography
 					variant='h5'

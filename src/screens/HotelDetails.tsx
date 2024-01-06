@@ -2,11 +2,12 @@ import React, { useContext, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Container, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { DetailsButton } from '../components/DetailsButton/DetailsButton';
 import { RoomsContext } from '../contexts/roomsContext';
 import { Room } from '../utils/interfaces';
 import { RoleContext } from '../contexts/roleContext';
+import { LeftDirectionIcon } from '../assets/icons/LeftDirectionIcon';
+import { RightDirectionIcon } from '../assets/icons/RightDirectionIcon';
 
 interface Styles {
 	status: string;
@@ -83,7 +84,7 @@ export const HotelDetails = () => {
 					marginBottom: '30px',
 					textDecoration: 'none',
 				}}>
-				<DirectionIcon direction={'left'} />
+				<LeftDirectionIcon />
 				<Typography variant='h5' sx={{ fontWeight: 600, color: '#121212', marginLeft: '10px' }}>
 					Szczegóły hotelu
 				</Typography>
@@ -102,7 +103,7 @@ export const HotelDetails = () => {
 									sx={{ fontSize: '20px', fontWeight: 600, left: '20px', flex: '1', textAlign: 'center' }}>
 									{room.roomType}
 								</Typography>
-								<DirectionIcon direction={'right'} />
+								<RightDirectionIcon />
 							</DetailsButton>
 							<Typography
 								variant='body1'
