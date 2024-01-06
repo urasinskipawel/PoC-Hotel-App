@@ -11,30 +11,24 @@ export function RoomCard() {
 	const { access } = useContext(RoleContext);
 	const { state } = useLocation();
 
-	const components = [
+	const screenAccesses = [
 		{
 			access: roles.WORKER.ACCESS,
-			component: <RoomCleaningCard />,
+			screen: RoomCleaningCard,
 		},
 		{
 			access: roles.SUPERVISOR.ACCESS,
-			component: <RoomControlCard />,
+			screen: RoomControlCard,
 		},
 		{
 			access: roles.BOSS.ACCESS,
-			component: <RoomResultCard />,
+			screen: RoomResultCard,
 		},
 	];
 
-	const handleComponent = () => {
-		const found = components.find(component => component.access.includes(state.status));
+	const FoundScreen = screenAccesses.find(screen => screen.access.includes(state.status))?.screen;
 
-		if (!!found && found.access.includes(state.status) && access.includes(state.status)) {
-			return found.component;
-		} else {
-			return <Navigate to={`/hotel/${state.hotelId}`} />;
-		}
-	};
+	const isValidAccess = FoundScreen && access.includes(state.status);
 
-	return <>{handleComponent()}</>;
+	return isValidAccess ? <FoundScreen /> : <Navigate to={`/hotel/${state.hotelId}`} />;
 }
