@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import uuid from 'react-uuid';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Container, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -8,26 +9,14 @@ import { Room } from '../utils/interfaces';
 import { RoleContext } from '../contexts/roleContext';
 import { LeftDirectionIcon } from '../assets/icons/LeftDirectionIcon';
 import { RightDirectionIcon } from '../assets/icons/RightDirectionIcon';
+import { statusColors } from '../constants/statusColors';
+import { roomStatuses } from '../constants/roomStatuses';
+import { userRoles } from '../constants/users';
 
 interface Styles {
 	status: string;
 	color: string;
 }
-
-const colors = {
-	red: '#9d071f',
-	pink: '#AA5766',
-	blue: '#0c3c64',
-	lightGreen: '#46A145',
-	darkGreen: '#3F7A29',
-};
-
-const styles: Styles[] = [
-	{ status: 'W trakcie sprzątania', color: colors.pink },
-	{ status: 'Do kontroli', color: colors.blue },
-	{ status: 'W trakcie kontroli', color: colors.lightGreen },
-	{ status: 'Skontrolowany', color: colors.darkGreen },
-];
 
 export const HotelDetails = () => {
 	const { hotelId } = useParams<{ hotelId: string }>();
@@ -36,16 +25,23 @@ export const HotelDetails = () => {
 	const [roomsArray, setRoomsArray] = useState(rooms);
 	const { role } = useContext(RoleContext);
 
+	const styles: Styles[] = [
+		{ status: roomStatuses.duringClean, color: statusColors.pink },
+		{ status: roomStatuses.toControl, color: statusColors.blue },
+		{ status: roomStatuses.duringControl, color: statusColors.lightGreen },
+		{ status: roomStatuses.controlled, color: statusColors.darkGreen },
+	];
+
 	const handleDisabled = (room: Room) => {
-		if (room.status !== 'Do posprzątania' && role === 'worker') return true;
-		if (room.status !== 'Do kontroli' && role === 'supervisor') return true;
-		if (room.status !== 'Skontrolowany' && role === 'boss') return true;
+		if (room.status !== roomStatuses.toClean && role === userRoles.WORKER.NAME) return true;
+		if (room.status !== roomStatuses.toControl && role === userRoles.SUPERVISOR.NAME) return true;
+		if (room.status !== roomStatuses.controlled && role === userRoles.SUPERVISOR.NAME) return true;
 	};
 
 	const handleStyle = (roomId: string) => {
 		let found = {
-			style: colors.red,
-			status: 'Do posprzątania',
+			style: statusColors.red,
+			status: roomStatuses.toClean,
 		};
 
 		roomsArray.find((room: Room) => {
@@ -92,9 +88,8 @@ export const HotelDetails = () => {
 			{roomsArray.map(
 				(room: Room) =>
 					room.hotelId === hotelId && (
-						<Box>
+						<Box key={uuid()}>
 							<DetailsButton
-								key={room.id}
 								border={`3px solid ${handleStyle(room.id).style}`}
 								handleNavigate={() => handleNavigate(room)}
 								disabled={handleDisabled(room)}>

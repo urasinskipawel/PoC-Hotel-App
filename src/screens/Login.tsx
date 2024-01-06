@@ -3,7 +3,7 @@ import { Container, TextField, Avatar, useTheme, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { users } from '../utils/users';
+import { users } from '../constants/users';
 import { RoleContext } from '../contexts/roleContext';
 import { CustomButton } from '../components/CustomButton/CustomButtom';
 interface LoginData {
@@ -117,7 +117,7 @@ export const Login = () => {
 							/>
 						)}
 					/>
-					<CustomButton btnBackground={theme.palette.background.default} btnName={'Zaloguj'} />
+					<CustomButton btnBackground={'#3F7A29'} btnName={'Zaloguj'} />
 				</form>
 			</Box>
 		</Container>

@@ -5,7 +5,7 @@ import { RoomCleaningCard } from '../../screens/RoomCleaningCard';
 import { RoomControlCard } from '../../screens/RoomControlCard';
 import { RoomResultCard } from '../../screens/RoomResultCard';
 import { Navigate } from 'react-router-dom';
-import { roles } from '../../utils/users';
+import { userRoles } from '../../constants/users';
 
 export function RoomCard() {
 	const { access } = useContext(RoleContext);
@@ -13,15 +13,15 @@ export function RoomCard() {
 
 	const screenAccesses = [
 		{
-			access: roles.WORKER.ACCESS,
+			access: userRoles.WORKER.ACCESS,
 			screen: RoomCleaningCard,
 		},
 		{
-			access: roles.SUPERVISOR.ACCESS,
+			access: userRoles.SUPERVISOR.ACCESS,
 			screen: RoomControlCard,
 		},
 		{
-			access: roles.BOSS.ACCESS,
+			access: userRoles.BOSS.ACCESS,
 			screen: RoomResultCard,
 		},
 	];
