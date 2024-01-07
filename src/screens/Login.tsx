@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
-import { Container, TextField, Avatar, useTheme, Box } from '@mui/material';
+import { Container, TextField, Avatar, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { users } from '../constants/users';
 import { RoleContext } from '../contexts/roleContext';
-import { CustomButton } from '../components/CustomButton/CustomButtom';
+import { CustomButton } from '../components/CustomButton/CustomButton';
+import { statusColors } from './../constants/statusColors';
 interface LoginData {
 	email: string;
 	password: string;
@@ -29,31 +30,30 @@ const useStyles = makeStyles(theme => ({
 	},
 	input: {
 		'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-			borderColor: '#3F7A29',
+			borderColor: statusColors.darkGreen,
 		},
 		'& .MuiOutlinedInput-root': {
 			'&.Mui-focused fieldset': {
-				borderColor: '#3F7A29',
+				borderColor: statusColors.darkGreen,
 			},
 		},
 		'& .MuiOutlinedInput-input': {
-			color: '#3F7A29',
+			color: statusColors.darkGreen,
 		},
 		'& .MuiInputBase-input': {
 			height: '28px',
 		},
 		'& label.Mui-focused': {
-			color: '#3F7A29',
+			color: statusColors.darkGreen,
 		},
 		'& .MuiInputLabel-outlined': {
-			color: '#3F7A29',
+			color: statusColors.darkGreen,
 		},
 	},
 }));
 
 export const Login = () => {
 	const navigate = useNavigate();
-	const theme = useTheme();
 	const classes = useStyles();
 	const { handleSubmit, control } = useForm<LoginData>();
 	const value = useContext(RoleContext);
@@ -80,7 +80,6 @@ export const Login = () => {
 						width: '150px',
 						height: '150px',
 						mb: '4rem',
-						mt: '-7.5rem',
 					}}
 				/>
 				<form className={classes.form} onSubmit={handleSubmit(handleLogin)}>
@@ -100,7 +99,6 @@ export const Login = () => {
 							/>
 						)}
 					/>
-
 					<Controller
 						name='password'
 						control={control}
@@ -117,7 +115,7 @@ export const Login = () => {
 							/>
 						)}
 					/>
-					<CustomButton btnBackground={'#3F7A29'} btnName={'Zaloguj'} />
+					<CustomButton btnBackground={statusColors.darkGreen} btnName={'Zaloguj'} />
 				</form>
 			</Box>
 		</Container>

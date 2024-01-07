@@ -1,5 +1,4 @@
-import { cleaningTasks } from "../utils/cleaningTasks";
-
+import { cleaningTasks } from '../constants/cleaningTasks';
 
 const drawRandomTasks = (arr: string[], tasksNumber = 5): Set<string> => {
 	const randomTasks: string[] = [];

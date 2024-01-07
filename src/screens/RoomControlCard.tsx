@@ -65,7 +65,7 @@ export const RoomControlCard = () => {
 					{countCheckedTasks}/{uniqueControlTasksArray.length}
 				</Typography>
 			</Box>
-			<RadioForm countCheckedTasks={countCheckedTasks} setCountCheckedTasks={setCountCheckedTasks} />
+			<RadioForm setCountCheckedTasks={setCountCheckedTasks} />
 		</Container>
 	);
 };

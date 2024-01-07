@@ -1,52 +1,36 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Box, Container, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { DetailsButton } from '../components/DetailsButton/DetailsButton';
 import { LeftDirectionIcon } from '../assets/icons/LeftDirectionIcon';
 import { RightDirectionIcon } from '../assets/icons/RightDirectionIcon';
+import { globalTheme } from '../themes/GlobalTheme';
+import { hotels } from '../constants/hotels';
+import { Hotel } from '../utils/interfaces';
+import uuid from 'react-uuid';
 
-interface Room {
-	roomId: string;
-	roomName: string;
-}
-interface Hotel {
-	hotelId: string;
-	hotelName: string;
-	hotelStreet: string;
-	hotelRooms: Room[];
-}
-
-const hotels: Hotel[] = [
-	{
-		hotelId: 'hotel1',
-		hotelName: 'Hotel A',
-		hotelStreet: 'Street A',
-		hotelRooms: [
-			{ roomId: 'room1', roomName: 'Single Room' },
-			{ roomId: 'room2', roomName: 'Double Room' },
-		],
+const useStyles = makeStyles(theme => ({
+	root: {
+		display: 'flex',
+		alignItems: 'center',
+		marginTop: '50px',
+		marginBottom: '30px',
+		textDecoration: 'none',
 	},
-	{
-		hotelId: 'hotel2',
-		hotelName: 'Hotel B',
-		hotelStreet: 'Street B',
-		hotelRooms: [
-			{ roomId: 'room3', roomName: 'Suite' },
-			{ roomId: 'room4', roomName: 'Deluxe Room' },
-		],
+	boxContent: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'flex-start',
 	},
-	{
-		hotelId: 'hotel3',
-		hotelName: 'Hotel C',
-		hotelStreet: 'Street C',
-		hotelRooms: [
-			{ roomId: 'room3', roomName: 'Suite' },
-			{ roomId: 'room4', roomName: 'Deluxe Room' },
-		],
+	text: {
+		color: globalTheme.palette.primary.main,
 	},
-];
+}));
 
 export const HotelsList = () => {
+	const classes = useStyles();
+
 	const navigate = useNavigate();
 
 	const handleNavigate = (hotel: Hotel) => {
@@ -55,31 +39,23 @@ export const HotelsList = () => {
 
 	return (
 		<Container component='main'>
-			<Box
-				component={Link}
-				to={`/`}
-				sx={{ display: 'flex', alignItems: 'center', marginTop: '50px', marginBottom: '30px', textDecoration: 'none' }}>
+			<Box className={classes.root} component={Link} to={`/`}>
 				<LeftDirectionIcon />
-				<Typography variant='h5' sx={{ fontWeight: 600, color: '#121212', marginLeft: '4px' }}>
+				<Typography className={classes.text} variant='h5' sx={{ marginLeft: '4px', fontWeight: 600 }}>
 					Lista hoteli do obsługi
 				</Typography>
 			</Box>
 			{hotels.map(hotel => (
 				<DetailsButton
-					key={hotel.hotelId}
-					border={'1px solid #121212'}
+					key={uuid()}
+					border={`1px solid ${globalTheme.palette.primary.main}`}
 					marginBottom={'15px'}
 					handleNavigate={() => handleNavigate(hotel)}>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'flex-start',
-						}}>
-						<Typography variant='h6' sx={{ fontSize: '20px', fontWeight: 600 }}>
+					<Box className={classes.boxContent}>
+						<Typography className={classes.text} variant='h6' sx={{ fontSize: '20px', fontWeight: 600 }}>
 							{hotel.hotelName}
 						</Typography>
-						<Typography variant='body1' sx={{ fontSize: '15px' }}>
+						<Typography className={classes.text} variant='body1' sx={{ fontSize: '15px' }}>
 							{hotel.hotelStreet}
 						</Typography>
 					</Box>

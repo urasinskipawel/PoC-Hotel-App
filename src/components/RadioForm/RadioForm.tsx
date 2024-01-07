@@ -5,21 +5,25 @@ import { uniqueControlTasksArray } from '../../helpers/drawRandomTasks';
 import { Box, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
 import { RoomsContext } from '../../contexts/roomsContext';
 import { Room } from '../../utils/interfaces';
-import { CustomButton } from '../CustomButton/CustomButtom';
+import { CustomButton } from '../CustomButton/CustomButton';
+import { roomStatuses } from '../../constants/roomStatuses';
 
+interface Task {
+	id: string;
+	label: string;
+}
 interface FormValues {
 	[key: string]: string;
 }
 interface RadioFormProps {
-	countCheckedTasks: number;
 	setCountCheckedTasks: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const RadioForm = ({ countCheckedTasks, setCountCheckedTasks }: RadioFormProps) => {
+export const RadioForm = ({ setCountCheckedTasks }: RadioFormProps) => {
 	const { handleSubmit, control } = useForm<FormValues>();
 	const navigate = useNavigate();
 	const { hotelId, roomId } = useParams<string>();
-	const [rooms, setRooms] = useContext(RoomsContext);
+	const [rooms] = useContext(RoomsContext);
 	const [checkedTasks, setCheckedTasks] = useState(
 		rooms[rooms.findIndex((room: Room) => room.id === roomId)].controlCheckedTasks.length
 	);
@@ -27,8 +31,8 @@ export const RadioForm = ({ countCheckedTasks, setCountCheckedTasks }: RadioForm
 
 	const currentRoom = rooms.findIndex((room: Room) => room.id === roomId);
 
-	const handleRadioForm: SubmitHandler<FormValues> = data => {
-		rooms[currentRoom].status = 'Skontrolowany';
+	const handleRadioForm: SubmitHandler<FormValues> = () => {
+		rooms[currentRoom].status = roomStatuses.controlled;
 		navigate(`/hotel/${hotelId}`);
 	};
 
@@ -69,18 +73,38 @@ export const RadioForm = ({ countCheckedTasks, setCountCheckedTasks }: RadioForm
 			: setIsDisabled(false);
 	}, []);
 
+	const formContainerStyles = {
+		display: 'flex',
+		flexDirection: 'row',
+		width: '290px',
+		marginBottom: '20px',
+	};
+
+	const radioGroupStyles = {
+		display: 'flex',
+		flexDirection: 'row',
+		flexShrink: '0',
+
+		'& .MuiTypography-root': {
+			marginTop: '2px',
+			fontSize: '10px',
+		},
+	};
+
+	const radioButtonStyles = {
+		'& .MuiSvgIcon-root': {
+			fill: '#3F7A29',
+			fontSize: '20px',
+		},
+		padding: '0px',
+		width: '20px',
+		height: '20px',
+	};
+
 	return (
 		<form onSubmit={handleSubmit(handleRadioForm)}>
 			{uniqueControlTasksArray.map((task, index) => (
-				<Box
-					key={index}
-					sx={{
-						display: 'flex',
-						flexDirection: 'row',
-						width: '290px',
-						marginBottom: '20px',
-					}}
-				>
+				<Box key={index} sx={formContainerStyles}>
 					<Controller
 						name={`task-${index}`}
 						control={control}
@@ -89,52 +113,16 @@ export const RadioForm = ({ countCheckedTasks, setCountCheckedTasks }: RadioForm
 							<RadioGroup
 								onClick={e => handleCheckTask({ taskInfo: e.target, description: task })}
 								{...field}
-								sx={{
-									display: 'flex',
-									flexDirection: 'row',
-									flexShrink: '0',
-
-									'& .MuiTypography-root': {
-										marginTop: '2px',
-										fontSize: '10px',
-									},
-								}}
-							>
+								sx={radioGroupStyles}>
 								<FormControlLabel
-									control={
-										<Radio
-											checked={isChecked({ id: field.name, label: 'tak' })}
-											sx={{
-												'& .MuiSvgIcon-root': {
-													fill: '#3F7A29',
-													fontSize: '20px',
-												},
-												padding: '0px',
-												width: '20px',
-												height: '20px',
-											}}
-										/>
-									}
+									control={<Radio checked={isChecked({ id: field.name, label: 'tak' })} sx={radioButtonStyles} />}
 									label='Tak'
 									value='tak'
 									labelPlacement='bottom'
 									sx={{ margin: '0px 10px 0px 0px' }}
 								/>
 								<FormControlLabel
-									control={
-										<Radio
-											checked={isChecked({ id: field.name, label: 'nie' })}
-											sx={{
-												'& .MuiSvgIcon-root': {
-													fill: '#3F7A29',
-													fontSize: '20px',
-												},
-												padding: '0px',
-												width: '20px',
-												height: '20px',
-											}}
-										/>
-									}
+									control={<Radio checked={isChecked({ id: field.name, label: 'nie' })} sx={radioButtonStyles} />}
 									label='Nie'
 									value='nie'
 									labelPlacement='bottom'

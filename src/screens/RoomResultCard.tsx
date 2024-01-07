@@ -4,7 +4,7 @@ import { Box, FormControlLabel, Container, Typography, Radio, RadioGroup } from 
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Room } from '../utils/interfaces';
-import { CustomButton } from '../components/CustomButton/CustomButtom';
+import { CustomButton } from '../components/CustomButton/CustomButton';
 import { LeftDirectionIcon } from '../assets/icons/LeftDirectionIcon';
 
 interface FormValues {
