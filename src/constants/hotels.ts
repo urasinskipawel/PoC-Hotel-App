@@ -1,4 +1,5 @@
 import { Hotel } from '../utils/interfaces';
+import { roomTypes } from './roomTypes';
 
 export const hotels: Hotel[] = [
 	{
@@ -6,8 +7,8 @@ export const hotels: Hotel[] = [
 		hotelName: 'Hotel A',
 		hotelStreet: 'Street A',
 		hotelRooms: [
-			{ roomId: 'room1', roomName: 'Single Room' },
-			{ roomId: 'room2', roomName: 'Double Room' },
+			{ roomId: 'room1', roomType: roomTypes.SINGLE },
+			{ roomId: 'room2', roomType: roomTypes.DOUBLE },
 		],
 	},
 	{
@@ -15,8 +16,8 @@ export const hotels: Hotel[] = [
 		hotelName: 'Hotel B',
 		hotelStreet: 'Street B',
 		hotelRooms: [
-			{ roomId: 'room3', roomName: 'Suite' },
-			{ roomId: 'room4', roomName: 'Deluxe Room' },
+			{ roomId: 'room3', roomType: roomTypes.SUITE },
+			{ roomId: 'room4', roomType: roomTypes.DELUXE },
 		],
 	},
 	{
@@ -24,8 +25,8 @@ export const hotels: Hotel[] = [
 		hotelName: 'Hotel C',
 		hotelStreet: 'Street C',
 		hotelRooms: [
-			{ roomId: 'room3', roomName: 'Suite' },
-			{ roomId: 'room4', roomName: 'Deluxe Room' },
+			{ roomId: 'room3', roomType: roomTypes.SUITE },
+			{ roomId: 'room4', roomType: roomTypes.DELUXE },
 		],
 	},
 ];

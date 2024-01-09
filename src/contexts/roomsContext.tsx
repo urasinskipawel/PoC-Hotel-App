@@ -1,51 +1,38 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, createContext, useState } from 'react';
 import { Room } from '../utils/interfaces';
-
-export const status = {
-	toClean: 'Do posprzątania',
-	toControl: 'Do kontroli',
-	duringControl: 'W trakcie kontroli',
-	duringClean: 'W trakcie sprzątania',
-	controlled: 'Skontrolowany',
-};
-
-const rooms = {
-	SINGLE: 'Single Room',
-	DOUBLE: 'Double Room',
-	SUITE: 'Suite Room',
-	DELUXE: 'Deluxe Room',
-};
+import { roomStatuses } from './../constants/roomStatuses';
+import { roomTypes } from './../constants/roomTypes';
 
 const roomsArray: Room[] = [
 	{
 		id: 'room1',
 		hotelId: 'hotel1',
-		roomType: rooms.SINGLE,
-		status: status.toClean,
+		roomType: roomTypes.SINGLE,
+		status: roomStatuses.toClean,
 		controlCheckedTasks: [],
 		cleaningCheckedTasks: [],
 	},
 	{
 		id: 'room2',
 		hotelId: 'hotel1',
-		roomType: rooms.DOUBLE,
-		status: status.toControl,
+		roomType: roomTypes.DOUBLE,
+		status: roomStatuses.toControl,
 		controlCheckedTasks: [],
 		cleaningCheckedTasks: [],
 	},
 	{
 		id: 'room3',
 		hotelId: 'hotel1',
-		roomType: rooms.SUITE,
-		status: status.toControl,
+		roomType: roomTypes.SUITE,
+		status: roomStatuses.toControl,
 		controlCheckedTasks: [],
 		cleaningCheckedTasks: [],
 	},
 	{
 		id: 'room4',
 		hotelId: 'hotel1',
-		roomType: rooms.DELUXE,
-		status: status.controlled,
+		roomType: roomTypes.DELUXE,
+		status: roomStatuses.controlled,
 		controlCheckedTasks: [
 			{
 				id: 'task-0',
@@ -78,32 +65,32 @@ const roomsArray: Room[] = [
 	{
 		id: 'room5',
 		hotelId: 'hotel2',
-		roomType: rooms.SINGLE,
-		status: status.toClean,
+		roomType: roomTypes.SINGLE,
+		status: roomStatuses.toClean,
 		controlCheckedTasks: [],
 		cleaningCheckedTasks: [],
 	},
 	{
 		id: 'room6',
 		hotelId: 'hotel2',
-		roomType: rooms.DOUBLE,
-		status: status.toControl,
+		roomType: roomTypes.DOUBLE,
+		status: roomStatuses.toControl,
 		controlCheckedTasks: [],
 		cleaningCheckedTasks: [],
 	},
 	{
 		id: 'room7',
 		hotelId: 'hotel2',
-		roomType: rooms.SUITE,
-		status: status.toClean,
+		roomType: roomTypes.SUITE,
+		status: roomStatuses.toClean,
 		controlCheckedTasks: [],
 		cleaningCheckedTasks: [],
 	},
 	{
 		id: 'room8',
 		hotelId: 'hotel2',
-		roomType: rooms.DELUXE,
-		status: status.controlled,
+		roomType: roomTypes.DELUXE,
+		status: roomStatuses.controlled,
 		controlCheckedTasks: [
 			{
 				id: 'task-0',
@@ -136,32 +123,32 @@ const roomsArray: Room[] = [
 	{
 		id: 'room9',
 		hotelId: 'hotel3',
-		roomType: rooms.SINGLE,
-		status: status.toClean,
+		roomType: roomTypes.SINGLE,
+		status: roomStatuses.toClean,
 		controlCheckedTasks: [],
 		cleaningCheckedTasks: [],
 	},
 	{
 		id: 'room10',
 		hotelId: 'hotel3',
-		roomType: rooms.DOUBLE,
-		status: status.toClean,
+		roomType: roomTypes.DOUBLE,
+		status: roomStatuses.toClean,
 		controlCheckedTasks: [],
 		cleaningCheckedTasks: [],
 	},
 	{
 		id: 'room11',
 		hotelId: 'hotel3',
-		roomType: rooms.SUITE,
-		status: status.toControl,
+		roomType: roomTypes.SUITE,
+		status: roomStatuses.toControl,
 		controlCheckedTasks: [],
 		cleaningCheckedTasks: [],
 	},
 	{
 		id: 'room12',
 		hotelId: 'hotel3',
-		roomType: rooms.DELUXE,
-		status: status.toControl,
+		roomType: roomTypes.DELUXE,
+		status: roomStatuses.toControl,
 		controlCheckedTasks: [],
 		cleaningCheckedTasks: [],
 	},

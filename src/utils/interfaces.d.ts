@@ -8,12 +8,12 @@ export interface Room {
 	hotelId: string;
 	roomType: string;
 	status: string;
-	controlCheckedTasks?: tasks[];
-	cleaningCheckedTasks?: tasks[];
+	controlCheckedTasks?: Task[];
+	cleaningCheckedTasks?: Task[];
 }
 interface HotelRoom {
 	roomId: string;
-	roomName: string;
+	roomType: string;
 }
 export interface Hotel {
 	hotelId: string;
