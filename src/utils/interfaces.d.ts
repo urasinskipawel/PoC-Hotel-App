@@ -21,3 +21,6 @@ export interface Hotel {
 	hotelStreet: string;
 	hotelRooms: HotelRoom[];
 }
+export interface FormValues {
+	[key: string]: string;
+}
