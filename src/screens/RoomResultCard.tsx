@@ -62,9 +62,6 @@ const radioGroupStyles = {
 		fontSize: '10px',
 	},
 };
-const radioControlStyles = {
-	margin: '0px 10px 0px 0px',
-};
 
 const radioButtonStyles = {
 	'& .MuiSvgIcon-root': {
@@ -74,6 +71,10 @@ const radioButtonStyles = {
 	padding: '0px',
 	width: '20px',
 	height: '20px',
+};
+
+const radioControlStyles = {
+	margin: '0px 10px 0px 0px',
 };
 
 export const RoomResultCard = () => {

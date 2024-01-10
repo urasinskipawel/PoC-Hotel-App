@@ -12,7 +12,6 @@ import { roomStatuses } from '../constants/roomStatuses';
 import { globalTheme } from '../themes/GlobalTheme';
 import { statusColors } from '../constants/statusColors';
 
-
 interface TaskStatus {
 	[key: string]: boolean;
 }
@@ -160,7 +159,7 @@ export const RoomCleaningCard = () => {
 				<CustomButton
 					disabled={checkedTasks !== cleaningTasks.length}
 					btnBackground={statusColors.blue}
-					disabledBackground={statusColors.disabled}
+					disabledBackground={statusColors.disabledBlue}
 					btnName={'Zakończ sprzątanie'}
 				/>
 			</form>

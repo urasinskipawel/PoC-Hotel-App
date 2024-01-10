@@ -4,30 +4,70 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { uniqueControlTasksArray } from '../../helpers/drawRandomTasks';
 import { Box, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
 import { RoomsContext } from '../../contexts/roomsContext';
-import { Room } from '../../utils/interfaces';
+import { Room, Task } from '../../utils/interfaces';
 import { CustomButton } from '../CustomButton/CustomButton';
 import { roomStatuses } from '../../constants/roomStatuses';
+import { FormValues } from './../../utils/interfaces';
+import uuid from 'react-uuid';
+import { makeStyles } from '@mui/styles';
+import { globalTheme } from '../../themes/GlobalTheme';
+import { statusColors } from '../../constants/statusColors';
 
-interface Task {
-	id: string;
-	label: string;
-}
-interface FormValues {
-	[key: string]: string;
-}
+const useStyles = makeStyles(theme => ({
+	root: {
+		display: 'flex',
+		flexDirection: 'row',
+		width: '290px',
+		marginBottom: '20px',
+	},
+	text: {
+		color: globalTheme.palette.primary.main,
+	},
+}));
+
+const radioGroupStyles = {
+	display: 'flex',
+	flexDirection: 'row',
+	flexShrink: '0',
+
+	'& .MuiTypography-root': {
+		marginTop: '2px',
+		fontSize: '10px',
+	},
+};
+
+const radioButtonStyles = {
+	'& .MuiSvgIcon-root': {
+		fill: statusColors.darkGreen,
+		fontSize: '20px',
+	},
+	padding: '0px',
+	width: '20px',
+	height: '20px',
+};
+
+const radioControlStyles = {
+	margin: '0px 10px 0px 0px',
+};
+
 interface RadioFormProps {
 	setCountCheckedTasks: React.Dispatch<React.SetStateAction<number>>;
 }
+interface CurrentTask {
+	taskInfo: EventTarget;
+	description: string;
+}
 
 export const RadioForm = ({ setCountCheckedTasks }: RadioFormProps) => {
-	const { handleSubmit, control } = useForm<FormValues>();
-	const navigate = useNavigate();
-	const { hotelId, roomId } = useParams<string>();
 	const [rooms] = useContext(RoomsContext);
+	const { handleSubmit, control } = useForm<FormValues>();
+	const { hotelId, roomId } = useParams<string>();
 	const [checkedTasks, setCheckedTasks] = useState(
 		rooms[rooms.findIndex((room: Room) => room.id === roomId)].controlCheckedTasks.length
 	);
-	const [isDisabled, setIsDisabled] = useState(false);
+
+	const navigate = useNavigate();
+	const classes = useStyles();
 
 	const currentRoom = rooms.findIndex((room: Room) => room.id === roomId);
 
@@ -36,10 +76,13 @@ export const RadioForm = ({ setCountCheckedTasks }: RadioFormProps) => {
 		navigate(`/hotel/${hotelId}`);
 	};
 
-	const handleCheckTask = (currentTask: any) => {
-		const task = currentTask.taskInfo;
+	const handleCheckTask = (currentTask: CurrentTask) => {
+		const task = currentTask.taskInfo as HTMLInputElement;
+
 		if (!!rooms && !!task.name) {
-			const taskIndex = rooms[currentRoom].controlCheckedTasks.findIndex((t: any) => t.id === task.name);
+			const taskIndex = rooms[currentRoom].controlCheckedTasks.findIndex(
+				(controlTask: Task) => controlTask.id === task.name
+			);
 			if (taskIndex !== -1) {
 				rooms[currentRoom].controlCheckedTasks[taskIndex].label = task.value;
 			} else {
@@ -49,16 +92,13 @@ export const RadioForm = ({ setCountCheckedTasks }: RadioFormProps) => {
 					description: currentTask.description,
 				});
 			}
+			setCheckedTasks(rooms[currentRoom].controlCheckedTasks.length);
 		}
-		setCheckedTasks(rooms[currentRoom].controlCheckedTasks.length);
-		rooms[currentRoom].controlCheckedTasks.length === uniqueControlTasksArray.length
-			? setIsDisabled(false)
-			: setIsDisabled(true);
 	};
 
-	const isChecked = (taskInfo: any) => {
+	const isChecked = (taskInfo: Task) => {
 		let checked;
-		const found = rooms[currentRoom].controlCheckedTasks.find((t: any) => t.id === taskInfo.id);
+		const found = rooms[currentRoom].controlCheckedTasks.find((task: Task) => task.id === taskInfo.id);
 		!!found ? (found.label === taskInfo.label ? (checked = true) : (checked = false)) : (checked = false);
 		return checked;
 	};
@@ -67,44 +107,10 @@ export const RadioForm = ({ setCountCheckedTasks }: RadioFormProps) => {
 		setCountCheckedTasks(checkedTasks);
 	}, [checkedTasks]);
 
-	useEffect(() => {
-		rooms[currentRoom].controlCheckedTasks.length !== uniqueControlTasksArray.length
-			? setIsDisabled(true)
-			: setIsDisabled(false);
-	}, []);
-
-	const formContainerStyles = {
-		display: 'flex',
-		flexDirection: 'row',
-		width: '290px',
-		marginBottom: '20px',
-	};
-
-	const radioGroupStyles = {
-		display: 'flex',
-		flexDirection: 'row',
-		flexShrink: '0',
-
-		'& .MuiTypography-root': {
-			marginTop: '2px',
-			fontSize: '10px',
-		},
-	};
-
-	const radioButtonStyles = {
-		'& .MuiSvgIcon-root': {
-			fill: '#3F7A29',
-			fontSize: '20px',
-		},
-		padding: '0px',
-		width: '20px',
-		height: '20px',
-	};
-
 	return (
 		<form onSubmit={handleSubmit(handleRadioForm)}>
 			{uniqueControlTasksArray.map((task, index) => (
-				<Box key={index} sx={formContainerStyles}>
+				<Box key={uuid()} className={classes.root}>
 					<Controller
 						name={`task-${index}`}
 						control={control}
@@ -119,27 +125,27 @@ export const RadioForm = ({ setCountCheckedTasks }: RadioFormProps) => {
 									label='Tak'
 									value='tak'
 									labelPlacement='bottom'
-									sx={{ margin: '0px 10px 0px 0px' }}
+									sx={radioControlStyles}
 								/>
 								<FormControlLabel
 									control={<Radio checked={isChecked({ id: field.name, label: 'nie' })} sx={radioButtonStyles} />}
 									label='Nie'
 									value='nie'
 									labelPlacement='bottom'
-									sx={{ margin: '0px 10px 0px 0px' }}
+									sx={radioControlStyles}
 								/>
 							</RadioGroup>
 						)}
 					/>
-					<Typography variant='body1' sx={{ color: '#121212' }}>
+					<Typography variant='body1' className={classes.text}>
 						{task}
 					</Typography>
 				</Box>
 			))}
 			<CustomButton
-				disabled={isDisabled}
-				btnBackground='#3F7A29'
-				disabledBackground='rgba(63, 122, 41, 0.75)'
+				disabled={rooms[currentRoom].controlCheckedTasks.length !== uniqueControlTasksArray.length}
+				btnBackground={statusColors.darkGreen}
+				disabledBackground={statusColors.disabledGreen}
 				btnName={'Zakończ kontrolę'}
 			/>
 		</form>
