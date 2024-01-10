@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { makeStyles } from '@mui/styles';
 import { RoomsContext } from '../contexts/roomsContext';
-import { Room } from '../utils/interfaces';
+import { Room } from '../interfaces/interfaces';
 import { CustomButton } from '../components/CustomButton/CustomButton';
 import { cleaningTasks } from '../constants/cleaningTasks';
 import { LeftDirectionIcon } from '../assets/icons/LeftDirectionIcon';

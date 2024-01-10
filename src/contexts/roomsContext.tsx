@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, createContext, useState } from 'react';
-import { Room } from '../utils/interfaces';
+import { Room } from '../interfaces/interfaces';
 import { roomStatuses } from './../constants/roomStatuses';
 import { roomTypes } from './../constants/roomTypes';
 

@@ -3,7 +3,7 @@ import { Box, Container, Typography } from '@mui/material';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { uniqueControlTasksArray } from '../helpers/drawRandomTasks';
 import { RadioForm } from '../components/RadioForm/RadioForm';
-import { Room } from '../utils/interfaces';
+import { Room } from '../interfaces/interfaces';
 import { RoomsContext } from '../contexts/roomsContext';
 import { LeftDirectionIcon } from '../assets/icons/LeftDirectionIcon';
 import { roomStatuses } from '../constants/roomStatuses';

@@ -1,4 +1,4 @@
-import { Hotel } from '../utils/interfaces';
+import { Hotel } from '../interfaces/interfaces';
 import { roomTypes } from './roomTypes';
 
 export const hotels: Hotel[] = [

@@ -7,7 +7,7 @@ import { LeftDirectionIcon } from '../assets/icons/LeftDirectionIcon';
 import { RightDirectionIcon } from '../assets/icons/RightDirectionIcon';
 import { globalTheme } from '../themes/GlobalTheme';
 import { hotels } from '../constants/hotels';
-import { Hotel } from '../utils/interfaces';
+import { Hotel } from '../interfaces/interfaces';
 import uuid from 'react-uuid';
 
 const useStyles = makeStyles(theme => ({

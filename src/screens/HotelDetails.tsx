@@ -6,7 +6,7 @@ import { makeStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
 import { DetailsButton } from '../components/DetailsButton/DetailsButton';
 import { RoomsContext } from '../contexts/roomsContext';
-import { Room } from '../utils/interfaces';
+import { Room } from '../interfaces/interfaces';
 import { RoleContext } from '../contexts/roleContext';
 import { LeftDirectionIcon } from '../assets/icons/LeftDirectionIcon';
 import { RightDirectionIcon } from '../assets/icons/RightDirectionIcon';
