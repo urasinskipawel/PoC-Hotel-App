@@ -7,75 +7,9 @@ import { Room } from '../interfaces/interfaces';
 import { CustomButton } from '../components/CustomButton/CustomButton';
 import { LeftDirectionIcon } from '../assets/icons/LeftDirectionIcon';
 import { FormValues, Task } from '../interfaces/interfaces';
-import { makeStyles } from '@mui/styles';
-import { globalTheme } from '../themes/GlobalTheme';
 import uuid from 'react-uuid';
 import { statusColors } from '../constants/statusColors';
-
-const useStyles = makeStyles(theme => ({
-	root: {
-		display: 'flex',
-		justifyContent: 'flex-start',
-		minWidth: '290px',
-		marginTop: '50px',
-		marginBottom: '5px',
-		textDecoration: 'none',
-	},
-	text: {
-		color: globalTheme.palette.primary.main,
-	},
-	cardNameBox: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		minWidth: '290px',
-		marginBottom: '40px',
-	},
-	form: {
-		display: 'flex',
-		flexDirection: 'row',
-		width: '290px',
-		marginBottom: '20px',
-	},
-
-	formControlLabel: {
-		margin: '0px 10px 0px 0px',
-	},
-	radioBtn: {
-		'& .MuiSvgIcon-root': {
-			fill: '#3F7A29',
-			fontSize: '20px',
-		},
-		padding: '0px',
-		width: '20px',
-		height: '20px',
-	},
-}));
-
-const radioGroupStyles = {
-	display: 'flex',
-	flexDirection: 'row',
-	flexShrink: '0',
-
-	'& .MuiTypography-root': {
-		marginTop: '2px',
-		fontSize: '10px',
-	},
-};
-
-const radioButtonStyles = {
-	'& .MuiSvgIcon-root': {
-		fill: statusColors.darkGreen,
-		fontSize: '20px',
-	},
-	padding: '0px',
-	width: '20px',
-	height: '20px',
-};
-
-const radioControlStyles = {
-	margin: '0px 10px 0px 0px',
-};
+import { useFormStyles, radioButtonStyles, radioControlStyles, radioGroupStyles } from '../themes/styles';
 
 export const RoomResultCard = () => {
 	const [rooms] = useContext(RoomsContext);
@@ -84,7 +18,7 @@ export const RoomResultCard = () => {
 	const { hotelId, roomId } = useParams<string>();
 
 	const navigate = useNavigate();
-	const classes = useStyles();
+	const classes = useFormStyles();
 
 	const currentRoom = rooms.findIndex((room: Room) => room.id === roomId);
 
@@ -99,7 +33,7 @@ export const RoomResultCard = () => {
 
 	return (
 		<Container component='main'>
-			<Box component={Link} to={`/hotel/${hotelId}`} className={classes.root}>
+			<Box component={Link} to={`/hotel/${hotelId}`} className={classes.returnBox}>
 				<LeftDirectionIcon />
 				<Typography
 					className={classes.text}
@@ -119,7 +53,7 @@ export const RoomResultCard = () => {
 			</Box>
 			<form onSubmit={handleNavigate}>
 				{rooms[currentRoom].controlCheckedTasks.map((task: Task, index: number) => (
-					<Box key={uuid()} className={classes.form}>
+					<Box key={uuid()} className={classes.radioForm}>
 						<Controller
 							name={`task-${index}`}
 							control={control}

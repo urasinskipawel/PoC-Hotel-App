@@ -9,47 +9,8 @@ import { CustomButton } from '../CustomButton/CustomButton';
 import { roomStatuses } from '../../constants/roomStatuses';
 import { FormValues } from '../../interfaces/interfaces';
 import uuid from 'react-uuid';
-import { makeStyles } from '@mui/styles';
-import { globalTheme } from '../../themes/GlobalTheme';
 import { statusColors } from '../../constants/statusColors';
-
-const useStyles = makeStyles(theme => ({
-	root: {
-		display: 'flex',
-		flexDirection: 'row',
-		width: '290px',
-		marginBottom: '20px',
-	},
-	text: {
-		color: globalTheme.palette.primary.main,
-	},
-}));
-
-const radioGroupStyles = {
-	display: 'flex',
-	flexDirection: 'row',
-	flexShrink: '0',
-
-	'& .MuiTypography-root': {
-		marginTop: '2px',
-		fontSize: '10px',
-	},
-};
-
-const radioButtonStyles = {
-	'& .MuiSvgIcon-root': {
-		fill: statusColors.darkGreen,
-		fontSize: '20px',
-	},
-	padding: '0px',
-	width: '20px',
-	height: '20px',
-};
-
-const radioControlStyles = {
-	margin: '0px 10px 0px 0px',
-};
-
+import { radioButtonStyles, radioControlStyles, radioGroupStyles, useFormStyles } from '../../themes/styles';
 interface RadioFormProps {
 	setCountCheckedTasks: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -67,7 +28,7 @@ export const RadioForm = ({ setCountCheckedTasks }: RadioFormProps) => {
 	);
 
 	const navigate = useNavigate();
-	const classes = useStyles();
+	const classes = useFormStyles();
 
 	const currentRoom = rooms.findIndex((room: Room) => room.id === roomId);
 
@@ -110,7 +71,7 @@ export const RadioForm = ({ setCountCheckedTasks }: RadioFormProps) => {
 	return (
 		<form onSubmit={handleSubmit(handleRadioForm)}>
 			{uniqueControlTasksArray.map((task, index) => (
-				<Box key={uuid()} className={classes.root}>
+				<Box key={uuid()} className={classes.radioForm}>
 					<Controller
 						name={`task-${index}`}
 						control={control}

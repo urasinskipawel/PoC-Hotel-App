@@ -7,29 +7,7 @@ import { Room } from '../interfaces/interfaces';
 import { RoomsContext } from '../contexts/roomsContext';
 import { LeftDirectionIcon } from '../assets/icons/LeftDirectionIcon';
 import { roomStatuses } from '../constants/roomStatuses';
-import { makeStyles } from '@mui/styles';
-import { globalTheme } from '../themes/GlobalTheme';
-
-const useStyles = makeStyles(theme => ({
-	root: {
-		display: 'flex',
-		justifyContent: 'flex-start',
-		minWidth: '290px',
-		marginTop: '50px',
-		marginBottom: '5px',
-		textDecoration: 'none',
-	},
-	text: {
-		color: globalTheme.palette.primary.main,
-	},
-	cardNameBox: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		minWidth: '290px',
-		marginBottom: '40px',
-	},
-}));
+import { useFormStyles } from '../themes/styles';
 
 export const RoomControlCard = () => {
 	const [countCheckedTasks, setCountCheckedTasks] = useState<number>(0);
@@ -37,7 +15,7 @@ export const RoomControlCard = () => {
 
 	const { hotelId, roomId } = useParams<string>();
 	const navigate = useNavigate();
-	const classes = useStyles();
+	const classes = useFormStyles();
 
 	const currentRoom = rooms.findIndex((room: Room) => room.id === roomId);
 
@@ -50,7 +28,7 @@ export const RoomControlCard = () => {
 
 	return (
 		<Container component='main'>
-			<Box component={Link} to={`/hotel/${hotelId}`} className={classes.root}>
+			<Box component={Link} to={`/hotel/${hotelId}`} className={classes.returnBox}>
 				<LeftDirectionIcon />
 				<Typography
 					variant='h5'
