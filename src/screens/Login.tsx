@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Container, TextField, Avatar, Box } from '@mui/material';
+import { Container, TextField, Avatar, Box, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -7,6 +7,7 @@ import { users } from '../constants/users';
 import { RoleContext } from '../contexts/roleContext';
 import { CustomButton } from '../components/CustomButton/CustomButton';
 import { statusColors } from './../constants/statusColors';
+
 interface LoginData {
 	email: string;
 	password: string;
@@ -18,7 +19,6 @@ const useStyles = makeStyles(theme => ({
 		flexDirection: 'column',
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: '#EEF4F5',
 		padding: '0px',
 		height: '100vh',
 	},
@@ -27,6 +27,14 @@ const useStyles = makeStyles(theme => ({
 		flexDirection: 'column',
 		alignItems: 'center',
 		justifyContent: 'center',
+	},
+	validationBox: {
+		display: 'flex',
+		flexDirection: 'column',
+	},
+	validationText: {
+		alignSelf: 'end',
+		color: statusColors.red,
 	},
 	input: {
 		'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
@@ -49,14 +57,33 @@ const useStyles = makeStyles(theme => ({
 		'& .MuiInputLabel-outlined': {
 			color: statusColors.darkGreen,
 		},
+		width: '290px',
 	},
 }));
 
 export const Login = () => {
 	const navigate = useNavigate();
 	const classes = useStyles();
-	const { handleSubmit, control } = useForm<LoginData>();
+	const {
+		handleSubmit,
+		control,
+		setError,
+		formState: { errors },
+	} = useForm<LoginData>();
 	const value = useContext(RoleContext);
+
+	const validationSchema = {
+		email: {
+			required: 'Email is required',
+			pattern: {
+				value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+				message: 'Invalid email format',
+			},
+		},
+		password: {
+			required: 'Password is required',
+		},
+	};
 
 	const handleLogin: SubmitHandler<LoginData> = (data: LoginData) => {
 		const found = users.find(user => user.login === data.email);
@@ -65,7 +92,12 @@ export const Login = () => {
 			value.access = found.role.ACCESS;
 			navigate('/hotels');
 		} else {
-			alert('Niepoprawne dane');
+			setError('email', {
+				message: 'Invalid email address',
+			});
+			setError('password', {
+				message: 'Invalid password',
+			});
 		}
 	};
 
@@ -87,32 +119,32 @@ export const Login = () => {
 						name='email'
 						control={control}
 						defaultValue=''
+						rules={validationSchema.email}
 						render={({ field }) => (
-							<TextField
-								{...field}
-								className={classes.input}
-								label='E-mail'
-								type='email'
-								variant='outlined'
-								size='small'
-								sx={{ mb: '25px', minWidth: 290 }}
-							/>
+							<Box className={classes.validationBox}>
+								<TextField {...field} className={classes.input} label='E-mail' type='email' variant='outlined' size='small' />
+								{errors.email && <Typography className={classes.validationText}>{errors.email.message}</Typography>}
+							</Box>
 						)}
 					/>
 					<Controller
 						name='password'
 						control={control}
 						defaultValue=''
+						rules={validationSchema.password}
 						render={({ field }) => (
-							<TextField
-								{...field}
-								className={classes.input}
-								label='Hasło'
-								type='password'
-								variant='outlined'
-								size='small'
-								sx={{ minWidth: 290 }}
-							/>
+							<Box className={classes.validationBox}>
+								<TextField
+									{...field}
+									className={classes.input}
+									label='Hasło'
+									type='password'
+									variant='outlined'
+									size='small'
+									sx={{ mt: '25px' }}
+								/>
+								{errors.password && <Typography className={classes.validationText}>{errors.password.message}</Typography>}
+							</Box>
 						)}
 					/>
 					<CustomButton btnBackground={statusColors.darkGreen} btnName={'Zaloguj'} />
