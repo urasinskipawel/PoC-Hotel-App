@@ -5,21 +5,16 @@ export interface Task {
 }
 export interface Room {
 	id: string;
-	hotelId: string;
 	roomType: string;
 	status: string;
-	controlCheckedTasks?: Task[];
+	controlCheckedTasks?: string[];
 	cleaningCheckedTasks?: Task[];
-}
-interface HotelRoom {
-	roomId: string;
-	roomType: string;
 }
 export interface Hotel {
 	hotelId: string;
 	hotelName: string;
 	hotelStreet: string;
-	hotelRooms: HotelRoom[];
+	hotelRooms: Room[];
 }
 export interface FormValues {
 	[key: string]: string;

@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 export const HotelDetails = () => {
 	const [rooms] = useContext(RoomsContext);
 	const { role } = useContext(RoleContext);
-	const [roomsArray, setRoomsArray] = useState(rooms);
+	const [roomsArray] = useState(rooms);
 
 	const classes = useStyles();
 	const navigate = useNavigate();
@@ -58,7 +58,7 @@ export const HotelDetails = () => {
 	const handleDisabled = (room: Room) => {
 		if (room.status !== roomStatuses.toClean && role === userRoles.WORKER.NAME) return true;
 		if (room.status !== roomStatuses.toControl && role === userRoles.SUPERVISOR.NAME) return true;
-		if (room.status !== roomStatuses.controlled && role === userRoles.SUPERVISOR.NAME) return true;
+		if (room.status !== roomStatuses.controlled && role === userRoles.BOSS.NAME) return true;
 	};
 
 	const handleStyle = (roomId: string) => {
@@ -98,38 +98,35 @@ export const HotelDetails = () => {
 					Szczegóły hotelu
 				</Typography>
 			</Box>
-			{roomsArray.map(
-				(room: Room) =>
-					room.hotelId === hotelId && (
-						<Box key={uuid()}>
-							<DetailsButton
-								border={`3px solid ${handleStyle(room.id).style}`}
-								handleNavigate={() => handleNavigate(room)}
-								disabled={handleDisabled(room)}>
-								<Typography className={classes.text} variant='h6' sx={{ fontSize: '20px', fontWeight: 600, flex: '1' }}>
-									{room.roomType}
-								</Typography>
-								<RightDirectionIcon />
-							</DetailsButton>
-							<Box
-								sx={{
-									display: 'flex',
-									justifyContent: 'flex-end',
-									mb: '4px',
-								}}>
-								<Typography
-									className={classes.text}
-									variant='body1'
-									sx={{
-										fontSize: '16px',
-										color: handleStyle(room.id).style,
-									}}>
-									{handleStyle(room.id).status}
-								</Typography>
-							</Box>
-						</Box>
-					)
-			)}
+			{roomsArray.map((room: Room) => (
+				<Box key={uuid()}>
+					<DetailsButton
+						border={`3px solid ${handleStyle(room.id).style}`}
+						handleNavigate={() => handleNavigate(room)}
+						disabled={handleDisabled(room)}>
+						<Typography className={classes.text} variant='h6' sx={{ fontSize: '20px', fontWeight: 600, flex: '1' }}>
+							{room.roomType}
+						</Typography>
+						<RightDirectionIcon />
+					</DetailsButton>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'flex-end',
+							mb: '4px',
+						}}>
+						<Typography
+							className={classes.text}
+							variant='body1'
+							sx={{
+								fontSize: '16px',
+								color: handleStyle(room.id).style,
+							}}>
+							{handleStyle(room.id).status}
+						</Typography>
+					</Box>
+				</Box>
+			))}
 		</Container>
 	);
 };
