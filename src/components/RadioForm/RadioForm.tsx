@@ -12,14 +12,15 @@ import uuid from 'react-uuid';
 import { statusColors } from '../../constants/statusColors';
 import { radioButtonStyles, radioControlStyles, radioGroupStyles, useFormStyles } from '../../themes/styles';
 interface RadioFormProps {
-	setCountCheckedTasks: React.Dispatch<React.SetStateAction<number>>;
+	setCountCheckedTasks?: React.Dispatch<React.SetStateAction<number>>;
+	cardType?: 'control';
 }
 interface CurrentTask {
 	taskInfo: EventTarget;
-	description: string;
+	description: string | Task;
 }
 
-export const RadioForm = ({ setCountCheckedTasks }: RadioFormProps) => {
+export const RadioForm = ({ setCountCheckedTasks, cardType }: RadioFormProps) => {
 	const [rooms] = useContext(RoomsContext);
 	const { handleSubmit, control } = useForm<FormValues>();
 	const { hotelId, roomId } = useParams<string>();
@@ -33,7 +34,9 @@ export const RadioForm = ({ setCountCheckedTasks }: RadioFormProps) => {
 	const currentRoom = rooms.findIndex((room: Room) => room.id === roomId);
 
 	const handleRadioForm: SubmitHandler<FormValues> = () => {
-		rooms[currentRoom].status = roomStatuses.controlled;
+		if (cardType) {
+			rooms[currentRoom].status = roomStatuses.controlled;
+		}
 		navigate(`/hotel/${hotelId}`);
 	};
 
@@ -65,49 +68,78 @@ export const RadioForm = ({ setCountCheckedTasks }: RadioFormProps) => {
 	};
 
 	useEffect(() => {
-		setCountCheckedTasks(checkedTasks);
+		if (setCountCheckedTasks) {
+			setCountCheckedTasks(checkedTasks);
+		}
 	}, [checkedTasks]);
 
 	return (
 		<form onSubmit={handleSubmit(handleRadioForm)}>
-			{uniqueControlTasksArray.map((task, index) => (
-				<Box key={uuid()} className={classes.radioForm}>
-					<Controller
-						name={`task-${index}`}
-						control={control}
-						defaultValue=''
-						render={({ field }) => (
-							<RadioGroup
-								onClick={e => handleCheckTask({ taskInfo: e.target, description: task })}
-								{...field}
-								sx={radioGroupStyles}>
-								<FormControlLabel
-									control={<Radio checked={isChecked({ id: field.name, label: 'tak' })} sx={radioButtonStyles} />}
-									label='Tak'
-									value='tak'
-									labelPlacement='bottom'
-									sx={radioControlStyles}
-								/>
-								<FormControlLabel
-									control={<Radio checked={isChecked({ id: field.name, label: 'nie' })} sx={radioButtonStyles} />}
-									label='Nie'
-									value='nie'
-									labelPlacement='bottom'
-									sx={radioControlStyles}
-								/>
-							</RadioGroup>
-						)}
-					/>
-					<Typography variant='body1' className={classes.text}>
-						{task}
-					</Typography>
-				</Box>
-			))}
+			{(cardType ? uniqueControlTasksArray : rooms[currentRoom].controlCheckedTasks).map(
+				(task: Task | string, index: number) => (
+					<Box key={uuid()} className={classes.radioForm}>
+						<Controller
+							name={`task-${index}`}
+							control={control}
+							defaultValue=''
+							render={({ field }) => (
+								<RadioGroup
+									onClick={e => handleCheckTask({ taskInfo: e.target, description: task })}
+									{...field}
+									sx={radioGroupStyles}>
+									<FormControlLabel
+										disabled={cardType ? false : true}
+										control={
+											<Radio
+												checked={
+													cardType
+														? isChecked({ id: field.name, label: 'tak' })
+														: typeof task !== 'string' && task.label === 'tak'
+														? true
+														: false
+												}
+												sx={radioButtonStyles}
+											/>
+										}
+										label='Tak'
+										value='tak'
+										labelPlacement='bottom'
+										sx={radioControlStyles}
+									/>
+									<FormControlLabel
+										className={classes.formControlLabel}
+										disabled={cardType ? false : true}
+										control={
+											<Radio
+												checked={
+													cardType
+														? isChecked({ id: field.name, label: 'nie' })
+														: typeof task !== 'string' && task.label === 'nie'
+														? true
+														: false
+												}
+												sx={radioButtonStyles}
+											/>
+										}
+										label='Nie'
+										value='nie'
+										labelPlacement='bottom'
+										sx={radioControlStyles}
+									/>
+								</RadioGroup>
+							)}
+						/>
+						<Typography className={classes.text} variant='body1'>
+							{cardType ? (task as string) : typeof task !== 'string' ? task.description : task}
+						</Typography>
+					</Box>
+				)
+			)}
 			<CustomButton
 				disabled={rooms[currentRoom].controlCheckedTasks.length !== uniqueControlTasksArray.length}
 				btnBackground={statusColors.darkGreen}
 				disabledBackground={statusColors.disabledGreen}
-				btnName={'Zakończ kontrolę'}
+				btnName={cardType ? 'Zakończ kontrolę' : 'Zamknij'}
 			/>
 		</form>
 	);

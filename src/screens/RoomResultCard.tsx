@@ -1,20 +1,16 @@
 import React, { useContext } from 'react';
 import { RoomsContext } from '../contexts/roomsContext';
-import { Box, FormControlLabel, Container, Typography, Radio, RadioGroup } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Controller, useForm } from 'react-hook-form';
+import { RadioForm } from '../components/RadioForm/RadioForm';
 import { Room } from '../interfaces/interfaces';
-import { CustomButton } from '../components/CustomButton/CustomButton';
 import { LeftDirectionIcon } from '../assets/icons/LeftDirectionIcon';
-import { FormValues, Task } from '../interfaces/interfaces';
-import uuid from 'react-uuid';
-import { statusColors } from '../constants/statusColors';
-import { useFormStyles, radioButtonStyles, radioControlStyles, radioGroupStyles } from '../themes/styles';
+import { Task } from '../interfaces/interfaces';
+import { useFormStyles } from '../themes/styles';
 
 export const RoomResultCard = () => {
 	const [rooms] = useContext(RoomsContext);
 
-	const { control } = useForm<FormValues>();
 	const { hotelId, roomId } = useParams<string>();
 
 	const navigate = useNavigate();
@@ -51,42 +47,7 @@ export const RoomResultCard = () => {
 					Wynik kontroli: {done !== 0 ? `${done * 2}0%` : '0%'}
 				</Typography>
 			</Box>
-			<form onSubmit={handleNavigate}>
-				{rooms[currentRoom].controlCheckedTasks.map((task: Task, index: number) => (
-					<Box key={uuid()} className={classes.radioForm}>
-						<Controller
-							name={`task-${index}`}
-							control={control}
-							defaultValue=''
-							render={({ field }) => (
-								<RadioGroup {...field} sx={radioGroupStyles}>
-									<FormControlLabel
-										disabled={true}
-										control={<Radio checked={task.label === 'tak' ? true : false} sx={radioButtonStyles} />}
-										label='Tak'
-										value='tak'
-										labelPlacement='bottom'
-										sx={radioControlStyles}
-									/>
-									<FormControlLabel
-										className={classes.formControlLabel}
-										disabled={true}
-										control={<Radio checked={task.label === 'nie' ? true : false} sx={radioButtonStyles} />}
-										label='Nie'
-										value='nie'
-										labelPlacement='bottom'
-										sx={radioControlStyles}
-									/>
-								</RadioGroup>
-							)}
-						/>
-						<Typography className={classes.text} variant='body1'>
-							{task.description}
-						</Typography>
-					</Box>
-				))}
-				<CustomButton btnBackground={statusColors.darkGreen} btnName={'Zamknij'} />
-			</form>
+			<RadioForm />
 		</Container>
 	);
 };

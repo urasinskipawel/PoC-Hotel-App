@@ -53,33 +53,3 @@ export const hotels: Hotel[] = [
 		hotelRooms: hotelRooms,
 	},
 ];
-
-// Example control controlCheckedTasks
-
-// controlCheckedTasks: [
-// 	{
-// 		id: 'task-0',
-// 		label: 'tak',
-// 		description: 'Odkurzyć lub wytrzepać dywan, zamiatać podłogę.',
-// 	},
-// 	{
-// 		id: 'task-1',
-// 		label: 'tak',
-// 		description: 'Wypłukać i przetrzeć wewnętrzne powierzchnie czajnika/Cafetiera.',
-// 	},
-// 	{
-// 		id: 'task-2',
-// 		label: 'nie',
-// 		description: 'Wyczyścić lustro ze smug i plam.',
-// 	},
-// 	{
-// 		id: 'task-3',
-// 		label: 'tak',
-// 		description: 'Wyczyścić umywalkę, kran, toaletę i wannę/prysznic.',
-// 	},
-// 	{
-// 		id: 'task-4',
-// 		label: 'nie',
-// 		description: 'Przetrzeć powierzchnie mebli wilgotną szmatką.',
-// 	},
-// ],
