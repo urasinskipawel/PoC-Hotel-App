@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { Room } from '../interfaces/interfaces';
 import { hotelRooms } from '../constants/hotels';
 
-// TODO:  uzyc radio form w result card
-
 export const RoomsContext = React.createContext<Room[] | any>([]);
 
 type RoomsProviderProps = {
