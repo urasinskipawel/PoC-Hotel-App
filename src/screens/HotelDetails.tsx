@@ -1,50 +1,70 @@
 import React, { useContext, useState } from 'react';
+import uuid from 'react-uuid';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Container, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
-import { DirectionIcon } from '../components/DirectionIcon/DirectionIcon';
 import { DetailsButton } from '../components/DetailsButton/DetailsButton';
 import { RoomsContext } from '../contexts/roomsContext';
-import { Room } from '../utils/interfaces';
+import { Room } from '../interfaces/interfaces';
 import { RoleContext } from '../contexts/roleContext';
+import { LeftDirectionIcon } from '../assets/icons/LeftDirectionIcon';
+import { RightDirectionIcon } from '../assets/icons/RightDirectionIcon';
+import { statusColors } from '../constants/statusColors';
+import { roomStatuses } from '../constants/roomStatuses';
+import { userRoles } from '../constants/users';
+import { globalTheme } from '../themes/GlobalTheme';
 
-interface Styles {
+interface Style {
 	status: string;
 	color: string;
 }
 
-const colors = {
-	red: '#9d071f',
-	pink: '#AA5766',
-	blue: '#0c3c64',
-	lightGreen: '#46A145',
-	darkGreen: '#3F7A29',
-};
-
-const styles: Styles[] = [
-	{ status: 'W trakcie sprzątania', color: colors.pink },
-	{ status: 'Do kontroli', color: colors.blue },
-	{ status: 'W trakcie kontroli', color: colors.lightGreen },
-	{ status: 'Skontrolowany', color: colors.darkGreen },
-];
+const useStyles = makeStyles(theme => ({
+	root: {
+		display: 'flex',
+		justifyContent: 'flex-start',
+		minWidth: '290px',
+		marginTop: '50px',
+		marginBottom: '30px',
+		textDecoration: 'none',
+	},
+	boxContent: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'flex-start',
+	},
+	text: {
+		color: globalTheme.palette.primary.main,
+	},
+}));
 
 export const HotelDetails = () => {
-	const { hotelId } = useParams<{ hotelId: string }>();
-	const navigate = useNavigate();
-	const [rooms, setRooms] = useContext(RoomsContext);
-	const [roomsArray, setRoomsArray] = useState(rooms);
+	const [rooms] = useContext(RoomsContext);
 	const { role } = useContext(RoleContext);
+	const [roomsArray] = useState(rooms);
+
+	const classes = useStyles();
+	const navigate = useNavigate();
+	const { hotelId } = useParams<{ hotelId: string }>();
+
+	const styles: Style[] = [
+		{ status: roomStatuses.duringClean, color: statusColors.pink },
+		{ status: roomStatuses.toControl, color: statusColors.blue },
+		{ status: roomStatuses.duringControl, color: statusColors.lightGreen },
+		{ status: roomStatuses.controlled, color: statusColors.darkGreen },
+	];
 
 	const handleDisabled = (room: Room) => {
-		if (room.status !== 'Do posprzątania' && role === 'worker') return true;
-		if (room.status !== 'Do kontroli' && role === 'supervisor') return true;
-		if (room.status !== 'Skontrolowany' && role === 'boss') return true;
+		if (room.status !== roomStatuses.toClean && role === userRoles.WORKER.NAME) return true;
+		if (room.status !== roomStatuses.toControl && role === userRoles.SUPERVISOR.NAME) return true;
+		if (room.status !== roomStatuses.controlled && role === userRoles.BOSS.NAME) return true;
 	};
 
 	const handleStyle = (roomId: string) => {
 		let found = {
-			style: colors.red,
-			status: 'Do posprzątania',
+			style: statusColors.red,
+			status: roomStatuses.toClean,
 		};
 
 		roomsArray.find((room: Room) => {
@@ -72,52 +92,41 @@ export const HotelDetails = () => {
 
 	return (
 		<Container component='main'>
-			<Box
-				component={Link}
-				to={`/hotels`}
-				sx={{
-					display: 'flex',
-					justifyContent: 'flex-start',
-					minWidth: '290px',
-					marginTop: '50px',
-					marginBottom: '30px',
-					textDecoration: 'none',
-				}}>
-				<DirectionIcon direction={'left'} />
-				<Typography variant='h5' sx={{ fontWeight: 600, color: '#121212', marginLeft: '10px' }}>
+			<Box className={classes.root} component={Link} to={`/hotels`}>
+				<LeftDirectionIcon />
+				<Typography className={classes.text} variant='h5' sx={{ fontWeight: 600, marginLeft: '10px' }}>
 					Szczegóły hotelu
 				</Typography>
 			</Box>
-			{roomsArray.map(
-				(room: Room) =>
-					room.hotelId === hotelId && (
-						<Box>
-							<DetailsButton
-								key={room.id}
-								border={`3px solid ${handleStyle(room.id).style}`}
-								handleNavigate={() => handleNavigate(room)}
-								disabled={handleDisabled(room)}>
-								<Typography
-									variant='h6'
-									sx={{ fontSize: '20px', fontWeight: 600, left: '20px', flex: '1', textAlign: 'center' }}>
-									{room.roomType}
-								</Typography>
-								<DirectionIcon direction={'right'} />
-							</DetailsButton>
-							<Typography
-								variant='body1'
-								sx={{
-									display: 'flex',
-									justifyContent: 'flex-end',
-									marginTop: '-2px',
-									fontSize: '16px',
-									color: handleStyle(room.id).style,
-								}}>
-								{handleStyle(room.id).status}
-							</Typography>
-						</Box>
-					)
-			)}
+			{roomsArray.map((room: Room) => (
+				<Box key={uuid()}>
+					<DetailsButton
+						border={`3px solid ${handleStyle(room.id).style}`}
+						handleNavigate={() => handleNavigate(room)}
+						disabled={handleDisabled(room)}>
+						<Typography className={classes.text} variant='h6' sx={{ fontSize: '20px', fontWeight: 600, flex: '1' }}>
+							{room.roomType}
+						</Typography>
+						<RightDirectionIcon />
+					</DetailsButton>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'flex-end',
+							mb: '4px',
+						}}>
+						<Typography
+							className={classes.text}
+							variant='body1'
+							sx={{
+								fontSize: '16px',
+								color: handleStyle(room.id).style,
+							}}>
+							{handleStyle(room.id).status}
+						</Typography>
+					</Box>
+				</Box>
+			))}
 		</Container>
 	);
 };

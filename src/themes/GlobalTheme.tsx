@@ -19,10 +19,10 @@ export const globalTheme = createTheme({
 	},
 	palette: {
 		primary: {
-			main: '#EEF4F5',
+			main: '#121212',
 		},
-		background: {
-			default: '#3F7A29',
+		secondary: {
+			main: '#EEF4F5',
 		},
 	},
 });

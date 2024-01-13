@@ -5,36 +5,30 @@ import { RoomCleaningCard } from '../../screens/RoomCleaningCard';
 import { RoomControlCard } from '../../screens/RoomControlCard';
 import { RoomResultCard } from '../../screens/RoomResultCard';
 import { Navigate } from 'react-router-dom';
-import { roles } from '../../utils/users';
+import { userRoles } from '../../constants/users';
 
 export function RoomCard() {
 	const { access } = useContext(RoleContext);
 	const { state } = useLocation();
 
-	const components = [
+	const screenAccesses = [
 		{
-			access: roles.WORKER.ACCESS,
-			component: <RoomCleaningCard />,
+			access: userRoles.WORKER.ACCESS,
+			screen: RoomCleaningCard,
 		},
 		{
-			access: roles.SUPERVISOR.ACCESS,
-			component: <RoomControlCard />,
+			access: userRoles.SUPERVISOR.ACCESS,
+			screen: RoomControlCard,
 		},
 		{
-			access: roles.BOSS.ACCESS,
-			component: <RoomResultCard />,
+			access: userRoles.BOSS.ACCESS,
+			screen: RoomResultCard,
 		},
 	];
 
-	const handleComponent = () => {
-		const found = components.find(component => component.access.includes(state.status));
+	const FoundScreen = screenAccesses.find(screen => screen.access.includes(state.status))?.screen;
 
-		if (!!found && found.access.includes(state.status) && access.includes(state.status)) {
-			return found.component;
-		} else {
-			return <Navigate to={`/hotel/${state.hotelId}`} />;
-		}
-	};
+	const isValidAccess = FoundScreen && access.includes(state.status);
 
-	return <>{handleComponent()}</>;
+	return isValidAccess ? <FoundScreen /> : <Navigate to={`/hotel/${state.hotelId}`} />;
 }
